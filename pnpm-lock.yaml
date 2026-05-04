@@ -134,8 +134,8 @@ importers:
         specifier: ^9.6.0
         version: 9.6.0(@types/react@19.2.14)(immer@11.1.4)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(three@0.184.0)
       '@stytch/nextjs':
-        specifier: ^22.0.6
-        version: 22.0.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        specifier: ^22.0.8
+        version: 22.0.8(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@stytch/vanilla-js':
         specifier: ^6.0.6
         version: 6.0.6
@@ -2249,8 +2249,8 @@ packages:
   '@standard-schema/utils@0.3.0':
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
 
-  '@stytch/nextjs@22.0.6':
-    resolution: {integrity: sha512-pEGR06dBVUeK6hTUymRBBZ1FAhZQ+OJv7doiFHZagTKO5R0HjQvPOvjl8B1BjWXlTiLSLmJLgCtgbX+CXc28xw==}
+  '@stytch/nextjs@22.0.8':
+    resolution: {integrity: sha512-XEj5wDeyf2p6LrKMrqObIO0MPUov/MLdUktd63L1NhiNa9mK1ETg+IzLUgSYsotTHRLJHPDLnmIuACyBf5fHUg==}
     peerDependencies:
       react: '>= 17.0.2'
       react-dom: '>= 17.0.2'
@@ -7323,7 +7323,7 @@ snapshots:
 
   '@standard-schema/utils@0.3.0': {}
 
-  '@stytch/nextjs@22.0.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+  '@stytch/nextjs@22.0.8(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
