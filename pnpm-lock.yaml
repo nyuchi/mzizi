@@ -137,8 +137,8 @@ importers:
         specifier: ^22.0.6
         version: 22.0.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@stytch/vanilla-js':
-        specifier: ^6.0.6
-        version: 6.0.6
+        specifier: ^6.0.8
+        version: 6.0.8
       '@supabase/supabase-js':
         specifier: ^2.104.0
         version: 2.104.0
@@ -2255,8 +2255,8 @@ packages:
       react: '>= 17.0.2'
       react-dom: '>= 17.0.2'
 
-  '@stytch/vanilla-js@6.0.6':
-    resolution: {integrity: sha512-EKcnHDldiwBYH7lmu2trw3gE7HRsBkfSVDfrXTFyhmTltH4q9hqQY+9B3ZZHydzPyhnxo2XvS/ZuJK4lxhVbyg==}
+  '@stytch/vanilla-js@6.0.8':
+    resolution: {integrity: sha512-LoBGoWRFr2dN2YRa3eqqJvVniG3ANzO+pqpDJy5gFFyaFCXXklMBc/Padin1MJ6O2Hso7d/7PssNHwwNFivHVw==}
 
   '@supabase/auth-js@2.104.0':
     resolution: {integrity: sha512-Vs0ndL+s5an7rOmXtS/nbYnGXL8m+KXlCSrPIcw9bR96ma6qyLYILnE6syuM+rpDnf+Tg4PVNxNB2+oDwoy6mA==}
@@ -7328,7 +7328,7 @@ snapshots:
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
 
-  '@stytch/vanilla-js@6.0.6': {}
+  '@stytch/vanilla-js@6.0.8': {}
 
   '@supabase/auth-js@2.104.0':
     dependencies:
