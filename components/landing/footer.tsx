@@ -54,7 +54,6 @@ const columns: FooterColumn[] = [
       { label: "3D architecture", href: "/architecture" },
       { label: "Layer decision guide", href: "/architecture/layers" },
       { label: "Component backlinks", href: "/architecture/component-backlinks" },
-      { label: "Fundi (L9)", href: "/architecture/fundi" },
       { label: "Observability", href: "/observability" },
     ],
   },

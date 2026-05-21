@@ -43,8 +43,6 @@ tags:
     description: Ubuntu doctrine — Five Pillars and Five Principles
   - name: Content
     description: Documentation pages, changelog, AI instructions
-  - name: Fundi
-    description: Self-healing issue reporting (L9 actors)
   - name: MCP
     description: Model Context Protocol server for AI assistants
 
@@ -826,97 +824,6 @@ paths:
           $ref: "#/components/responses/NotFound"
         "503":
           $ref: "#/components/responses/ServiceUnavailable"
-
-  /fundi:
-    get:
-      summary: List open fundi issues
-      description: Returns rows from `fundi_issues` with status `open` or `in_progress`.
-      operationId: listFundiIssues
-      tags: [Fundi]
-      responses:
-        "200":
-          description: Open issues
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  issues:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/FundiIssue"
-    post:
-      summary: Report a fundi issue
-      description: Create an issue from an L8 assurance callsite. Deduplicates by `(component_name, error_type, severity)` while an existing row is `open`/`in_progress`.
-      operationId: reportFundiIssue
-      tags: [Fundi]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FundiIssueInput"
-      responses:
-        "201":
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/FundiIssue"
-        "200":
-          description: Duplicate — existing row returned instead of inserting
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/FundiIssue"
-        "400":
-          description: Validation error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
-  /fundi/{id}:
-    get:
-      summary: Get a fundi issue
-      operationId: getFundiIssue
-      tags: [Fundi]
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema: { type: integer }
-      responses:
-        "200":
-          description: Issue
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/FundiIssue"
-        "404":
-          $ref: "#/components/responses/NotFound"
-
-  /fundi/stats:
-    get:
-      summary: Aggregate fundi stats
-      description: Returns summary statistics across all fundi issues.
-      operationId: fundiStats
-      tags: [Fundi]
-      responses:
-        "200":
-          description: Stats
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  total: { type: integer }
-                  byStatus:
-                    type: object
-                    additionalProperties: { type: integer }
-                  bySeverity:
-                    type: object
-                    additionalProperties: { type: integer }
 
   /search:
     get:
@@ -1999,43 +1906,6 @@ components:
           items: { type: string }
         changedBy: { type: string }
         createdAt: { type: string, format: date-time }
-
-    # ── Fundi ─────────────────────────────────────────────────────
-
-    FundiIssueInput:
-      type: object
-      required: [component_name, severity, error_type, diagnostic_source]
-      properties:
-        component_name: { type: string, maxLength: 40 }
-        severity:
-          type: string
-          enum: [critical, high, medium, low]
-        error_type: { type: string }
-        diagnostic_source:
-          type: string
-          enum: ["l8-assurance", "manual", "build-time", "monitor"]
-        architecture_layer: { type: integer, minimum: 1, maximum: 10 }
-        blast_radius:
-          type: string
-          enum: ["single-component", "single-page", "site-wide"]
-        diagnostic_payload: { type: object, additionalProperties: true }
-        portal_url: { type: string, format: uri }
-        auto_fixable: { type: boolean }
-
-    FundiIssue:
-      allOf:
-        - $ref: "#/components/schemas/FundiIssueInput"
-        - type: object
-          required: [id, status, createdAt]
-          properties:
-            id: { type: integer }
-            status:
-              type: string
-              enum: [open, in_progress, resolved, wont_fix, duplicate]
-            githubIssueNumber: { type: integer, nullable: true }
-            githubIssueUrl: { type: string, format: uri, nullable: true }
-            createdAt: { type: string, format: date-time }
-            updatedAt: { type: string, format: date-time }
 
   responses:
     InternalError:

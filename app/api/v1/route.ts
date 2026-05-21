@@ -109,10 +109,6 @@ export async function GET() {
             href: "/api/v1/changelog",
             description: "Release changelog.",
           },
-          fundi: {
-            href: "/api/v1/fundi",
-            description: "Fundi self-healing issue tracking.",
-          },
           aiInstructions: {
             href: "/api/v1/ai/instructions",
             description: "AI assistant instructions (Claude, Copilot, Cursor, MCP).",

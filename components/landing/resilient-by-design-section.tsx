@@ -9,11 +9,11 @@ import { Skeleton } from "@/components/ui/skeleton"
  * architecture (Outside / fundi and Documentation) and why they exist.
  *
  * Most design systems ship as a snapshot — frozen at release time, drift
- * sets in, security findings pile up, docs go stale. The Nyuchi system
+ * sets in, security findings pile up, docs go stale. The Mzizi system
  * has two layers whose entire job is to prevent that:
  *
- *   - L9 fundi (Outside axis): self-healing actor. L8 assurance reports
- *     failures, fundi opens GitHub issues, a human or Claude Code fixes.
+ *   - L9 fundi (Outside axis): the self-healing node. Actors outside the
+ *     build path consume L8 assurance signals and remediate the root cause.
  *   - L10 documentation (Documentation axis): the system documents
  *     itself — every component, every doc page, every version is in
  *     Supabase, served live, never copy-pasted into a static file.
@@ -65,34 +65,34 @@ export async function ResilientBySection() {
               Self-healing — failure becomes a learning event
             </h3>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Fundi (Shona for &quot;artisan&quot;) is the actor that lives outside the build. The
-              L8 assurance layer detects runtime issues across the ecosystem and reports them to
-              fundi. Fundi deduplicates, fingerprints, and promotes the worst ones into GitHub
-              issues so a human — or Claude Code — can fix the root cause.
+              Fundi (Shona for &quot;artisan&quot;) is the architecture node that lives outside the
+              build path. It defines where self-healing belongs in the 3D model: actors outside the
+              build consume the L8 assurance layer&apos;s runtime signals and remediate the root
+              cause, so a failure becomes a learning event rather than a user-facing incident.
             </p>
             <ul className="space-y-1.5 text-sm leading-relaxed text-muted-foreground">
               <li className="flex gap-2">
                 <span aria-hidden="true">→</span>
-                <span>Edge function ingest with strict validation + dedup</span>
+                <span>Outside-the-build axis — distinct from the eight product layers</span>
               </li>
               <li className="flex gap-2">
                 <span aria-hidden="true">→</span>
-                <span>Cron-driven heal pass (auth-gated) opens labelled GitHub issues</span>
+                <span>Consumes L8 assurance signals; never sits inside a component</span>
               </li>
               <li className="flex gap-2">
                 <span aria-hidden="true">→</span>
-                <span>Append-only healing log for full auditability</span>
+                <span>Failure is treated as a learning event, not an incident</span>
               </li>
               <li className="flex gap-2">
                 <span aria-hidden="true">→</span>
-                <span>On for nyuchi/mukoko by default, opt-in for external customers</span>
+                <span>Open architecture — consumers wire their own healing actor</span>
               </li>
             </ul>
             <Link
-              href="/architecture/fundi"
+              href="/architecture"
               className="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
             >
-              How fundi works <ArrowRight className="size-4" />
+              The 3D architecture model <ArrowRight className="size-4" />
             </Link>
           </article>
 

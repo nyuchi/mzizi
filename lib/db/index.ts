@@ -67,9 +67,6 @@ import type {
   ChangelogRow,
   ChangelogInsert,
   ComponentVersionRow,
-  FundiIssueRow,
-  FundiIssueInsert,
-  FundiIssueFilters,
   DesignTokens,
   ArchitectureFrontendAxisRow,
   ArchitectureFrontendLayerRow,
@@ -1090,87 +1087,6 @@ export async function getComponentVersion(
     throw new Error(error.message)
   }
   return data as unknown as ComponentVersionRow
-}
-
-// ── Fundi issue queries ─────────────────────────────────────────────
-
-/**
- * Get Fundi issues, optionally filtered.
- */
-export async function getFundiIssues(filters?: FundiIssueFilters): Promise<FundiIssueRow[]> {
-  let query = getPublicClient().from("fundi_issues").select("*")
-
-  if (filters?.status) query = query.eq("status", filters.status)
-  if (filters?.severity) query = query.eq("severity", filters.severity)
-  if (filters?.component_name) query = query.eq("component_name", filters.component_name)
-  if (filters?.layer) query = query.eq("layer", filters.layer)
-
-  query = query.order("created_at", { ascending: false })
-  if (filters?.limit) query = query.limit(filters.limit)
-
-  const { data, error } = await query
-
-  if (error) throw new Error(error.message)
-  return (data ?? []) as unknown as FundiIssueRow[]
-}
-
-/**
- * Get a Fundi issue by id.
- */
-export async function getFundiIssue(id: number): Promise<FundiIssueRow | null> {
-  const { data, error } = await getPublicClient()
-    .from("fundi_issues")
-    .select("*")
-    .eq("id", id)
-    .single()
-
-  if (error) {
-    if (error.code === "PGRST116") return null
-    throw new Error(error.message)
-  }
-  return data as unknown as FundiIssueRow
-}
-
-/**
- * Create a Fundi issue (admin/server use only).
- */
-export async function createFundiIssue(input: FundiIssueInsert): Promise<FundiIssueRow> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data, error } = await (getAdminClient() as any)
-    .from("fundi_issues")
-    .insert(input)
-    .select()
-    .single()
-
-  if (error) throw new Error(error.message)
-  return data as FundiIssueRow
-}
-
-/**
- * Get aggregate stats about Fundi issues (for /api/v1/fundi/stats).
- */
-export async function getFundiStats(): Promise<{
-  total: number
-  open: number
-  resolved: number
-  byLayer: Record<string, number>
-}> {
-  const { data, error } = await getPublicClient().from("fundi_issues").select("status, layer")
-
-  if (error) throw new Error(error.message)
-  const rows = (data ?? []) as unknown as Array<{ status: string; layer: string | null }>
-
-  const byLayer: Record<string, number> = {}
-  let open = 0
-  let resolved = 0
-  for (const row of rows) {
-    if (row.status === "open") open++
-    if (row.status === "resolved") resolved++
-    const key = row.layer ?? "unknown"
-    byLayer[key] = (byLayer[key] ?? 0) + 1
-  }
-
-  return { total: rows.length, open, resolved, byLayer }
 }
 
 // ── Design token queries (from nyuchi-tokens component) ─────────────

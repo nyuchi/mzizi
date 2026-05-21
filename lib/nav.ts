@@ -12,18 +12,16 @@ import {
   Shield,
   Sparkles,
   Terminal,
-  Wrench,
   type LucideIcon,
 } from "lucide-react"
 
-// Shared navigation structure for the Nyuchi design-portal shell.
-// Curated (not auto-generated from `_meta.ts`) — four groups matching
+// Shared navigation structure for the Mzizi portal shell.
+// Curated (not auto-generated from `_meta.ts`) — groups matching
 // the portal's information architecture:
 //
 //   Design system    — the component / brand / foundations / patterns quad
-//   Architecture     — the 3D frontend doctrine, fundi, observability
+//   Architecture     — the 3D frontend doctrine, observability
 //   Playground       — interactive exploration
-//   Guides           — `/docs/*` how-tos (collapsible)
 //
 // Header nav (top-right, 4 items) and sidebar (left, all groups) share
 // this file so the two navigations never drift.
@@ -60,7 +58,6 @@ export const SIDEBAR_NAV: NavGroup[] = [
     label: "Architecture",
     items: [
       { label: "3D architecture", href: "/architecture", icon: Box },
-      { label: "Fundi (L9)", href: "/architecture/fundi", icon: Wrench },
       { label: "Observability", href: "/observability", icon: Activity },
     ],
   },
@@ -98,7 +95,6 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   foundations: "Foundations",
   patterns: "Patterns",
   architecture: "Architecture",
-  fundi: "Fundi (L9)",
   observability: "Observability",
   playground: "Playground",
   docs: "Guides",
