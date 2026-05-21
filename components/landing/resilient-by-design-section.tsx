@@ -15,15 +15,14 @@ import { Skeleton } from "@/components/ui/skeleton"
  *   - L9 fundi (Outside axis): the self-healing node. Actors outside the
  *     build path consume L8 assurance signals and remediate the root cause.
  *   - L10 documentation (Documentation axis): the system documents
- *     itself — every component, every doc page, every version is in
- *     Supabase, served live, never copy-pasted into a static file.
+ *     itself — every component and every version is in Supabase,
+ *     served live, never copy-pasted into a static file.
  *
  * Together they're why the system stays current and secure without
  * manual maintenance pressure.
  */
 // `ResilientBySection` is async because it embeds the server-rendered
 // `ArchitectureExplorer` (which fetches axes + layers from Supabase).
-// Async server components inside MDX work in Next.js 16 App Router.
 export async function ResilientBySection() {
   return (
     <section className="border-t border-border">
@@ -109,19 +108,16 @@ export async function ResilientBySection() {
               The system documents itself — no stale truth
             </h3>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Every component, brand spec, and changelog entry lives in Supabase; long-form docs
-              live in the repo as MDX. The Next.js app and the MCP server read both live; nothing is
-              copy-pasted between them. When a component changes in the database or a doc page
-              changes in the repo, the portal, the API, and the AI tools all pick it up on the next
-              request. Drift becomes structurally impossible.
+              Every component, brand spec, and changelog entry lives in Supabase; long-form guides
+              live in standalone Mintlify docs sites. The Next.js app and the MCP server read live;
+              nothing is copy-pasted between them. When a component changes in the database, the
+              portal, the API, and the AI tools all pick it up on the next request. Drift becomes
+              structurally impossible.
             </p>
             <ul className="space-y-1.5 text-sm leading-relaxed text-muted-foreground">
               <li className="flex gap-2">
                 <span aria-hidden="true">→</span>
-                <span>
-                  Long-form docs are <code className="font-mono text-xs">.mdx</code> files in the
-                  repo, compiled by <code className="font-mono text-xs">@next/mdx</code>
-                </span>
+                <span>Long-form guides ship as standalone Mintlify documentation sites</span>
               </li>
               <li className="flex gap-2">
                 <span aria-hidden="true">→</span>

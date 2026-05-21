@@ -29,46 +29,30 @@ type FooterColumn = {
 
 const columns: FooterColumn[] = [
   {
-    title: "Components",
+    title: "Explore",
     links: [
-      { label: "All components", href: "/components" },
-      { label: "Blocks", href: "/blocks" },
-      { label: "Charts", href: "/charts" },
-      { label: "Patterns", href: "/patterns" },
-    ],
-  },
-  {
-    title: "Design system",
-    links: [
-      { label: "Brand", href: "/brand" },
-      { label: "Foundations", href: "/foundations" },
-      { label: "Design tokens", href: "/foundations/tokens" },
-      { label: "Icons", href: "/foundations/icons" },
-      { label: "Accessibility", href: "/foundations/accessibility" },
-      { label: "Typography", href: "/foundations/typography" },
-    ],
-  },
-  {
-    title: "Architecture",
-    links: [
+      { label: "Components", href: "/components" },
       { label: "3D architecture", href: "/architecture" },
-      { label: "Layer decision guide", href: "/architecture/layers" },
-      { label: "Component backlinks", href: "/architecture/component-backlinks" },
       { label: "Observability", href: "/observability" },
+    ],
+  },
+  {
+    title: "Documentation",
+    links: [
+      { label: "Docs home", href: "https://docs.mzizi.dev", external: true },
+      { label: "Installation", href: "https://docs.mzizi.dev/installation", external: true },
+      { label: "CLI", href: "https://docs.mzizi.dev/cli", external: true },
+      { label: "Theming", href: "https://docs.mzizi.dev/theming", external: true },
+      { label: "API reference", href: "https://docs.mzizi.dev/api-reference", external: true },
+      { label: "Contributing", href: "https://docs.mzizi.dev/contributing", external: true },
     ],
   },
   {
     title: "Developer",
     links: [
-      { label: "Introduction", href: "/docs" },
-      { label: "Installation", href: "/docs/installation" },
-      { label: "CLI", href: "/docs/cli" },
-      { label: "Theming", href: "/docs/theming" },
-      { label: "API reference", href: "/docs/api-reference" },
-      { label: "Registry", href: "/registry" },
-      { label: "MCP server", href: "/registry/mcp" },
-      { label: "Changelog", href: "/docs/changelog" },
-      { label: "Contributing", href: "/docs/contributing" },
+      { label: "Registry API", href: "/api/v1" },
+      { label: "OpenAPI", href: "/api/openapi" },
+      { label: "MCP server", href: "/mcp" },
     ],
   },
 ]
@@ -140,8 +124,8 @@ export function Footer() {
       <div className="mx-auto max-w-6xl">
         <Separator className="mb-10" />
 
-        {/* Primary nav: 1 column at mobile, 2 at sm, 4 at lg. */}
-        <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Primary nav: 1 column at mobile, 2 at sm, 3 at lg. */}
+        <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
           {columns.map((col) => (
             <div key={col.title} className="flex flex-col gap-2">
               <span className="text-xs font-medium text-foreground">{col.title}</span>
@@ -165,10 +149,10 @@ export function Footer() {
         {/* Brand lockup + ecosystem family */}
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div className="flex flex-col gap-3">
-            <NyuchiLogo size={24} showWordmark suffix="design" />
+            <NyuchiLogo size={24} showWordmark suffix="mzizi" />
             <p className="max-w-xs text-xs leading-relaxed text-muted-foreground">
-              The design system for the bundu ecosystem — powering mukoko, nyuchi, and every app in
-              the family. Built on the Five African Minerals palette.
+              Mzizi — an open-architecture project of the Bundu Foundation, operated and developed
+              by Nyuchi. Built on the Five African Minerals palette.
             </p>
             <div className="flex items-center gap-1.5 pt-1" aria-label="Five African Minerals">
               {minerals.map((m) => (

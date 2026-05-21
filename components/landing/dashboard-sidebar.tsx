@@ -42,9 +42,9 @@ export function DashboardSidebar() {
         <Link
           href="/"
           className="flex shrink-0 items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-          aria-label="Nyuchi Design Portal home"
+          aria-label="Mzizi home"
         >
-          <NyuchiLogo size={24} showWordmark suffix="design" />
+          <NyuchiLogo size={24} showWordmark suffix="mzizi" />
         </Link>
       </SidebarHeader>
 

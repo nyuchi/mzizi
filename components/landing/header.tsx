@@ -22,9 +22,9 @@ import { NyuchiHeader, type NavItem, type PillAction } from "@/components/mukoko
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Components", href: "/components" },
-  { label: "Brand", href: "/brand" },
   { label: "Architecture", href: "/architecture" },
-  { label: "Docs", href: "/docs" },
+  { label: "Observability", href: "/observability" },
+  { label: "Docs", href: "https://docs.mzizi.dev" },
 ]
 
 const PILL_ACTIONS: PillAction[] = [

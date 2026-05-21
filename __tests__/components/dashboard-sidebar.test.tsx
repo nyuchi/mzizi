@@ -68,7 +68,7 @@ describe("<DashboardSidebar />", () => {
 
   it("home link points at '/' with the right aria-label", () => {
     renderInProvider("/")
-    expect(screen.getByLabelText("Nyuchi Design Portal home")).toHaveAttribute("href", "/")
+    expect(screen.getByLabelText("Mzizi home")).toHaveAttribute("href", "/")
   })
 
   it("renders the version footer", () => {

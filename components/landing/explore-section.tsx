@@ -1,4 +1,4 @@
-import { Blocks, Palette, BookOpen, BarChart3, Layers, Shield, Code, Globe } from "lucide-react"
+import { BookOpen, Layers, Box, Activity, Code } from "lucide-react"
 import { getRegistryCounts } from "@/lib/db"
 
 export async function ExploreSection() {
@@ -10,8 +10,6 @@ export async function ExploreSection() {
     lib: 0,
   }))
 
-  // chart blocks ≈ blocks with category prefix "chart-" — approximate split from total blocks
-  // exact breakdown requires a category query; show total blocks for accuracy
   const sections = [
     {
       title: "Components",
@@ -23,56 +21,39 @@ export async function ExploreSection() {
       icon: Layers,
       mineral: "bg-[var(--color-cobalt)]",
       count: counts.ui > 0 ? `${counts.ui}` : undefined,
+      external: false,
     },
     {
-      title: "Blocks",
-      description: "Complete page compositions — dashboards, auth flows, sidebars.",
-      href: "/blocks",
-      icon: Blocks,
-      mineral: "bg-[var(--color-tanzanite)]",
-      count: counts.blocks > 0 ? `${counts.blocks}` : undefined,
-    },
-    {
-      title: "Charts",
-      description: "Area, bar, line, pie, radar, radial — all mineral-themed.",
-      href: "/charts",
-      icon: BarChart3,
-      mineral: "bg-[var(--color-malachite)]",
-    },
-    {
-      title: "Brand",
-      description: "Five African Minerals palette, ecosystem brands, philosophy.",
-      href: "/brand",
-      icon: Palette,
-      mineral: "bg-[var(--color-gold)]",
-    },
-    {
-      title: "Patterns",
-      description: "Resilience, AI safety, error boundaries, authentication.",
-      href: "/patterns",
-      icon: Shield,
-      mineral: "bg-[var(--color-terracotta)]",
-    },
-    {
-      title: "Architecture",
-      description: "Seven data layers, three sources of truth, sovereignty.",
+      title: "3D architecture",
+      description: "The open ten-node frontend architecture across five axes.",
       href: "/architecture",
-      icon: Globe,
-      mineral: "bg-[var(--color-cobalt)]",
+      icon: Box,
+      mineral: "bg-[var(--color-tanzanite)]",
+      external: false,
     },
     {
-      title: "Foundations",
-      description: "Typography, accessibility, layout, i18n, motion.",
-      href: "/foundations",
+      title: "Observability",
+      description: "Live usage metrics for the registry, the API, and the MCP server.",
+      href: "/observability",
+      icon: Activity,
+      mineral: "bg-[var(--color-malachite)]",
+      external: false,
+    },
+    {
+      title: "Documentation",
+      description: "Installation, theming, CLI, and contributing guides.",
+      href: "https://docs.mzizi.dev",
       icon: BookOpen,
-      mineral: "bg-[var(--color-tanzanite)]",
+      mineral: "bg-[var(--color-gold)]",
+      external: true,
     },
     {
       title: "API & Registry",
-      description: "REST API, MCP server, registry schema, CLI usage.",
-      href: "/api-docs",
+      description: "REST API, MCP server, and the OpenAPI contract.",
+      href: "/api/v1",
       icon: Code,
-      mineral: "bg-[var(--color-malachite)]",
+      mineral: "bg-[var(--color-terracotta)]",
+      external: false,
     },
   ]
 
@@ -92,11 +73,13 @@ export async function ExploreSection() {
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {sections.map((section) => (
             <a
               key={section.href}
               href={section.href}
+              target={section.external ? "_blank" : undefined}
+              rel={section.external ? "noopener noreferrer" : undefined}
               className="group flex flex-col gap-3 rounded-[var(--radius-xl)] border border-border bg-card p-5 transition-all hover:border-foreground/12 hover:bg-card/80"
             >
               <div className="flex items-center justify-between">

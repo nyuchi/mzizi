@@ -250,40 +250,23 @@ Blocks are complete page compositions (dashboards, login pages, settings panels,
 
 ## Adding a Portal Page
 
-The portal uses `@next/mdx` for documentation pages — every `.mdx` file under
-`app/` is a route. Long-form docs live in the repo (not in Supabase); see
-CLAUDE.md §15.18.
+The portal hosts the **functional** surfaces only — the component gallery
+(`/components`), the 3D architecture explorer (`/architecture`), and
+observability (`/observability`). Each is a standard Next.js App Router
+`page.tsx`.
 
-1. **Identify the correct section** for your page:
-   - `/docs` -- developer documentation (installation, CLI, theming, contributing)
-   - `/components` -- per-component documentation
-   - `/blocks` -- block gallery and demos
-   - `/charts` -- chart block gallery
-   - `/brand` -- brand documentation
-   - `/foundations` -- typography, layout, motion, accessibility, i18n
-   - `/design` -- design tokens, icons
-   - `/content` -- writing guidelines, error messages, inclusive language
-   - `/patterns` -- implementation patterns
-   - `/architecture` -- ecosystem architecture (3D model, fundi, layers, backlinks)
-   - `/registry` -- registry internals (schema, MCP, contributing, consuming)
+Long-form documentation (installation, CLI, theming, contributing, brand,
+foundations, patterns, registry internals) lives in the standalone Mzizi
+Mintlify docs site at <https://docs.mzizi.dev> — not in this repo. To edit
+a guide, contribute to the Mintlify docs project instead.
 
-1. **Create the MDX file** at `app/<section>/<slug>/page.mdx` with frontmatter:
+To add a new functional page to the portal:
 
-```mdx
----
-title: "Page Title — nyuchi design portal"
-description: "One-sentence description for SEO and the TOC."
----
-
-# Page Title
-
-Content here. Headings (`##`, `###`) are auto-linked by `rehype-slug`
-and surface in the right-rail TOC at `lg:` breakpoints and above.
-```
-
-1. **Add the page to `lib/nav.ts`** so it appears in the dashboard sidebar.
-   Nav is curated (not auto-generated from the filesystem) so the order and
-   grouping are intentional.
+1. **Create the page** at `app/<section>/page.tsx` as a server component.
+2. **Export `metadata`** (title + description) for SEO.
+3. **Add the route to `lib/nav.ts`** so it appears in the dashboard sidebar
+   and header. Nav is curated (not auto-generated) so the order and grouping
+   are intentional.
 
 ---
 

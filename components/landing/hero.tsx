@@ -90,7 +90,9 @@ export async function Hero() {
             </a>
           </Button>
           <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
-            <a href="/docs">Documentation</a>
+            <a href="https://docs.mzizi.dev" target="_blank" rel="noopener noreferrer">
+              Documentation
+            </a>
           </Button>
         </div>
       </div>

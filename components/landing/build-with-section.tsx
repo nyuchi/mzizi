@@ -61,7 +61,9 @@ export function BuildWithSection() {
               variables.
             </p>
             <Link
-              href="/brand"
+              href="https://docs.mzizi.dev/brand"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-foreground hover:underline"
             >
               Brand &amp; tokens reference <ArrowRight className="size-3" />
@@ -78,7 +80,9 @@ export function BuildWithSection() {
               browser.
             </p>
             <Link
-              href="/registry/mcp"
+              href="https://docs.mzizi.dev/mcp"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-foreground hover:underline"
             >
               MCP server reference <ArrowRight className="size-3" />
@@ -134,7 +138,7 @@ export function BuildWithSection() {
               </p>
             </div>
             <Button asChild className="rounded-full">
-              <Link href="/docs/installation">
+              <Link href="https://docs.mzizi.dev/installation" target="_blank" rel="noopener noreferrer">
                 Read the installation guide
                 <ArrowRight className="size-4" />
               </Link>
