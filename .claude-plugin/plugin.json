@@ -12,7 +12,7 @@
   "author": {
     "name": "Bundu Foundation"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "icons": {
     "light": "https://assets.nyuchi.com/nyuchi-icon-light.png",
     "dark": "https://assets.nyuchi.com/nyuchi-icon-dark.png"
