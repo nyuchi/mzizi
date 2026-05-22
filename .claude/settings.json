@@ -1,16 +1,12 @@
 {
   "mcpServers": {
-    "nyuchi-design": {
+    "mzizi": {
       "type": "url",
       "url": "https://mzizi.dev/mcp"
     },
     "supabase": {
       "type": "http",
       "url": "https://mcp.supabase.com/mcp?project_ref=grjsboqkaywpwatvrzmy&features=docs,account,database,debugging,development,functions,branching,storage"
-    },
-    "stytch-mcp": {
-      "type": "http",
-      "url": "https://mcp.stytch.dev/mcp"
     }
   }
 }
