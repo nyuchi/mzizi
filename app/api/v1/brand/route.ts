@@ -44,7 +44,7 @@ export async function GET() {
     }
 
     const brandSystem = {
-      $schema: "https://design.nyuchi.com/schema/brand.json",
+      $schema: "https://mzizi.dev/schema/brand.json",
       "@context": "https://schema.org",
       "@type": "Brand",
       version: dbBrand.meta.version,

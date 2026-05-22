@@ -2,10 +2,10 @@
 
 > The canonical design system and component registry for the bundu ecosystem — a shadcn-compatible registry of stable UI components, hooks, library utilities, and blocks organised across a 3D frontend architecture (ten layers across five axes), built on the Five African Minerals design system. Install directly into any project using the shadcn CLI.
 
-**Live:** <https://design.nyuchi.com>
-**API:** <https://design.nyuchi.com/api/v1>
-**MCP Server:** <https://design.nyuchi.com/mcp> (Streamable HTTP)
-**OpenAPI 3.1:** <https://design.nyuchi.com/api/openapi>
+**Live:** <https://mzizi.dev>
+**API:** <https://mzizi.dev/api/v1>
+**MCP Server:** <https://mzizi.dev/mcp> (Streamable HTTP)
+**OpenAPI 3.1:** <https://mzizi.dev/api/openapi>
 
 Every count, version, and layer breakdown in this document is **live data**. Do not rely on a hardcoded number here — always fetch the authoritative value from the URL listed next to it. The Supabase `components` table is the single source of truth.
 
@@ -21,12 +21,12 @@ Every count, version, and layer breakdown in this document is **live data**. Do 
 
 ## What this site is
 
-1. A **component registry** — stable items across ten architecture layers, installable via `npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/<name>`. Call `GET /api/v1/ui` for the full live index or `GET /api/v1/stats` for counts.
+1. A **component registry** — stable items across ten architecture layers, installable via `npx shadcn@latest add https://mzizi.dev/api/v1/ui/<name>`. Call `GET /api/v1/ui` for the full live index or `GET /api/v1/stats` for counts.
 2. A **design system reference** — Five African Minerals palette, typography, spacing, and radius tokens served from the `nyuchi-tokens` registry item. Tokens via `GET /api/v1/brand` or MCP `get_design_tokens`.
 3. A **brand documentation hub** — canonical brand specs for bundu, nyuchi, mukoko, shamwari, nhimbe. Fetch via `GET /api/v1/brand`.
 4. An **architecture documentation hub** — 3D frontend model with ten layers across five axes: X (L2 primitives / L3 brand / L6 pages / L7 shell — horizontal composition), Y (L1 tokens / L4 safety / L5 resilience — vertical infrastructure), Z (L8 assurance — depth observation), Outside (L9 fundi — self-healing actors), Documentation (L10). Also a separate 7-layer data architecture (Pod → Relational → Document → Orchestration → Edge → Device → Open Data). Never conflate the two numberings. Fetch via `GET /api/v1/ecosystem`, `/data-layer`, `/pipeline`, `/sovereignty`.
 5. A **self-healing system** — the `fundi` layer (L9) reports L8 runtime issues as Supabase records and, optionally, as GitHub issues. Fetch open issues via `GET /api/v1/fundi`; aggregate learning stats via `GET /api/v1/fundi/stats`.
-6. An **MCP server** — AI assistants connect at `https://design.nyuchi.com/mcp` for registry data, design tokens, docs, changelog, architecture, and Ubuntu philosophy.
+6. An **MCP server** — AI assistants connect at `https://mzizi.dev/mcp` for registry data, design tokens, docs, changelog, architecture, and Ubuntu philosophy.
 
 ## Key pages
 
@@ -73,9 +73,9 @@ All endpoints return JSON with schema.org JSON-LD metadata where applicable and 
 
 ## MCP server for AI assistants
 
-Connect at `https://design.nyuchi.com/mcp` (POST, Streamable HTTP transport). 25 tools, 5 resources. Tool and resource names are stable — schema is discoverable via the MCP `list_tools` / `list_resources` standard requests.
+Connect at `https://mzizi.dev/mcp` (POST, Streamable HTTP transport). 25 tools, 5 resources. Tool and resource names are stable — schema is discoverable via the MCP `list_tools` / `list_resources` standard requests.
 
-**Tools:** `list_components`, `get_component`, `get_component_docs`, `get_component_links`, `get_component_versions`, `search_components`, `get_design_tokens`, `scaffold_component`, `get_install_command`, `get_brand_info`, `get_architecture_info`, `get_ubuntu_doctrine`, `get_ubuntu_pillars`, `get_ubuntu_principles`, `get_architecture_frontend`, `get_architecture`, `get_axes_summary`, `get_layer_detail`, `get_database_status`, `get_usage_stats`, `get_layer_summary`, `get_ai_instructions`, `get_changelog`, `list_skills`, `get_skill`. (Long-form documentation lives in the repo as MDX — fetch directly from `https://design.nyuchi.com/docs/`, `https://design.nyuchi.com/architecture/`, etc., not via the MCP server.)
+**Tools:** `list_components`, `get_component`, `get_component_docs`, `get_component_links`, `get_component_versions`, `search_components`, `get_design_tokens`, `scaffold_component`, `get_install_command`, `get_brand_info`, `get_architecture_info`, `get_ubuntu_doctrine`, `get_ubuntu_pillars`, `get_ubuntu_principles`, `get_architecture_frontend`, `get_architecture`, `get_axes_summary`, `get_layer_detail`, `get_database_status`, `get_usage_stats`, `get_layer_summary`, `get_ai_instructions`, `get_changelog`, `list_skills`, `get_skill`. (Long-form documentation lives in the repo as MDX — fetch directly from `https://mzizi.dev/docs/`, `https://mzizi.dev/architecture/`, etc., not via the MCP server.)
 
 **Resources:** `mukoko://registry`, `mukoko://brand`, `mukoko://design-tokens`, `mukoko://architecture`, `mukoko://ubuntu`.
 
@@ -98,7 +98,7 @@ Connect at `https://design.nyuchi.com/mcp` (POST, Streamable HTTP transport). 25
 **Install any component:**
 
 ```
-npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/button
+npx shadcn@latest add https://mzizi.dev/api/v1/ui/button
 ```
 
 ## Ecosystem brands

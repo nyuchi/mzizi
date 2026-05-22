@@ -1,31 +1,31 @@
 openapi: "3.1.0"
 info:
-  title: Nyuchi Architecture API
+  title: Mzizi API
   version: "1.0.0"
   description: |
-    Unified API for the Nyuchi Design Portal — components, brand, architecture, Ubuntu doctrine,
-    3D frontend model, and design system. Canonical registry for the bundu ecosystem.
+    The Mzizi API — components, brand, architecture, Ubuntu doctrine, the open 3D frontend
+    model, and design system. Mzizi is an open-architecture project of the Bundu Foundation,
+    operated and developed by Nyuchi.
 
-    The Nyuchi Architecture API follows resource-oriented design principles. All resources
+    The Mzizi API follows resource-oriented design principles. All resources
     are served as JSON with schema.org JSON-LD metadata, CORS headers, and CDN-friendly caching.
 
     All data routes read from Supabase. If the database is not configured, endpoints return
     503 with setup instructions. There are no hardcoded fallbacks.
 
-    **Base URL:** `https://design.nyuchi.com/api/v1`
+    **Base URL:** `https://mzizi.dev/api/v1`
 
     **Registry:** the stable registry across 10 architecture layers — served from the Supabase `components` table (live count via `GET /api/v1/stats` → `stable`; counts are never hardcoded in this spec so it cannot drift from the database)
 
-    **MCP Server:** `https://design.nyuchi.com/mcp` (Streamable HTTP transport)
+    **MCP Server:** `https://mzizi.dev/mcp` (Streamable HTTP transport)
   contact:
-    name: Nyuchi Africa
-    url: https://nyuchi.com
+    name: Bundu Foundation
   license:
     name: MIT
     identifier: MIT
 
 servers:
-  - url: https://design.nyuchi.com/api/v1
+  - url: https://mzizi.dev/api/v1
     description: Production
   - url: http://localhost:3000/api/v1
     description: Development

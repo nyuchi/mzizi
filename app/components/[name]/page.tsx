@@ -41,7 +41,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
 
   const sourceCode = item.source_code ?? "// Source not available"
   const firstFilePath = item.files[0]?.path ?? ""
-  const installUrl = `https://design.nyuchi.com/api/v1/ui/${item.name}`
+  const installUrl = `https://mzizi.dev/api/v1/ui/${item.name}`
   const hasDemo = hasDemoFor(item.name)
 
   return (

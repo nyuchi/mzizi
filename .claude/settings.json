@@ -2,7 +2,7 @@
   "mcpServers": {
     "nyuchi-design": {
       "type": "url",
-      "url": "https://design.nyuchi.com/mcp"
+      "url": "https://mzizi.dev/mcp"
     },
     "supabase": {
       "type": "http",

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next"
 
 /**
- * Nyuchi Design Portal robots.txt.
+ * Mzizi robots.txt.
  *
  * The site is a public design system + API intentionally optimised for AI
  * consumption. All read routes (/, /api/v1/*, /openapi, /llms.txt) are
@@ -61,7 +61,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: DISALLOW_FROM_CRAWL,
       },
     ],
-    sitemap: "https://design.nyuchi.com/sitemap.xml",
-    host: "https://design.nyuchi.com",
+    sitemap: "https://mzizi.dev/sitemap.xml",
+    host: "https://mzizi.dev",
   }
 }

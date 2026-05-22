@@ -41,7 +41,7 @@ export function BuildWithSection() {
               Every registry item is installable through the shadcn CLI. The CLI copies the source
               into your repo — you own and modify it freely.
             </p>
-            <CopyCommand command="npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/button" />
+            <CopyCommand command="npx shadcn@latest add https://mzizi.dev/api/v1/ui/button" />
             <Link
               href="/components"
               className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-foreground hover:underline"
@@ -74,10 +74,9 @@ export function BuildWithSection() {
             <span className="font-mono text-xs text-muted-foreground">03</span>
             <h3 className="font-serif text-xl font-semibold">Wire the MCP server</h3>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Add <code className="font-mono text-xs">https://design.nyuchi.com/mcp</code> to your
-              Claude Code settings. <LiveMcpStats /> let your AI assistant install components,
-              scaffold new ones, look up tokens, and read live docs without round-tripping to the
-              browser.
+              Add <code className="font-mono text-xs">https://mzizi.dev/mcp</code> to your Claude
+              Code settings. <LiveMcpStats /> let your AI assistant install components, scaffold new
+              ones, look up tokens, and read live docs without round-tripping to the browser.
             </p>
             <Link
               href="https://docs.mzizi.dev/mcp"
@@ -138,7 +137,11 @@ export function BuildWithSection() {
               </p>
             </div>
             <Button asChild className="rounded-full">
-              <Link href="https://docs.mzizi.dev/installation" target="_blank" rel="noopener noreferrer">
+              <Link
+                href="https://docs.mzizi.dev/installation"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Read the installation guide
                 <ArrowRight className="size-4" />
               </Link>

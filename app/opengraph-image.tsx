@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
-export const alt = "nyuchi design portal — canonical design system for the bundu ecosystem"
+export const alt = "Mzizi — an open-architecture project of the Bundu Foundation"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -49,7 +49,7 @@ export default function OpengraphImage() {
             color: "#9A9A95",
           }}
         >
-          nyuchi design portal
+          mzizi
         </div>
         <div
           style={{
@@ -60,7 +60,7 @@ export default function OpengraphImage() {
             letterSpacing: -1,
           }}
         >
-          The canonical design system for the bundu ecosystem.
+          An open-architecture project of the Bundu Foundation.
         </div>
         <div
           style={{
@@ -71,7 +71,8 @@ export default function OpengraphImage() {
             maxWidth: 920,
           }}
         >
-          Five African Minerals palette · shadcn-compatible registry · MCP server · AI-native docs.
+          Open 3D frontend architecture · Five African Minerals palette · shadcn-compatible registry
+          · MCP server.
         </div>
         <div
           style={{
@@ -83,7 +84,7 @@ export default function OpengraphImage() {
             color: "#5C5B58",
           }}
         >
-          <span>design.nyuchi.com</span>
+          <span>mzizi.dev</span>
           <span>·</span>
           <span>github.com/nyuchi/design-portal</span>
         </div>

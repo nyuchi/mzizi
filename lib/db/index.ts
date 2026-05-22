@@ -1180,8 +1180,8 @@ export async function getComponentLinks(name: string): Promise<ComponentLink[]> 
 
   // Fallback: canonical URL pattern for the portal
   return [
-    { url: `https://design.nyuchi.com/components/${name}`, kind: "portal" },
-    { url: `https://design.nyuchi.com/api/v1/ui/${name}`, kind: "api" },
+    { url: `https://mzizi.dev/components/${name}`, kind: "portal" },
+    { url: `https://mzizi.dev/api/v1/ui/${name}`, kind: "api" },
   ]
 }
 

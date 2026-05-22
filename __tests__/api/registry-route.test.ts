@@ -73,7 +73,7 @@ describe("GET /api/v1/ui", () => {
     expect(res.status).toBe(200)
     expect(res.data.$schema).toBe("https://ui.shadcn.com/schema/registry.json")
     expect(res.data.name).toBe("mukoko")
-    expect(res.data.homepage).toBe("https://design.nyuchi.com")
+    expect(res.data.homepage).toBe("https://mzizi.dev")
     expect(res.data.items).toHaveLength(2)
     expect(res.data.items[0]).toMatchObject({
       name: "button",
