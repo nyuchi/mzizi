@@ -102,7 +102,7 @@ export async function GET() {
           docs: {
             href: "/api/v1/docs",
             description:
-              "GONE (HTTP 410). Long-form documentation moved to the standalone Mzizi docs site — see https://mzizi.dev/docs.",
+              "GONE (HTTP 410). Long-form documentation moved to the standalone Mzizi docs site — see https://docs.bundu.org/mzizi.",
             status: "gone",
           },
           changelog: {

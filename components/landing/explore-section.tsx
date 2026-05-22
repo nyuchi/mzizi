@@ -42,7 +42,7 @@ export async function ExploreSection() {
     {
       title: "Documentation",
       description: "Installation, theming, CLI, and contributing guides.",
-      href: "https://mzizi.dev/docs",
+      href: "https://docs.bundu.org/mzizi",
       icon: BookOpen,
       mineral: "bg-[var(--color-gold)]",
       external: true,

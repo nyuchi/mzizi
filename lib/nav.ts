@@ -3,7 +3,7 @@ import { Activity, Box, BookOpen, Layers, type LucideIcon } from "lucide-react"
 // Shared navigation structure for the Mzizi portal shell.
 // Curated (not auto-generated) — the portal hosts the functional
 // surfaces only; long-form guides live in the standalone Mintlify
-// docs site at mzizi.dev/docs.
+// docs site at docs.bundu.org/mzizi.
 //
 //   Explore       — the component gallery + the 3D architecture explorer
 //   Observability — live registry / API / MCP usage metrics
@@ -39,7 +39,9 @@ export const SIDEBAR_NAV: NavGroup[] = [
   },
   {
     label: "Documentation",
-    items: [{ label: "Docs", href: "https://mzizi.dev/docs", icon: BookOpen, external: true }],
+    items: [
+      { label: "Docs", href: "https://docs.bundu.org/mzizi", icon: BookOpen, external: true },
+    ],
   },
 ]
 
@@ -49,7 +51,7 @@ export const HEADER_NAV: NavItem[] = [
   { label: "Components", href: "/components" },
   { label: "Architecture", href: "/architecture" },
   { label: "Observability", href: "/observability" },
-  { label: "Docs", href: "https://mzizi.dev/docs", external: true },
+  { label: "Docs", href: "https://docs.bundu.org/mzizi", external: true },
 ]
 
 // Pretty labels for breadcrumbs — maps URL segments to display strings.

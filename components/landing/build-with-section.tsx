@@ -61,7 +61,7 @@ export function BuildWithSection() {
               variables.
             </p>
             <Link
-              href="https://mzizi.dev/docs/brand"
+              href="https://docs.bundu.org/mzizi/brand"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-foreground hover:underline"
@@ -79,7 +79,7 @@ export function BuildWithSection() {
               ones, look up tokens, and read live docs without round-tripping to the browser.
             </p>
             <Link
-              href="https://mzizi.dev/docs/mcp"
+              href="https://docs.bundu.org/mzizi/mcp"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-foreground hover:underline"
@@ -138,7 +138,7 @@ export function BuildWithSection() {
             </div>
             <Button asChild className="rounded-full">
               <Link
-                href="https://mzizi.dev/docs/installation"
+                href="https://docs.bundu.org/mzizi/installation"
                 target="_blank"
                 rel="noopener noreferrer"
               >
