@@ -17,13 +17,47 @@ export interface ComponentRow {
   registry_dependencies: string[]
   files: ComponentFile[]
   category: string | null
-  layer: string | null
+  node_label: string | null
+  ecosystem_node: number | null
   is_mukoko_component: boolean
   tags: string[]
   added_in_version: string | null
   source_code: string | null
+  source_code_svelte: string | null
   created_at: string
   updated_at: string
+}
+
+/**
+ * Return shape of the `get_component_with_source(p_name)` RPC (issue #77).
+ * Mirrors `get_component` but adds the two source columns. Used when a caller
+ * explicitly needs component source — `get_component`/`getComponent` stay lean
+ * for catalogue and listing use cases.
+ */
+export interface ComponentWithSource {
+  name: string
+  description: string
+  category: string | null
+  node_label: string | null
+  ecosystem_node: number | null
+  status: string | null
+  framework: string | null
+  runtime_lang: string | null
+  migration_target: string | null
+  added_in_version: string | null
+  portal_url: string | null
+  playground_url: string | null
+  health_endpoint: string | null
+  source_url: string | null
+  changelog_url: string | null
+  api_endpoint: string | null
+  platforms: string[] | null
+  files: ComponentFile[]
+  registry_dependencies: string[]
+  dependencies: string[]
+  updated_at: string
+  source_code: string | null
+  source_code_svelte: string | null
 }
 
 export interface ComponentDocRow {
@@ -58,11 +92,13 @@ export interface ComponentInsert {
   registry_dependencies?: string[]
   files?: ComponentFile[]
   category?: string | null
-  layer?: string | null
+  node_label?: string | null
+  ecosystem_node?: number | null
   is_mukoko_component?: boolean
   tags?: string[]
   added_in_version?: string | null
   source_code?: string | null
+  source_code_svelte?: string | null
 }
 
 export interface ComponentDocInsert {
