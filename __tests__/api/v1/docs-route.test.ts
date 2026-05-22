@@ -53,7 +53,7 @@ describe("GET /api/v1/docs (soft-410)", () => {
     const { GET } = await import("@/app/api/v1/docs/route")
     const response = (await GET()) as unknown as ListResponse
 
-    expect(response.data.message).toContain("docs.mzizi.dev")
+    expect(response.data.message).toContain("mzizi.dev/docs")
     expect(response.data.message).toContain("documentation_pages")
   })
 
@@ -64,7 +64,7 @@ describe("GET /api/v1/docs (soft-410)", () => {
     for (const slug of EXPECTED_MIGRATED_SLUGS) {
       expect(response.data.migrated_to).toHaveProperty(slug)
       const url = response.data.migrated_to[slug]
-      expect(new URL(url).origin).toBe("https://docs.mzizi.dev")
+      expect(url).toMatch(/^https:\/\/mzizi\.dev\/docs(\/|$)/)
     }
   })
 

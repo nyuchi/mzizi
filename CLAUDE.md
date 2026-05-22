@@ -156,7 +156,7 @@ design-portal/
 │   │       ├── brand/                # Brand system
 │   │       ├── changelog/            # Releases (root + [version])
 │   │       ├── data-layer/, ecosystem/, pipeline/, sovereignty/  # Architecture topics
-│   │       ├── docs/                 # HTTP 410 — docs moved to docs.mzizi.dev (root + [slug])
+│   │       ├── docs/                 # HTTP 410 — docs moved to mzizi.dev/docs (root + [slug])
 │   │       ├── health/               # Health check
 │   │       ├── search/               # Cross-resource search
 │   │       ├── stats/                # Live counts + layer breakdown

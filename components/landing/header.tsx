@@ -24,7 +24,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Components", href: "/components" },
   { label: "Architecture", href: "/architecture" },
   { label: "Observability", href: "/observability" },
-  { label: "Docs", href: "https://docs.mzizi.dev" },
+  { label: "Docs", href: "https://mzizi.dev/docs" },
 ]
 
 const PILL_ACTIONS: PillAction[] = [

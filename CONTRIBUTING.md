@@ -257,7 +257,7 @@ observability (`/observability`). Each is a standard Next.js App Router
 
 Long-form documentation (installation, CLI, theming, contributing, brand,
 foundations, patterns, registry internals) lives in the standalone Mzizi
-Mintlify docs site at <https://docs.mzizi.dev> — not in this repo. To edit
+Mintlify docs site at <https://mzizi.dev/docs> — not in this repo. To edit
 a guide, contribute to the Mintlify docs project instead.
 
 To add a new functional page to the portal:

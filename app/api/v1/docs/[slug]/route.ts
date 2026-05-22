@@ -19,7 +19,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
     {
       error: "Gone",
       message:
-        "Long-form documentation now lives in the standalone Mzizi docs site. See GET /api/v1/docs for the per-slug → URL migration map, or browse https://docs.mzizi.dev.",
+        "Long-form documentation now lives in the standalone Mzizi docs site. See GET /api/v1/docs for the per-slug → URL migration map, or browse https://mzizi.dev/docs.",
       slug,
     },
     { status: 410, headers: CORS }

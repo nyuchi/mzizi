@@ -10,7 +10,7 @@ const CORS = {
  * GET /api/v1/docs — Soft-410 Gone.
  *
  * Long-form documentation now lives in the standalone Mzizi Mintlify
- * docs site at docs.mzizi.dev. The `documentation_pages` Supabase table
+ * docs site at mzizi.dev/docs. The `documentation_pages` Supabase table
  * is HISTORICAL.
  *
  * Returns HTTP 410 with a migration note so consumers know to fetch
@@ -22,18 +22,18 @@ export async function GET() {
     {
       error: "Gone",
       message:
-        "Long-form documentation now lives in the standalone Mzizi docs site (Mintlify). The documentation_pages Supabase table is historical. See https://docs.mzizi.dev.",
+        "Long-form documentation now lives in the standalone Mzizi docs site (Mintlify). The documentation_pages Supabase table is historical. See https://mzizi.dev/docs.",
       migrated_to: {
-        "3d-architecture": "https://docs.mzizi.dev/architecture",
-        "fundi-guide": "https://docs.mzizi.dev/architecture/fundi",
-        "layer-decision-guide": "https://docs.mzizi.dev/architecture/layers",
-        "component-backlinks": "https://docs.mzizi.dev/architecture/component-backlinks",
-        "brand-guidelines": "https://docs.mzizi.dev/brand",
-        "semantic-tokens": "https://docs.mzizi.dev/foundations/tokens",
-        introduction: "https://docs.mzizi.dev",
-        installation: "https://docs.mzizi.dev/installation",
-        "api-reference": "https://docs.mzizi.dev/api-reference",
-        contributing: "https://docs.mzizi.dev/contributing",
+        "3d-architecture": "https://mzizi.dev/docs/architecture",
+        "fundi-guide": "https://mzizi.dev/docs/architecture/fundi",
+        "layer-decision-guide": "https://mzizi.dev/docs/architecture/layers",
+        "component-backlinks": "https://mzizi.dev/docs/architecture/component-backlinks",
+        "brand-guidelines": "https://mzizi.dev/docs/brand",
+        "semantic-tokens": "https://mzizi.dev/docs/foundations/tokens",
+        introduction: "https://mzizi.dev/docs",
+        installation: "https://mzizi.dev/docs/installation",
+        "api-reference": "https://mzizi.dev/docs/api-reference",
+        contributing: "https://mzizi.dev/docs/contributing",
       },
     },
     { status: 410, headers: CORS }

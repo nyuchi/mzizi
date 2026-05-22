@@ -39,12 +39,12 @@ const columns: FooterColumn[] = [
   {
     title: "Documentation",
     links: [
-      { label: "Docs home", href: "https://docs.mzizi.dev", external: true },
-      { label: "Installation", href: "https://docs.mzizi.dev/installation", external: true },
-      { label: "CLI", href: "https://docs.mzizi.dev/cli", external: true },
-      { label: "Theming", href: "https://docs.mzizi.dev/theming", external: true },
-      { label: "API reference", href: "https://docs.mzizi.dev/api-reference", external: true },
-      { label: "Contributing", href: "https://docs.mzizi.dev/contributing", external: true },
+      { label: "Docs home", href: "https://mzizi.dev/docs", external: true },
+      { label: "Installation", href: "https://mzizi.dev/docs/installation", external: true },
+      { label: "CLI", href: "https://mzizi.dev/docs/cli", external: true },
+      { label: "Theming", href: "https://mzizi.dev/docs/theming", external: true },
+      { label: "API reference", href: "https://mzizi.dev/docs/api-reference", external: true },
+      { label: "Contributing", href: "https://mzizi.dev/docs/contributing", external: true },
     ],
   },
   {

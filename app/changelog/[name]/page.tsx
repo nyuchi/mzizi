@@ -84,7 +84,7 @@ export default async function ComponentChangelogPage({
             release notes for the whole registry live in the{" "}
             <a
               className="font-medium text-foreground hover:underline"
-              href="https://docs.mzizi.dev/changelog"
+              href="https://mzizi.dev/docs/changelog"
               target="_blank"
               rel="noopener noreferrer"
             >
