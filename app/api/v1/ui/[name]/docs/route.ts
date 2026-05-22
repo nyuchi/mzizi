@@ -65,7 +65,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ nam
       {
         name: component.name,
         description: component.description,
-        layer: component.layer,
+        node: component.ecosystem_node,
+        node_label: component.node_label,
         category: component.category,
         docs: component.docs ?? null,
         demo: component.demo ?? null,

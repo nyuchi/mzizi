@@ -827,14 +827,26 @@ paths:
 
   /search:
     get:
-      summary: Cross-resource search
-      description: Full-text search across components, documentation pages, and changelog entries.
+      summary: Component search
+      description: >
+        Search components by name or description, optionally filtered by
+        ecosystem node (integer 1–10) or category. At least one of `q`,
+        `node`, or `category` is required.
       operationId: search
       tags: [Discovery]
       parameters:
         - name: q
           in: query
-          required: true
+          required: false
+          schema: { type: string }
+        - name: node
+          in: query
+          required: false
+          description: Ecosystem node 1–10 (replaces the legacy `layer` filter).
+          schema: { type: integer, minimum: 1, maximum: 10 }
+        - name: category
+          in: query
+          required: false
           schema: { type: string }
       responses:
         "200":
@@ -844,15 +856,31 @@ paths:
               schema:
                 type: object
                 properties:
-                  query: { type: string }
-                  components: { type: array, items: { type: object } }
-                  docs: { type: array, items: { type: object } }
-                  changelog: { type: array, items: { type: object } }
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name: { type: string }
+                        type: { type: string }
+                        description: { type: string }
+                        category: { type: string, nullable: true }
+                        node: { type: integer, nullable: true }
+                        nodeLabel: { type: string, nullable: true }
+                  meta:
+                    type: object
+                    properties:
+                      total: { type: integer }
+                      query: { type: string, nullable: true }
+                      node: { type: integer, nullable: true }
+                      category: { type: string, nullable: true }
+        "400":
+          description: None of q, node, or category supplied, or node out of range.
 
   /stats:
     get:
       summary: Live registry stats
-      description: Live counts across the registry — total stable components, per-layer and per-category breakdown, token counts. Never hardcoded.
+      description: Live counts across the registry — total stable components, per-node and per-category breakdown, token counts. Never hardcoded.
       operationId: getStats
       tags: [Discovery]
       responses:
@@ -870,14 +898,13 @@ paths:
                       stable: { type: integer }
                       alpha: { type: integer }
                       deprecated: { type: integer }
-                  layers:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        layer: { type: integer }
-                        axis: { type: string }
-                        count: { type: integer }
+                  nodes:
+                    type: object
+                    description: >
+                      Stable-component counts keyed by ecosystem node label
+                      (tokens, primitive, brand, safety, …). Replaces the
+                      legacy `layers` array.
+                    additionalProperties: { type: integer }
                   tokens:
                     type: object
                     additionalProperties: { type: integer }
