@@ -23,9 +23,8 @@ import { SIDEBAR_NAV } from "@/lib/nav"
  * `lib/nav.ts` — four groups:
  *
  *   Design system   — Components / Brand / Foundations / Patterns
- *   Architecture    — 3D architecture / Fundi (L9) / Observability
+ *   Architecture    — 3D architecture / Observability
  *   Playground      — one link
- *   Guides          — /docs/* how-tos (collapsible label, flat menu)
  *
  * Active-route detection: a nav item is active when `pathname === href`
  * OR `pathname.startsWith(href + "/")`. That means `/components/button`
@@ -43,9 +42,9 @@ export function DashboardSidebar() {
         <Link
           href="/"
           className="flex shrink-0 items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-          aria-label="Nyuchi Design Portal home"
+          aria-label="Mzizi home"
         >
-          <NyuchiLogo size={24} showWordmark suffix="design" />
+          <NyuchiLogo size={24} showWordmark suffix="mzizi" />
         </Link>
       </SidebarHeader>
 

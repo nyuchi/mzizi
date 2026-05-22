@@ -32,9 +32,9 @@ function CopySnippet({ code, label }: { code: string; label: string }) {
 
 const mcpConfig = `{
   "mcpServers": {
-    "nyuchi-design": {
+    "mzizi": {
       "type": "url",
-      "url": "https://design.nyuchi.com/mcp"
+      "url": "https://mzizi.dev/mcp"
     }
   }
 }`
@@ -59,9 +59,9 @@ export function AiNativeSection() {
             Your design system, inside your AI assistant
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground sm:mt-4 sm:text-base">
-            The nyuchi design portal ships with a Model Context Protocol server and a Claude Code
-            skill. Your AI assistant can browse components, generate scaffolds, and fetch source
-            code — without leaving the conversation.
+            Mzizi ships with a Model Context Protocol server and a Claude Code skill. Your AI
+            assistant can browse components, generate scaffolds, and fetch source code — without
+            leaving the conversation.
           </p>
         </div>
 

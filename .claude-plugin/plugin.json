@@ -1,19 +1,18 @@
 {
   "$schema": "https://docs.claude.com/schemas/claude-code/plugin.json",
-  "name": "nyuchi-design",
-  "displayName": "Nyuchi Design",
+  "name": "mzizi",
+  "displayName": "Mzizi",
   "version": "1.0.0",
-  "description": "Build with the Nyuchi Design System — Five African Minerals palette, 3D frontend architecture, Ubuntu doctrine, shadcn-compatible registry. Live at design.nyuchi.com.",
-  "homepage": "https://design.nyuchi.com",
+  "description": "Build with Mzizi — an open-architecture project of the Bundu Foundation. Five African Minerals palette, open 3D frontend architecture, Ubuntu doctrine, shadcn-compatible registry. Operated and developed by Nyuchi. Live at mzizi.dev.",
+  "homepage": "https://mzizi.dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/nyuchi/design-portal"
   },
   "author": {
-    "name": "Nyuchi Africa (PVT) Ltd",
-    "url": "https://nyuchi.com"
+    "name": "Bundu Foundation"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "icons": {
     "light": "https://assets.nyuchi.com/nyuchi-icon-light.png",
     "dark": "https://assets.nyuchi.com/nyuchi-icon-dark.png"
@@ -24,18 +23,19 @@
     "./packages/design-agent-skills/skills/ecosystem-app-setup.md"
   ],
   "mcpServers": {
-    "nyuchi-design": {
+    "mzizi": {
       "type": "url",
-      "url": "https://design.nyuchi.com/mcp",
-      "description": "Nyuchi Design MCP — components, brand tokens, 3D architecture, skills, changelog. Streamable HTTP transport."
+      "url": "https://mzizi.dev/mcp",
+      "description": "Mzizi MCP — components, brand tokens, open 3D architecture, skills, changelog. Streamable HTTP transport."
     }
   },
   "permissions": {
-    "network": ["design.nyuchi.com", "assets.nyuchi.com"]
+    "network": ["mzizi.dev", "assets.nyuchi.com"]
   },
   "keywords": [
     "design-system",
-    "nyuchi",
+    "open-architecture",
+    "mzizi",
     "bundu",
     "shadcn",
     "registry",

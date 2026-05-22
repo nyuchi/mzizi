@@ -23,14 +23,14 @@ export async function GET() {
 
     return NextResponse.json(
       {
-        $schema: "https://design.nyuchi.com/schema/api.json",
+        $schema: "https://mzizi.dev/schema/api.json",
         "@context": "https://schema.org",
         "@type": "WebAPI",
-        name: "Nyuchi Architecture API",
+        name: "Mzizi API",
         version: "1.0.0",
         description:
-          "Unified API for the Nyuchi Design Portal — components, brand, architecture, and design system. Canonical registry for the bundu ecosystem.",
-        homepage: "https://design.nyuchi.com",
+          "The Mzizi API — components, brand, architecture, and design system. Mzizi is an open-architecture project of the Bundu Foundation, operated and developed by Nyuchi.",
+        homepage: "https://mzizi.dev",
         database: {
           status: dbStatus,
           components: componentCount,
@@ -102,16 +102,12 @@ export async function GET() {
           docs: {
             href: "/api/v1/docs",
             description:
-              "GONE (HTTP 410). Long-form documentation moved into the repo as MDX — see https://design.nyuchi.com/docs.",
+              "GONE (HTTP 410). Long-form documentation moved to the standalone Mzizi docs site — see https://docs.bundu.org/mzizi.",
             status: "gone",
           },
           changelog: {
             href: "/api/v1/changelog",
             description: "Release changelog.",
-          },
-          fundi: {
-            href: "/api/v1/fundi",
-            description: "Fundi self-healing issue tracking.",
           },
           aiInstructions: {
             href: "/api/v1/ai/instructions",

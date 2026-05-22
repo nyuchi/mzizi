@@ -1,5 +1,5 @@
 /**
- * Nyuchi Design Portal MCP Server
+ * Mzizi MCP Server
  *
  * Configures the McpServer instance with all tools and resources.
  * Served via the HTTP endpoint at /mcp (app/mcp/route.ts).
@@ -113,7 +113,7 @@ export function inferDependencies(sourceCode: string): string[] {
 // ─── Server Factory ────────────────────────────────────────────────────────
 
 /**
- * Creates and configures a Nyuchi Design Portal MCP server with all tools and resources.
+ * Creates and configures the Mzizi MCP server with all tools and resources.
  *
  * Async because the server's system prompt is loaded from the `ai_instructions`
  * Supabase table (with a 60s TTL cache). See `loadSystemPrompt()`.
@@ -122,7 +122,7 @@ export async function createMukokoMcpServer(): Promise<McpServer> {
   const instructions = await loadSystemPrompt()
   const server = new McpServer(
     {
-      name: "nyuchi-design",
+      name: "mzizi",
       version: "4.0.39",
     },
     instructions ? { instructions } : undefined
@@ -152,7 +152,7 @@ export async function createMukokoMcpServer(): Promise<McpServer> {
               {
                 $schema: "https://ui.shadcn.com/schema/registry.json",
                 name: "mukoko",
-                homepage: "https://design.nyuchi.com",
+                homepage: "https://mzizi.dev",
                 items,
               },
               null,
@@ -338,7 +338,7 @@ export async function createMukokoMcpServer(): Promise<McpServer> {
 
   server.tool(
     "list_components",
-    "List Nyuchi design portal components. Filter by registry type (ui/hook/lib) and/or category.",
+    "List Mzizi components. Filter by registry type (ui/hook/lib) and/or category.",
     {
       type: z
         .enum(["all", "registry:ui", "registry:hook", "registry:lib", "registry:block"])
@@ -370,7 +370,7 @@ export async function createMukokoMcpServer(): Promise<McpServer> {
           description: c.description,
           dependencies: c.dependencies,
           registryDependencies: c.registry_dependencies,
-          installCommand: `npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/${c.name}`,
+          installCommand: `npx shadcn@latest add https://mzizi.dev/api/v1/ui/${c.name}`,
         }))
 
         trackMcpTool({ toolName: "list_components", durationMs: Date.now() - start })
@@ -386,7 +386,7 @@ export async function createMukokoMcpServer(): Promise<McpServer> {
 
   server.tool(
     "get_component",
-    "Get a component's full source code, metadata, and dependencies from the Nyuchi design portal.",
+    "Get a component's full source code, metadata, and dependencies from the Mzizi.",
     {
       name: z.string().describe("Component name (e.g., 'button', 'card', 'use-toast')"),
       include_docs: z
@@ -432,7 +432,7 @@ export async function createMukokoMcpServer(): Promise<McpServer> {
           files: component.files,
           tags: component.tags,
           sourceCode,
-          installCommand: `npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/${component.name}`,
+          installCommand: `npx shadcn@latest add https://mzizi.dev/api/v1/ui/${component.name}`,
         }
 
         if (include_docs && "docs" in component && component.docs) {
@@ -486,7 +486,7 @@ export async function createMukokoMcpServer(): Promise<McpServer> {
                     name: component.name,
                     description: component.description,
                     message: "No extended documentation available for this component.",
-                    installCommand: `npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/${component.name}`,
+                    installCommand: `npx shadcn@latest add https://mzizi.dev/api/v1/ui/${component.name}`,
                   },
                   null,
                   2
@@ -505,7 +505,7 @@ export async function createMukokoMcpServer(): Promise<McpServer> {
                   name: component.name,
                   description: component.description,
                   ...component.docs,
-                  installCommand: `npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/${component.name}`,
+                  installCommand: `npx shadcn@latest add https://mzizi.dev/api/v1/ui/${component.name}`,
                 },
                 null,
                 2
@@ -521,7 +521,7 @@ export async function createMukokoMcpServer(): Promise<McpServer> {
 
   server.tool(
     "search_components",
-    "Search Nyuchi design portal components by name or description keyword.",
+    "Search Mzizi components by name or description keyword.",
     {
       query: z.string().describe("Search query to match against component names and descriptions"),
       type: z
@@ -549,7 +549,7 @@ export async function createMukokoMcpServer(): Promise<McpServer> {
           type: c.registry_type,
           category: c.category,
           description: c.description,
-          installCommand: `npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/${c.name}`,
+          installCommand: `npx shadcn@latest add https://mzizi.dev/api/v1/ui/${c.name}`,
         }))
 
         return {
@@ -707,7 +707,7 @@ export { ${pascalName}, ${camelVariants}Variants }
         let text = ""
         if (valid.length > 0) {
           text += valid
-            .map((n) => `npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/${n}`)
+            .map((n) => `npx shadcn@latest add https://mzizi.dev/api/v1/ui/${n}`)
             .join("\n")
         }
         if (invalid.length > 0) {
@@ -1051,7 +1051,7 @@ export { ${pascalName}, ${camelVariants}Variants }
 
   server.tool(
     "get_database_status",
-    "Get the status and row counts for the design portal database.",
+    "Get the status and row counts for the Mzizi database.",
     {},
     async () => {
       const start = Date.now()
@@ -1074,7 +1074,7 @@ export { ${pascalName}, ${camelVariants}Variants }
 
   server.tool(
     "get_usage_stats",
-    "Get public API and MCP usage statistics for the Nyuchi Design Portal. Returns aggregate call counts, error rates, popular components, and daily trends. Data is open by design — CC BY 4.0.",
+    "Get public API and MCP usage statistics for Mzizi. Returns aggregate call counts, error rates, popular components, and daily trends. Data is open by design — CC BY 4.0.",
     {
       days: z
         .number()

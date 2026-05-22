@@ -568,45 +568,6 @@ export interface ComponentVersionInsert {
   metadata?: Record<string, unknown> | null
 }
 
-// ── Fundi issue table types ─────────────────────────────────────────
-
-export interface FundiIssueRow {
-  id: number
-  title: string
-  body: string | null
-  status: string
-  severity: string | null
-  component_name: string | null
-  layer: string | null
-  source: string | null
-  github_issue_number: number | null
-  metadata: Record<string, unknown> | null
-  created_at: string
-  updated_at: string
-  resolved_at: string | null
-}
-
-export interface FundiIssueInsert {
-  title: string
-  body?: string | null
-  status?: string
-  severity?: string | null
-  component_name?: string | null
-  layer?: string | null
-  source?: string | null
-  github_issue_number?: number | null
-  metadata?: Record<string, unknown> | null
-  resolved_at?: string | null
-}
-
-export interface FundiIssueFilters {
-  status?: string
-  severity?: string
-  component_name?: string
-  layer?: string
-  limit?: number
-}
-
 // ── Design token types (from nyuchi-tokens component source_code) ──
 
 export interface DesignTokens {
@@ -722,11 +683,6 @@ export interface Database {
         Row: ComponentVersionRow
         Insert: ComponentVersionInsert
         Update: Partial<ComponentVersionInsert>
-      }
-      fundi_issues: {
-        Row: FundiIssueRow
-        Insert: FundiIssueInsert
-        Update: Partial<FundiIssueInsert>
       }
     }
   }

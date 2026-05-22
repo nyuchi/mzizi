@@ -1,20 +1,20 @@
-# Nyuchi Design Portal
+# Mzizi
 
-> The canonical design system for the bundu ecosystem — powering mukoko (17 consumer mini-apps), nyuchi (7 enterprise products), and sister brands. Component registry, brand documentation, architecture reference, AI-native tooling, and developer portal.
+> An open-architecture project of the Bundu Foundation — an open 3D frontend architecture, component registry, brand documentation, AI-native tooling, and developer portal. Operated and developed by Nyuchi.
 
 [![CI](https://github.com/nyuchi/design-portal/actions/workflows/ci.yml/badge.svg)](https://github.com/nyuchi/design-portal/actions/workflows/ci.yml)
 [![Release](https://github.com/nyuchi/design-portal/actions/workflows/release.yml/badge.svg)](https://github.com/nyuchi/design-portal/actions/workflows/release.yml)
 [![CodeQL](https://github.com/nyuchi/design-portal/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/nyuchi/design-portal/security/code-scanning)
 
-**Version:** 4.0.39 | **Live:** [design.nyuchi.com](https://design.nyuchi.com) | **Docs:** [design.nyuchi.com/docs](https://design.nyuchi.com/docs) | **Observability:** [design.nyuchi.com/observability](https://design.nyuchi.com/observability)
+**Version:** 4.0.39 | **Live:** [mzizi.dev](https://mzizi.dev) | **Docs:** [docs.bundu.org/mzizi](https://docs.bundu.org/mzizi) | **Observability:** [mzizi.dev/observability](https://mzizi.dev/observability)
 
 ---
 
 ## What is this?
 
-nyuchi design portal is the canonical design system for the bundu ecosystem — the single source of truth for UI components, design tokens, brand guidelines, architecture documentation, and developer portal. It powers mukoko (Africa's super app — 17 mini-apps), nyuchi (7 enterprise products), and every app in the bundu family.
+Mzizi is an **independent open-architecture project of the Bundu Foundation** — operated and developed by Nyuchi, governed by the Bundu Foundation. It owns the open 3D frontend architecture, the component registry (`mzizi.dev/r/`), the Mzizi API (`mzizi.dev/api`), the components, and the infrastructure harness. Consumed across the bundu ecosystem — mukoko (Africa's super app — 17 mini-apps), nyuchi (7 enterprise products), and every app in the bundu family.
 
-The registry is backed by a **DB-first architecture** (Supabase) and served as a shadcn-compatible API — every component is installable directly into any project with one command. It is also **AI-native**: a full Model Context Protocol (MCP) server at `/mcp` gives Claude Code and other AI assistants direct access to the registry, brand tokens, and design system documentation.
+The registry is backed by a **DB-first architecture** (Supabase) and served as a shadcn-compatible API — every component is installable directly into any project with one command. It is also **AI-native**: a full Model Context Protocol (MCP) server at `/mcp` gives Claude Code and other AI assistants direct access to the registry, brand tokens, and design system documentation. Long-form guides live in the standalone Mintlify docs site at [docs.bundu.org/mzizi](https://docs.bundu.org/mzizi).
 
 ---
 
@@ -43,16 +43,16 @@ npx @nyuchi/design-cli skills install
 Or use the shadcn CLI directly:
 
 ```bash
-npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/button
+npx shadcn@latest add https://mzizi.dev/api/v1/ui/button
 ```
 
 Install multiple via shadcn:
 
 ```bash
 npx shadcn@latest add \
-  https://design.nyuchi.com/api/v1/ui/card \
-  https://design.nyuchi.com/api/v1/ui/dialog \
-  https://design.nyuchi.com/api/v1/ui/data-table
+  https://mzizi.dev/api/v1/ui/card \
+  https://mzizi.dev/api/v1/ui/dialog \
+  https://mzizi.dev/api/v1/ui/data-table
 ```
 
 ---
@@ -66,15 +66,15 @@ Add to your `.claude/settings.json`:
 ```json
 {
   "mcpServers": {
-    "nyuchi-design": {
+    "mzizi": {
       "type": "url",
-      "url": "https://design.nyuchi.com/mcp"
+      "url": "https://mzizi.dev/mcp"
     }
   }
 }
 ```
 
-Your AI assistant can now call the full tool surface — live at `https://design.nyuchi.com/mcp` via `tools/list`:
+Your AI assistant can now call the full tool surface — live at `https://mzizi.dev/mcp` via `tools/list`:
 
 | Tool                        | What it does                                                                 |
 | --------------------------- | ---------------------------------------------------------------------------- |
@@ -135,7 +135,7 @@ The design system is built on five colors named after African minerals — const
 
 ## Registry
 
-The registry is live at [design.nyuchi.com/components](https://design.nyuchi.com/components). Component counts are always live from the database — see [/observability](https://design.nyuchi.com/observability) for real-time totals.
+The registry is live at [mzizi.dev/components](https://mzizi.dev/components). Component counts are always live from the database — see [/observability](https://mzizi.dev/observability) for real-time totals.
 
 | Category             | Examples                                                                                                                                   |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -163,45 +163,42 @@ The registry is live at [design.nyuchi.com/components](https://design.nyuchi.com
 
 All endpoints under `/api/v1/`. Full spec in [`openapi.yaml`](openapi.yaml).
 
-| Endpoint                         | Method   | Description                                           |
-| -------------------------------- | -------- | ----------------------------------------------------- |
-| `/api/v1`                        | GET      | Discovery document                                    |
-| `/api/v1/ui`                     | GET      | Component registry index                              |
-| `/api/v1/ui/{name}`              | GET      | Component source + metadata (shadcn format)           |
-| `/api/v1/ui/{name}/docs`         | GET      | Structured docs (use cases, variants, a11y)           |
-| `/api/v1/ui/{name}/versions`     | GET      | Component version history                             |
-| `/api/v1/brand`                  | GET      | Brand system (minerals, typography, spacing)          |
-| `/api/v1/docs`                   | GET      | **HTTP 410 Gone** — long-form docs moved to repo MDX  |
-| `/api/v1/docs/{slug}`            | GET      | **HTTP 410 Gone** — see `/api/v1/docs` for slug map   |
-| `/api/v1/changelog`              | GET      | Release history                                       |
-| `/api/v1/changelog/{version}`    | GET      | Single release                                        |
-| `/api/v1/ai/instructions`        | GET      | List AI instruction sets                              |
-| `/api/v1/ai/instructions/{name}` | GET      | Instructions by target (mcp-server/claude/copilot)    |
-| `/api/v1/fundi`                  | GET      | Open self-healing issues                              |
-| `/api/v1/fundi/{id}`             | GET      | Single fundi issue                                    |
-| `/api/v1/fundi/stats`            | GET      | Aggregate learning stats                              |
-| `/api/v1/search?q=`              | GET      | Cross-resource search (components + docs + changelog) |
-| `/api/v1/ecosystem`              | GET      | Architecture principles + framework decision          |
-| `/api/v1/data-layer`             | GET      | Local-first + cloud layer specification               |
-| `/api/v1/pipeline`               | GET      | Open data pipeline (Redpanda, Flink, Doris)           |
-| `/api/v1/sovereignty`            | GET      | Technology sovereignty assessments                    |
-| `/api/v1/stats`                  | GET      | Public usage metrics (CC BY 4.0, `?days=7\|30\|90`)   |
-| `/api/v1/health`                 | GET      | Service health check                                  |
-| `/api/openapi`                   | GET      | OpenAPI 3.1 specification (YAML)                      |
-| `/mcp`                           | POST/GET | MCP server (Streamable HTTP)                          |
+| Endpoint                         | Method   | Description                                                      |
+| -------------------------------- | -------- | ---------------------------------------------------------------- |
+| `/api/v1`                        | GET      | Discovery document                                               |
+| `/api/v1/ui`                     | GET      | Component registry index                                         |
+| `/api/v1/ui/{name}`              | GET      | Component source + metadata (shadcn format)                      |
+| `/api/v1/ui/{name}/docs`         | GET      | Structured docs (use cases, variants, a11y)                      |
+| `/api/v1/ui/{name}/versions`     | GET      | Component version history                                        |
+| `/api/v1/brand`                  | GET      | Brand system (minerals, typography, spacing)                     |
+| `/api/v1/docs`                   | GET      | **HTTP 410 Gone** — long-form docs moved to docs.bundu.org/mzizi |
+| `/api/v1/docs/{slug}`            | GET      | **HTTP 410 Gone** — see `/api/v1/docs` for slug map              |
+| `/api/v1/changelog`              | GET      | Release history                                                  |
+| `/api/v1/changelog/{version}`    | GET      | Single release                                                   |
+| `/api/v1/ai/instructions`        | GET      | List AI instruction sets                                         |
+| `/api/v1/ai/instructions/{name}` | GET      | Instructions by target (mcp-server/claude/copilot)               |
+| `/api/v1/search?q=`              | GET      | Cross-resource search (components + docs + changelog)            |
+| `/api/v1/ecosystem`              | GET      | Architecture principles + framework decision                     |
+| `/api/v1/data-layer`             | GET      | Local-first + cloud layer specification                          |
+| `/api/v1/pipeline`               | GET      | Open data pipeline (Redpanda, Flink, Doris)                      |
+| `/api/v1/sovereignty`            | GET      | Technology sovereignty assessments                               |
+| `/api/v1/stats`                  | GET      | Public usage metrics (CC BY 4.0, `?days=7\|30\|90`)              |
+| `/api/v1/health`                 | GET      | Service health check                                             |
+| `/api/openapi`                   | GET      | OpenAPI 3.1 specification (YAML)                                 |
+| `/mcp`                           | POST/GET | MCP server (Streamable HTTP)                                     |
 
 ---
 
 ## Open Data & Observability
 
-Usage metrics are public by design — aligned with the bundu open data philosophy. The [/observability](https://design.nyuchi.com/observability) dashboard shows:
+Usage metrics are public by design — aligned with the bundu open data philosophy. The [/observability](https://mzizi.dev/observability) dashboard shows:
 
 - API call volumes, error rates, and p95 latency per endpoint
 - Most requested components (live install popularity ranking)
 - MCP tool usage breakdown
 - 30-day traffic trends
 
-Raw data: `GET https://design.nyuchi.com/api/v1/stats` — licensed CC BY 4.0.
+Raw data: `GET https://mzizi.dev/api/v1/stats` — licensed CC BY 4.0.
 
 ---
 

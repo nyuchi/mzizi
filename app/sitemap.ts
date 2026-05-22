@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next"
 
-const BASE = "https://design.nyuchi.com"
+const BASE = "https://mzizi.dev"
 const NOW = new Date()
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -13,30 +13,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
 
-    // ── Brand ─────────────────────────────────────────────────────────
+    // ── Components ────────────────────────────────────────────────────
     {
-      url: `${BASE}/brand`,
+      url: `${BASE}/components`,
       lastModified: NOW,
-      changeFrequency: "monthly",
+      changeFrequency: "weekly",
       priority: 0.9,
-    },
-    {
-      url: `${BASE}/brand/colors`,
-      lastModified: NOW,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE}/brand/guidelines`,
-      lastModified: NOW,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE}/brand/components`,
-      lastModified: NOW,
-      changeFrequency: "monthly",
-      priority: 0.7,
     },
 
     // ── Architecture ──────────────────────────────────────────────────
@@ -46,53 +28,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+
+    // ── Observability ─────────────────────────────────────────────────
     {
-      url: `${BASE}/architecture/principles`,
+      url: `${BASE}/observability`,
       lastModified: NOW,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE}/architecture/data-layer`,
-      lastModified: NOW,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE}/architecture/pipeline`,
-      lastModified: NOW,
-      changeFrequency: "monthly",
+      changeFrequency: "weekly",
       priority: 0.6,
-    },
-    {
-      url: `${BASE}/architecture/sovereignty`,
-      lastModified: NOW,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-
-    // ── Docs ──────────────────────────────────────────────────────────
-    {
-      url: `${BASE}/docs`,
-      lastModified: NOW,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-
-    // ── API ───────────────────────────────────────────────────────────
-    {
-      url: `${BASE}/api-docs`,
-      lastModified: NOW,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-
-    // ── Registry ──────────────────────────────────────────────────────
-    {
-      url: `${BASE}/registry`,
-      lastModified: NOW,
-      changeFrequency: "weekly",
-      priority: 0.8,
     },
   ]
 }

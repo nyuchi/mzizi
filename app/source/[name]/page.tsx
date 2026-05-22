@@ -111,7 +111,7 @@ export default async function SourcePage({ params }: { params: Promise<{ name: s
           Version history
         </Link>
         <a
-          href={`shadcn@latest add https://design.nyuchi.com/api/v1/ui/${component.name}`}
+          href={`shadcn@latest add https://mzizi.dev/api/v1/ui/${component.name}`}
           aria-disabled="true"
           tabIndex={-1}
           onClick={(e) => e.preventDefault()}

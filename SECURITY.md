@@ -1,6 +1,6 @@
 # Security Policy
 
-The Nyuchi Design Portal is the public registry + design system for the bundu ecosystem. It handles no end-user PII, but because it serves source code and AI instructions into downstream production apps (mukoko, nyuchi, nhimbe, shamwari, etc.), a supply-chain issue here can ripple out. Please report issues responsibly.
+The Mzizi is the public registry + design system for the bundu ecosystem. It handles no end-user PII, but because it serves source code and AI instructions into downstream production apps (mukoko, nyuchi, nhimbe, shamwari, etc.), a supply-chain issue here can ripple out. Please report issues responsibly.
 
 ## Supported Versions
 
@@ -53,7 +53,7 @@ Severity is graded using the [CVSS 3.1 calculator](https://www.first.org/cvss/ca
 
 This policy covers anything the portal itself owns:
 
-- The Next.js app deployed to `design.nyuchi.com` (and `registry.mukoko.com`)
+- The Next.js app deployed to `mzizi.dev` (and `registry.mukoko.com`)
 - The registry API (`/api/v1/ui`, `/api/v1/ui/{name}`, `/api/v1/ui/{name}/{docs,versions}`, `/api/v1/stats`, `/api/v1/search`)
 - The content API (`/api/v1/changelog`, `/api/v1/ai/instructions`) — `/api/v1/docs/*` is HTTP 410 (long-form docs moved to repo MDX, see CLAUDE.md §15.18)
 - The fundi self-healing surface (`/api/v1/fundi`, `/api/v1/fundi/{id}`, `/api/v1/fundi/stats`)
@@ -81,7 +81,7 @@ This policy covers anything the portal itself owns:
 
 ## Safe Harbour
 
-Testing against `design.nyuchi.com` is welcome under these conditions:
+Testing against `mzizi.dev` is welcome under these conditions:
 
 - No automated scans that generate disruptive load.
 - No extraction of data beyond what is necessary to demonstrate the issue.

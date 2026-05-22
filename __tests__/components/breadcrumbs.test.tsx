@@ -29,21 +29,21 @@ describe("<Breadcrumbs />", () => {
     expect(container).toBeEmptyDOMElement()
   })
 
-  it("renders 'Home' + each segment for /architecture/fundi", () => {
-    currentPath = "/architecture/fundi"
+  it("renders 'Home' + each segment for /components/button", () => {
+    currentPath = "/components/button"
     render(<Breadcrumbs />)
 
     expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "Architecture" })).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "Components" })).toBeInTheDocument()
     // Last segment is rendered as a non-link span (aria-current="page")
-    expect(screen.queryByRole("link", { name: "Fundi (L9)" })).toBeNull()
-    expect(screen.getByText("Fundi (L9)")).toHaveAttribute("aria-current", "page")
+    expect(screen.queryByRole("link", { name: "Button" })).toBeNull()
+    expect(screen.getByText("Button")).toHaveAttribute("aria-current", "page")
   })
 
-  it("maps known slugs through BREADCRUMB_LABELS (e.g. fundi → 'Fundi (L9)')", () => {
-    currentPath = "/architecture/fundi"
+  it("maps known slugs through BREADCRUMB_LABELS (e.g. components → 'Components')", () => {
+    currentPath = "/components/button"
     render(<Breadcrumbs />)
-    expect(screen.getByText("Fundi (L9)")).toBeInTheDocument()
+    expect(screen.getByText("Components")).toBeInTheDocument()
   })
 
   it("title-cases unknown slugs", () => {
@@ -54,12 +54,12 @@ describe("<Breadcrumbs />", () => {
   })
 
   it("each link/span carries min-h-[48px] (touch-target floor per CLAUDE.md §8.2)", () => {
-    currentPath = "/architecture/fundi"
+    currentPath = "/components/button"
     render(<Breadcrumbs />)
 
     expect(screen.getByRole("link", { name: "Home" })).toHaveClass("min-h-[48px]")
-    expect(screen.getByRole("link", { name: "Architecture" })).toHaveClass("min-h-[48px]")
-    expect(screen.getByText("Fundi (L9)")).toHaveClass("min-h-[48px]")
+    expect(screen.getByRole("link", { name: "Components" })).toHaveClass("min-h-[48px]")
+    expect(screen.getByText("Button")).toHaveClass("min-h-[48px]")
   })
 
   it("nav has aria-label='Breadcrumb' for SR navigation", () => {
@@ -69,7 +69,7 @@ describe("<Breadcrumbs />", () => {
   })
 
   it("does not use physical CSS like pl-* on links", () => {
-    currentPath = "/architecture/fundi"
+    currentPath = "/components/button"
     render(<Breadcrumbs />)
     const home = screen.getByRole("link", { name: "Home" })
     // px-1 is two-sided horizontal — fine. Just ensure no physical pl/pr left/right.

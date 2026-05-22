@@ -25,7 +25,6 @@ describe("Architecture API v1 Routes", () => {
       "app/changelog/[name]/page.tsx",
       "app/api/health/[name]/route.ts",
       "app/api/chaos/[name]/route.ts",
-      "app/api/fundi/[name]/route.ts",
       "app/architecture/page.tsx",
       "app/architecture/layers/[n]/page.tsx",
       "app/api/v1/ubuntu/pillars/route.ts",
@@ -41,7 +40,13 @@ describe("Architecture API v1 Routes", () => {
   })
 
   describe("Old API routes removed", () => {
-    const oldRoutes = ["app/api/r/route.ts", "app/api/brand/route.ts", "app/api/health/route.ts"]
+    const oldRoutes = [
+      "app/api/r/route.ts",
+      "app/api/brand/route.ts",
+      "app/api/health/route.ts",
+      "app/api/fundi/[name]/route.ts",
+      "app/api/v1/fundi/route.ts",
+    ]
 
     for (const file of oldRoutes) {
       it(`${file} no longer exists`, () => {
@@ -70,7 +75,7 @@ describe("Architecture API v1 Routes", () => {
       const filePath = path.join(process.cwd(), "openapi.yaml")
       const content = fs.readFileSync(filePath, "utf-8")
       expect(content).toContain('openapi: "3.1.0"')
-      expect(content).toContain("Nyuchi Architecture API")
+      expect(content).toContain("Mzizi API")
     })
   })
 })

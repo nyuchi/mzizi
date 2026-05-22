@@ -1,7 +1,9 @@
 {
-  "name": "design-portal",
+  "name": "mzizi",
   "version": "4.0.39",
   "private": true,
+  "description": "Mzizi — an open-architecture project of the Bundu Foundation. Open 3D frontend architecture, component registry, and MCP server, operated and developed by Nyuchi.",
+  "homepage": "https://mzizi.dev",
   "packageManager": "pnpm@10.33.0",
   "scripts": {
     "build": "next build",
@@ -65,8 +67,6 @@
     "@radix-ui/react-tooltip": "1.2.8",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.0",
-    "@stytch/nextjs": "^22.0.6",
-    "@stytch/vanilla-js": "^6.0.6",
     "@supabase/supabase-js": "^2.104.0",
     "@tanstack/react-table": "^8.21.3",
     "@vercel/analytics": "2.0.1",
@@ -78,7 +78,7 @@
     "embla-carousel-react": "8.6.0",
     "input-otp": "1.4.2",
     "lucide-react": "^1.8.0",
-    "next": "16.2.4",
+    "next": "16.2.6",
     "next-themes": "^0.4.6",
     "radix-ui": "1.4.3",
     "react": "19.2.5",
@@ -90,7 +90,7 @@
     "rehype-autolink-headings": "^7.1.0",
     "rehype-pretty-code": "^0.14.3",
     "rehype-slug": "^6.0.0",
-    "sanitize-html": "^2.17.2",
+    "sanitize-html": "^2.17.4",
     "shiki": "^4.0.2",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",
@@ -138,7 +138,7 @@
   },
   "pnpm": {
     "overrides": {
-      "hono": "^4.12.14",
+      "hono": "^4.12.18",
       "@hono/node-server": "^1.19.13",
       "express-rate-limit": "^8.3.2",
       "flatted": "^3.4.2",
@@ -150,12 +150,15 @@
       "lodash-es": "^4.18.1",
       "micromatch>picomatch": "^2.3.2",
       "tinyglobby>picomatch": "^4.0.4",
-      "minimatch>brace-expansion": "^5.0.5",
+      "minimatch>brace-expansion": "^5.0.6",
       "postcss": "^8.5.10",
       "dompurify": "^3.4.0",
-      "sanitize-html": "^2.17.3",
+      "sanitize-html": "^2.17.4",
       "js-yaml": "^4.1.1",
-      "markdown-it": "^14.1.1"
+      "markdown-it": "^14.1.1",
+      "fast-uri": "^3.1.2",
+      "ip-address": "^10.1.1",
+      "ws": "^8.20.1"
     }
   }
 }

@@ -4,7 +4,7 @@
 // boundary, so the boundary has to land at this file, before NyuchiHeader.
 "use client"
 
-import { Search, Wrench, User } from "@/lib/icons"
+import { Search } from "@/lib/icons"
 import { NyuchiHeader, type NavItem, type PillAction } from "@/components/mukoko/mukoko-header"
 
 /**
@@ -12,8 +12,7 @@ import { NyuchiHeader, type NavItem, type PillAction } from "@/components/mukoko
  *
  * No design or behaviour lives here — this file only configures the
  * `navItems` (the portal's four top-level architecture surfaces) and
- * the three-icon `pillActions` group (Search, Fundi, Avatar) that PR #52
- * established as the brand identity marker.
+ * the `pillActions` group.
  *
  * Anything that would require a different header shape (logo, sticky,
  * scroll title, back button, blur background, etc.) belongs in
@@ -23,15 +22,13 @@ import { NyuchiHeader, type NavItem, type PillAction } from "@/components/mukoko
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Components", href: "/components" },
-  { label: "Brand", href: "/brand" },
   { label: "Architecture", href: "/architecture" },
-  { label: "Docs", href: "/docs" },
+  { label: "Observability", href: "/observability" },
+  { label: "Docs", href: "https://docs.bundu.org/mzizi" },
 ]
 
 const PILL_ACTIONS: PillAction[] = [
   { icon: Search, label: "Search components", href: "/components" },
-  { icon: Wrench, label: "Fundi — self-healing dashboard", href: "/fundi" },
-  { icon: User, label: "Account", href: "/fundi" },
 ]
 
 export function Header() {

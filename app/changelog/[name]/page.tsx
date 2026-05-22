@@ -81,10 +81,15 @@ export default async function ComponentChangelogPage({
             No per-version rows in <code className="font-mono">component_versions</code> for this
             component yet. The component is{" "}
             <span className="font-mono text-foreground">{component.name}</span>; cross-cutting
-            release notes for the whole registry live in{" "}
-            <Link className="font-medium text-foreground hover:underline" href="/docs/changelog">
-              /docs/changelog
-            </Link>
+            release notes for the whole registry live in the{" "}
+            <a
+              className="font-medium text-foreground hover:underline"
+              href="https://docs.bundu.org/mzizi/changelog"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Mzizi changelog
+            </a>
             .
           </p>
         </section>

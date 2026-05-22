@@ -6,7 +6,7 @@ const steps = [
     title: "Install from the registry",
     description:
       "Use the shadcn CLI to add any component. Dependencies and tokens resolve automatically.",
-    code: "npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/button",
+    code: "npx shadcn@latest add https://mzizi.dev/api/v1/ui/button",
     mineralColor: "bg-[var(--color-tanzanite)]",
   },
   {

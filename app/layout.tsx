@@ -17,21 +17,22 @@ const fontMono = JetBrains_Mono({
   variable: "--font-mono",
 })
 
-const SITE_URL = "https://design.nyuchi.com"
-const SITE_NAME = "Nyuchi Design Portal"
+const SITE_URL = "https://mzizi.dev"
+const SITE_NAME = "Mzizi"
 const SITE_DESCRIPTION =
-  "The canonical design system for the bundu ecosystem — components, brand, MCP server, and AI-native developer tooling built on the Five African Minerals palette. Install directly into your project with the shadcn CLI."
+  "Mzizi — an open-architecture project of the Bundu Foundation. An open 3D frontend architecture, component registry, MCP server, and AI-native developer tooling built on the Five African Minerals palette. Operated and developed by Nyuchi. Install directly into your project with the shadcn CLI."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "nyuchi — Design Portal",
-    template: "%s | Nyuchi Design Portal",
+    default: "Mzizi",
+    template: "%s | Mzizi",
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
-  authors: [{ name: "Nyuchi Africa", url: "https://nyuchi.com" }],
+  authors: [{ name: "Bundu Foundation" }, { name: "Nyuchi", url: "https://nyuchi.com" }],
   keywords: [
+    "open architecture",
     "design system",
     "component library",
     "shadcn",
@@ -40,14 +41,13 @@ export const metadata: Metadata = {
     "Next.js",
     "Tailwind CSS",
     "Five African Minerals",
-    "mukoko",
-    "nyuchi",
+    "mzizi",
     "bundu",
     "UI components",
     "TypeScript",
   ],
-  creator: "Nyuchi Africa (PVT) Ltd",
-  publisher: "Nyuchi Africa (PVT) Ltd",
+  creator: "Bundu Foundation",
+  publisher: "Bundu Foundation",
   robots: {
     index: true,
     follow: true,
@@ -67,14 +67,14 @@ export const metadata: Metadata = {
     alternateLocale: ["en_ZA", "en_GB", "en_US"],
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "nyuchi — Design Portal",
+    title: "Mzizi",
     description: SITE_DESCRIPTION,
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Nyuchi Design Portal — Five African Minerals Design System",
+        alt: "Mzizi — open architecture on the Five African Minerals design system",
       },
     ],
   },
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@nyuchiafrica",
     creator: "@nyuchiafrica",
-    title: "nyuchi — Design Portal",
+    title: "Mzizi",
     description: SITE_DESCRIPTION,
     images: ["/og-image.png"],
   },
@@ -111,13 +111,10 @@ const jsonLd = {
     {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,
-      name: "Nyuchi Africa (PVT) Ltd",
-      url: "https://nyuchi.com",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://assets.nyuchi.com/nyuchi-icon-dark.png",
-      },
-      sameAs: ["https://github.com/nyuchi", "https://nyuchi.com", "https://mukoko.com"],
+      name: "Bundu Foundation",
+      description:
+        "The Bundu Foundation governs Mzizi, an open-architecture project operated and developed by Nyuchi.",
+      sameAs: ["https://github.com/nyuchi/design-portal"],
     },
     {
       "@type": "SoftwareApplication",
@@ -134,15 +131,15 @@ const jsonLd = {
       description: SITE_DESCRIPTION,
       creator: { "@id": `${SITE_URL}/#organization` },
       softwareVersion: "4.0.39",
-      downloadUrl: "https://design.nyuchi.com/api/v1/ui",
+      downloadUrl: "https://mzizi.dev/api/v1/ui",
     },
   ],
 }
 
 /**
- * Root layout — Nyuchi dashboard shell.
+ * Root layout — Mzizi dashboard shell.
  *
- * Replaces Nextra's `<Layout>` wrapper with the Nyuchi dashboard pattern:
+ * The Mzizi dashboard pattern:
  *   - `<SidebarProvider>` (from vendored shadcn sidebar primitive) provides
  *     the toggle context for the header's built-in `SidebarTrigger`.
  *   - `<DashboardSidebar>` — curated nav from `lib/nav.ts`. Collapses to
@@ -150,15 +147,13 @@ const jsonLd = {
  *   - `<SidebarInset>` — the main content column, shifts to accommodate
  *     the sidebar on desktop and becomes full-width on mobile.
  *   - Inside the inset: sticky header, then a grid that holds the
- *     breadcrumb + MDX body + TOC rail + portal footer.
+ *     breadcrumb + page body + TOC rail + portal footer.
  *
  * Layout behaviour by route:
  *   - Landing `/`           — Breadcrumbs + Toc self-hide (both return null
  *                             on empty path / no headings); sidebar collapses
  *                             to icon strip so the hero feels full-bleed.
- *   - Docs / architecture / …  — full shell: sidebar + breadcrumbs + TOC.
- *   - Any MDX route          — TOC mounts automatically because `rehype-slug`
- *                             generates h2/h3 IDs at compile time.
+ *   - architecture / …      — full shell: sidebar + breadcrumbs + TOC.
  */
 export default function RootLayout({
   children,

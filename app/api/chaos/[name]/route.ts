@@ -107,13 +107,13 @@ export async function GET(_request: Request, { params }: { params: Promise<{ nam
     return NextResponse.json(
       {
         name: component.name,
-        description: `Chaos surface for ${component.name}. Faults are injected in-process via the L8 chaos lib — install with \`npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/chaos\`.`,
+        description: `Chaos surface for ${component.name}. Faults are injected in-process via the L8 chaos lib — install with \`npx shadcn@latest add https://mzizi.dev/api/v1/ui/chaos\`.`,
         layer: component.layer ?? null,
         registry_type: component.registry_type,
         supported_faults: faults,
         engine: {
           runtime: "in-process",
-          install: "npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/chaos",
+          install: "npx shadcn@latest add https://mzizi.dev/api/v1/ui/chaos",
           remote_injection: false,
         },
       },
@@ -140,7 +140,7 @@ export async function POST(_request: Request, { params }: { params: Promise<{ na
     {
       error: "Method Not Allowed",
       message:
-        "Chaos injection is in-process by design — this endpoint never accepts remote fault injection. Install the L8 chaos lib in your app: `npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/chaos`.",
+        "Chaos injection is in-process by design — this endpoint never accepts remote fault injection. Install the L8 chaos lib in your app: `npx shadcn@latest add https://mzizi.dev/api/v1/ui/chaos`.",
     },
     {
       status: 405,

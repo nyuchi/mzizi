@@ -914,7 +914,7 @@ export const COMPONENT_DEMOS: Record<string, React.ReactNode> = {
       </div>
       <div className="flex items-center gap-2">
         <div className="flex-1 truncate rounded-lg border border-border bg-muted/30 px-3 py-2 text-xs">
-          https://design.nyuchi.com/...
+          https://mzizi.dev/...
         </div>
         <span className="rounded-lg border border-border px-3 py-2 text-xs">Copy</span>
       </div>
@@ -989,7 +989,7 @@ export const COMPONENT_DEMOS: Record<string, React.ReactNode> = {
   "copy-button": (
     <div className="flex items-center gap-3">
       <code className="rounded-lg bg-muted px-3 py-2 text-xs">
-        npx shadcn@latest add https://design.nyuchi.com/api/r/button
+        npx shadcn@latest add https://mzizi.dev/api/r/button
       </code>
       <span className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-xs">
         <svg

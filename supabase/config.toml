@@ -3,21 +3,14 @@
 # Declares which edge functions the Supabase GitHub App should auto-deploy
 # to preview branches (and which to skip JWT verification on).
 #
-# Auth model — both functions handle authorization in application code:
-#
-#   fundi
-#     POST /fundi          unauthenticated by design (L8 assurance callsites
-#                          anywhere in the ecosystem can report); validation
-#                          and natural-key dedup run in the handler
-#     POST /fundi/heal     Bearer-token gated against SUPABASE_SERVICE_ROLE_KEY
-#                          or FUNDI_HEAL_TOKEN (401 without)
+# Auth model — the function handles authorization in application code:
 #
 #   analytics
 #     POST /analytics      intentionally anon-callable (MCP clients + browser
 #                          callsites); per-IP rate limit in the handler
 #
-# If either of these is later changed to require Supabase Auth JWTs, flip
-# the corresponding `verify_jwt` to true.
+# If this is later changed to require Supabase Auth JWTs, flip the
+# corresponding `verify_jwt` to true.
 
 project_id = "grjsboqkaywpwatvrzmy"
 
@@ -28,9 +21,6 @@ major_version = 15
 # We use a single-file schema dump at supabase/schema.sql instead of the
 # versioned-migrations model. See supabase/README.md for the workflow.
 enabled = false
-
-[functions.fundi]
-verify_jwt = false
 
 [functions.analytics]
 verify_jwt = false

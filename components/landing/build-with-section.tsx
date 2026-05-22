@@ -41,7 +41,7 @@ export function BuildWithSection() {
               Every registry item is installable through the shadcn CLI. The CLI copies the source
               into your repo — you own and modify it freely.
             </p>
-            <CopyCommand command="npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/button" />
+            <CopyCommand command="npx shadcn@latest add https://mzizi.dev/api/v1/ui/button" />
             <Link
               href="/components"
               className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-foreground hover:underline"
@@ -61,7 +61,9 @@ export function BuildWithSection() {
               variables.
             </p>
             <Link
-              href="/brand"
+              href="https://docs.bundu.org/mzizi/brand"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-foreground hover:underline"
             >
               Brand &amp; tokens reference <ArrowRight className="size-3" />
@@ -72,13 +74,14 @@ export function BuildWithSection() {
             <span className="font-mono text-xs text-muted-foreground">03</span>
             <h3 className="font-serif text-xl font-semibold">Wire the MCP server</h3>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Add <code className="font-mono text-xs">https://design.nyuchi.com/mcp</code> to your
-              Claude Code settings. <LiveMcpStats /> let your AI assistant install components,
-              scaffold new ones, look up tokens, and read live docs without round-tripping to the
-              browser.
+              Add <code className="font-mono text-xs">https://mzizi.dev/mcp</code> to your Claude
+              Code settings. <LiveMcpStats /> let your AI assistant install components, scaffold new
+              ones, look up tokens, and read live docs without round-tripping to the browser.
             </p>
             <Link
-              href="/registry/mcp"
+              href="https://docs.bundu.org/mzizi/mcp"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-foreground hover:underline"
             >
               MCP server reference <ArrowRight className="size-3" />
@@ -110,16 +113,15 @@ export function BuildWithSection() {
             <span className="font-mono text-xs text-muted-foreground">05</span>
             <h3 className="font-serif text-xl font-semibold">Ship and observe</h3>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              The L8 assurance layer reports failures to fundi (L9), which opens GitHub issues so a
-              human or Claude Code can heal them. Run{" "}
+              The L8 assurance layer surfaces runtime failures across the ecosystem. Run{" "}
               <code className="font-mono text-xs">pnpm check</code> before every push to mirror the
               full CI gate locally.
             </p>
             <Link
-              href="/architecture/fundi"
+              href="/architecture"
               className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-foreground hover:underline"
             >
-              How fundi self-heals <ArrowRight className="size-3" />
+              The 3D architecture model <ArrowRight className="size-3" />
             </Link>
           </li>
 
@@ -135,7 +137,11 @@ export function BuildWithSection() {
               </p>
             </div>
             <Button asChild className="rounded-full">
-              <Link href="/docs/installation">
+              <Link
+                href="https://docs.bundu.org/mzizi/installation"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Read the installation guide
                 <ArrowRight className="size-4" />
               </Link>

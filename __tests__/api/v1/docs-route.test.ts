@@ -49,11 +49,11 @@ describe("GET /api/v1/docs (soft-410)", () => {
     expect(response.data.error).toBe("Gone")
   })
 
-  it("body message references the MDX migration and the historical Supabase table", async () => {
+  it("body message references the docs-site migration and the historical Supabase table", async () => {
     const { GET } = await import("@/app/api/v1/docs/route")
     const response = (await GET()) as unknown as ListResponse
 
-    expect(response.data.message).toContain("MDX")
+    expect(response.data.message).toContain("docs.bundu.org/mzizi")
     expect(response.data.message).toContain("documentation_pages")
   })
 
@@ -64,7 +64,7 @@ describe("GET /api/v1/docs (soft-410)", () => {
     for (const slug of EXPECTED_MIGRATED_SLUGS) {
       expect(response.data.migrated_to).toHaveProperty(slug)
       const url = response.data.migrated_to[slug]
-      expect(url.startsWith("https://design.nyuchi.com/")).toBe(true)
+      expect(url).toMatch(/^https:\/\/docs\.bundu\.org\/mzizi(\/|$)/)
     }
   })
 

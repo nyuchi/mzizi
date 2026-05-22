@@ -14,9 +14,9 @@ export async function GET() {
   const body = `Contact: mailto:security@nyuchi.com
 Contact: https://github.com/nyuchi/design-portal/security/advisories/new
 Expires: ${expires.toISOString()}
-Acknowledgments: https://design.nyuchi.com/security/acknowledgments
-Canonical: https://design.nyuchi.com/.well-known/security.txt
-Policy: https://design.nyuchi.com/security
+Acknowledgments: https://mzizi.dev/security/acknowledgments
+Canonical: https://mzizi.dev/.well-known/security.txt
+Policy: https://mzizi.dev/security
 Preferred-Languages: en
 `
 

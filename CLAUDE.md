@@ -1,6 +1,6 @@
-# CLAUDE.md — Nyuchi Design Portal
+# CLAUDE.md — Mzizi
 
-> **Canonical design system for the bundu ecosystem.**
+> **An open-architecture project of the Bundu Foundation.**
 > This file is the definitive reference for AI assistants working on this codebase.
 > It also serves as the template for CLAUDE.md files across all bundu ecosystem repositories.
 
@@ -8,27 +8,29 @@
 
 ## 1. Project Identity
 
-**Nyuchi Design Portal** is the canonical design system, component registry, brand documentation hub, and developer portal for the bundu ecosystem. It serves the full stable registry across a 3D frontend architecture — **ten layers across five axes**: X-axis (horizontal composition — L2 primitives → L3 brand → L6 pages → L7 shell), Y-axis (vertical infrastructure — L1 tokens, L4 safety, L5 resilience), Z-axis (depth observation — L8 assurance), Outside (L9 fundi — self-healing actors), and Documentation (L10). Built on the **Five African Minerals** design system, installable via the shadcn CLI:
+**Mzizi** is an **independent open-architecture project of the Bundu Foundation** — governed by the Bundu Foundation, operated and developed by Nyuchi. It is **not** a Nyuchi product. Mzizi owns the open 3D frontend architecture, the component registry (`mzizi.dev/r/`), the Mzizi API (`mzizi.dev/api`), the components, the infrastructure harness, and architecture nodes N4/N5/N8.
+
+It serves the full stable registry across a 3D frontend architecture — **ten layers across five axes**: X-axis (horizontal composition — L2 primitives → L3 brand → L6 pages → L7 shell), Y-axis (vertical infrastructure — L1 tokens, L4 safety, L5 resilience), Z-axis (depth observation — L8 assurance), Outside (L9 fundi — self-healing actors), and Documentation (L10). Built on the **Five African Minerals** design system, installable via the shadcn CLI:
 
 ```
-npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/<component>
+npx shadcn@latest add https://mzizi.dev/api/v1/ui/<component>
 ```
 
 **Version:** 4.0.39
 
-**Live at:** design.nyuchi.com
+**Live at:** mzizi.dev
 
 **Repository:** `github.com/nyuchi/design-portal`
 
-**Organization:** Nyuchi Africa (PVT) Ltd — `github.com/nyuchi`
+**Governance:** Bundu Foundation. **Operated by:** Nyuchi — `github.com/nyuchi`
 
-**Ecosystem context:** This design system powers the entire bundu ecosystem — mukoko (17 consumer mini-apps + 4 substrate components), nyuchi (7 enterprise products), and sister brands (Zimbabwe Information Platform, Barstool by Nyuchi). It is the single source of truth for the design system, brand documentation, and developer portal.
+**Ecosystem context:** Mzizi is consumed across the bundu ecosystem — mukoko (17 consumer mini-apps + 4 substrate components), nyuchi (7 enterprise products), and sister brands (Zimbabwe Information Platform, Barstool by Nyuchi). It is the single source of truth for the design system, brand documentation, and the open architecture.
 
 ---
 
 ## 2. Ecosystem Overview
 
-Nyuchi Design Portal exists within a broader ecosystem. Understanding the relationships prevents duplicate work and ensures consistency.
+Mzizi exists within a broader ecosystem. Understanding the relationships prevents duplicate work and ensures consistency.
 
 | Repository                    | Purpose                                | Stack                                            | Status            |
 | ----------------------------- | -------------------------------------- | ------------------------------------------------ | ----------------- |
@@ -148,22 +150,20 @@ design-portal/
 │   ├── sitemap.ts                    # sitemap.xml generator
 │   ├── api/
 │   │   ├── openapi/route.ts          # OpenAPI document
-│   │   └── v1/                       # Nyuchi Design Portal API v1 (see §9)
+│   │   └── v1/                       # Mzizi API v1 (see §9)
 │   │       ├── route.ts              # Discovery document
 │   │       ├── ai/instructions/      # AI instruction sets (mcp-server / claude / copilot)
 │   │       ├── brand/                # Brand system
 │   │       ├── changelog/            # Releases (root + [version])
 │   │       ├── data-layer/, ecosystem/, pipeline/, sovereignty/  # Architecture topics
-│   │       ├── docs/                 # Documentation pages (root + [slug])
-│   │       ├── fundi/                # Self-healing issue tracking (root + [id] + stats)
+│   │       ├── docs/                 # HTTP 410 — docs moved to docs.bundu.org/mzizi (root + [slug])
 │   │       ├── health/               # Health check
 │   │       ├── search/               # Cross-resource search
 │   │       ├── stats/                # Live counts + layer breakdown
 │   │       └── ui/                   # Registry: list, [name], [name]/docs, [name]/versions
 │   ├── mcp/route.ts                  # MCP server HTTP endpoint
-│   ├── architecture/                 # MDX docs (page, layers, fundi, component-backlinks)
-│   ├── brand/                        # MDX docs
-│   ├── api-docs/, blocks/, charts/, components/, content/,
+│   ├── architecture/                 # 3D architecture explorer (page.tsx + layers/[n])
+│   ├── components/                   # Component gallery (page.tsx + [name])
 │   ├── design/, docs/, foundations/, observability/, patterns/, registry/   # MDX doc routes
 ├── components/
 │   ├── docs/                         # DB-driven docs renderers (DEPRECATED — see §15.18)
@@ -257,7 +257,6 @@ design-portal/
 | `documentation_pages` | **HISTORICAL — content migrated to repo MDX, renderers + API removed.** All 10 published rows shipped as repo MDX under `/docs/*`, `/architecture/*`, `/brand`, and `/foundations/tokens`. The DB-driven renderers (`components/docs/db-doc-page.tsx`, `db-doc-index.tsx`) and the dynamic `[slug]` route are deleted; `/api/v1/docs/*` returns HTTP 410 with a `migrated_to` map; the `get_documentation_page` MCP tool is removed. The table remains in Supabase as the historical source-of-record. Do not add new rows; author new docs as MDX. See §15.18. |
 | `changelog`           | Releases (currently 4.0.0 → 4.0.39)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | `ai_instructions`     | System prompts per target (mcp-server, claude, copilot)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| `fundi_issues`        | Self-healing issue tracking                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `brand_*`             | Minerals, semantic colors, typography, spacing, ecosystem brands                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `architecture_*`      | Principles, data layer, pipeline, sovereignty assessments                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
@@ -304,15 +303,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY  — public anon key (read-only via RLS)
 SUPABASE_SERVICE_ROLE_KEY      — write access; server-only, never expose
 ```
 
-**Stytch B2B (gates `/fundi/*` only — every other route is public):**
-
-```
-STYTCH_PROJECT_ID                — Stytch project ID (server-only)
-STYTCH_SECRET                    — Stytch project secret (server-only)
-NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN  — public token for the browser SDK
-```
-
-The fundi dashboard is the only authenticated surface in the portal. All registry, brand, MCP, and docs routes remain anon-readable. See `lib/stytch.ts`, `middleware.ts`, and `app/fundi/`. The unauthenticated `POST /api/v1/fundi` endpoint stays open by design — L8 callsites across the ecosystem report there without a session.
+Every route in the portal is public and anon-readable. There is no authenticated surface — the registry, brand, MCP, and API routes are all open. (The Fundi self-healing dashboard and its Stytch B2B auth were removed when Fundi moved to the Nyuchi platform.)
 
 ### 6.2 Layered Component Architecture
 
@@ -571,7 +562,7 @@ Then install components from the registry as needed:
 ```bash
 npx @nyuchi/design-cli add button card data-table       # wraps shadcn CLI
 # or directly:
-npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/button
+npx shadcn@latest add https://mzizi.dev/api/v1/ui/button
 ```
 
 And install agent skills so AI assistants in the project know the doctrine:
@@ -590,7 +581,7 @@ Three distribution surfaces, all live:
 
 ```bash
 # 1. shadcn CLI — components from the registry
-npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/<component>
+npx shadcn@latest add https://mzizi.dev/api/v1/ui/<component>
 
 # 2. Nyuchi Design CLI — bootstrap + components + skills
 npx @nyuchi/design-cli init
@@ -606,9 +597,9 @@ npx skills add @nyuchi/design-agent-skills
 /plugin install nyuchi-design
 
 # 5. Direct HTTP — raw MDX for any consumer
-GET https://design.nyuchi.com/api/v1/skills           # list
-GET https://design.nyuchi.com/api/v1/skills/summary   # light list for version diff
-GET https://design.nyuchi.com/api/v1/skills/{name}    # full MDX body
+GET https://mzizi.dev/api/v1/skills           # list
+GET https://mzizi.dev/api/v1/skills/summary   # light list for version diff
+GET https://mzizi.dev/api/v1/skills/{name}    # full MDX body
 ```
 
 Both npm packages live in this repo as workspace members under `packages/` and are published on every `v*` tag by `.github/workflows/release.yml` (uses `NPM_TOKEN`). Skills are source-of-truthed in the Supabase `skills` table; `pnpm skills:sync` regenerates `packages/design-agent-skills/skills/*.md` from the live DB before publish (CI verifies via `pnpm skills:verify`). The `@nyuchi/design-cli` `skills install` subcommand fetches live from the API on every run, so consumers always pull the latest doctrine without re-installing the npm package.
@@ -632,7 +623,7 @@ The portal dogfoods its own registry. The 33-item transitive closure of `nyuchi-
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "mukoko",
-  "homepage": "https://design.nyuchi.com",
+  "homepage": "https://mzizi.dev",
   "items": [
     {
       "name": "component-name",
@@ -653,7 +644,7 @@ The portal dogfoods its own registry. The 33-item transitive closure of `nyuchi-
 
 ---
 
-## 9. Nyuchi Design Portal API (v1)
+## 9. Mzizi API (v1)
 
 All endpoints are under `/api/v1/` and documented in `openapi.yaml` (OpenAPI 3.1).
 
@@ -686,9 +677,6 @@ All responses include schema.org JSON-LD metadata (`@context`, `@type`) where ap
 | `GET /api/v1/skills`                       | List published agent skills (lightweight, no body_mdx)     | `skills`                       |
 | `GET /api/v1/skills/summary`               | Same shape as `/skills`; reserved for the CLI update path  | `skills`                       |
 | `GET /api/v1/skills/{name}`                | Single skill with full `body_mdx`                          | `skills`                       |
-| `GET /api/v1/fundi`                        | Open self-healing issues                                   | `fundi_issues`                 |
-| `GET /api/v1/fundi/{id}`                   | Single fundi issue                                         | `fundi_issues`                 |
-| `GET /api/v1/fundi/stats`                  | Aggregate learning stats                                   | `fundi_issues`                 |
 | `GET /api/v1/search?q=`                    | Cross-resource search (components + docs + changelog)      | multiple                       |
 | `GET /api/v1/stats`                        | Live counts (total stable, per layer, per category)        | `components`                   |
 | `GET /api/v1/health`                       | Service health check (`no-cache, no-store`)                | runtime checks                 |
@@ -716,7 +704,7 @@ Configured in `.claude/settings.json`:
   "mcpServers": {
     "nyuchi-design": {
       "type": "url",
-      "url": "https://design.nyuchi.com/mcp"
+      "url": "https://mzizi.dev/mcp"
     }
   }
 }
@@ -998,7 +986,7 @@ CI additionally runs `pnpm test` and `pnpm build` (and `pnpm registry:verify` to
 
 ### Deployment
 
-- **Platform:** Vercel (Vercel project `mukoko-registry`, domains `design.nyuchi.com`, `registry.mukoko.com`); automatic deploys from `main`
+- **Platform:** Vercel (Vercel project `mukoko-registry`, domains `mzizi.dev`, `registry.mukoko.com`); automatic deploys from `main`
 - **CI gates:** Security audit, lint (zero warnings), typecheck, tests, build, and `registry:verify` must all pass before merge
 - **Search index:** the `postbuild` step runs Pagefind against `.next/server/app` and writes the static index into `public/_pagefind/`
 
@@ -1008,7 +996,7 @@ CI additionally runs `pnpm test` and `pnpm build` (and `pnpm registry:verify` to
 
 When working on this codebase as an AI assistant:
 
-1. **Supabase is the source of truth.** Component source code, docs, brand data, architecture data, AI instructions, changelog, fundi issues — all live in Supabase. Do not reintroduce hardcoded JSON/TS files for any of these.
+1. **Supabase is the source of truth.** Component source code, docs, brand data, architecture data, AI instructions, changelog — all live in Supabase. Do not reintroduce hardcoded JSON/TS files for any of these.
 2. **`registry.json` is generated, not authored.** It must exist in the repo root, but it is regenerated dynamically from the Supabase `components` table by `pnpm registry:sync`. Never hand-edit it. CI runs `pnpm registry:verify` to catch drift.
 3. **Never break the shadcn registry schema** — downstream apps depend on it.
 4. **Use the Five African Minerals palette** — never introduce colors outside the token system.
