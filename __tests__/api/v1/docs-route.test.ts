@@ -64,7 +64,7 @@ describe("GET /api/v1/docs (soft-410)", () => {
     for (const slug of EXPECTED_MIGRATED_SLUGS) {
       expect(response.data.migrated_to).toHaveProperty(slug)
       const url = response.data.migrated_to[slug]
-      expect(url.startsWith("https://docs.mzizi.dev")).toBe(true)
+      expect(new URL(url).origin).toBe("https://docs.mzizi.dev")
     }
   })
 
