@@ -76,9 +76,9 @@ describe("<DashboardSidebar />", () => {
     expect(screen.getByText(/^v\d+\.\d+\.\d+$/)).toBeInTheDocument()
   })
 
-  it("does NOT have a /playground link (removed in this PR's commit 168d3b2)", () => {
+  it("has a /playground link (restored in #60 — page is now wired)", () => {
     renderInProvider("/")
     const playground = screen.queryAllByText("Playground")
-    expect(playground.length).toBe(0)
+    expect(playground.length).toBeGreaterThan(0)
   })
 })

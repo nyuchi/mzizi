@@ -1,4 +1,4 @@
-import { Activity, Box, BookOpen, Layers, type LucideIcon } from "lucide-react"
+import { Activity, Box, BookOpen, Layers, Sparkles, type LucideIcon } from "lucide-react"
 
 // Shared navigation structure for the Mzizi portal shell.
 // Curated (not auto-generated) — the portal hosts the functional
@@ -6,6 +6,7 @@ import { Activity, Box, BookOpen, Layers, type LucideIcon } from "lucide-react"
 // docs site at docs.bundu.org/mzizi.
 //
 //   Explore       — the component gallery + the 3D architecture explorer
+//   Playground    — interactive registry browser (live preview + API tester)
 //   Observability — live registry / API / MCP usage metrics
 //   Documentation — external link to the Mintlify docs site
 //
@@ -38,6 +39,10 @@ export const SIDEBAR_NAV: NavGroup[] = [
     ],
   },
   {
+    label: "Playground",
+    items: [{ label: "Playground", href: "/playground", icon: Sparkles }],
+  },
+  {
     label: "Documentation",
     items: [
       { label: "Docs", href: "https://docs.bundu.org/mzizi", icon: BookOpen, external: true },
@@ -50,6 +55,7 @@ export const SIDEBAR_NAV: NavGroup[] = [
 export const HEADER_NAV: NavItem[] = [
   { label: "Components", href: "/components" },
   { label: "Architecture", href: "/architecture" },
+  { label: "Playground", href: "/playground" },
   { label: "Observability", href: "/observability" },
   { label: "Docs", href: "https://docs.bundu.org/mzizi", external: true },
 ]
@@ -61,6 +67,7 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   components: "Components",
   architecture: "Architecture",
   observability: "Observability",
+  playground: "Playground",
   changelog: "Changelog",
   source: "Source",
   layers: "Layers",

@@ -25,7 +25,13 @@ const TYPE_COLORS: Record<string, string> = {
   "registry:block": "bg-[var(--color-terracotta)]/10 text-[var(--color-terracotta)]",
 }
 
-export function ComponentGalleryClient({ items }: { items: GalleryItem[] }) {
+export function ComponentGalleryClient({
+  items,
+  basePath = "/components",
+}: {
+  items: GalleryItem[]
+  basePath?: string
+}) {
   const [filter, setFilter] = useState<string>("all")
   const [search, setSearch] = useState("")
 
@@ -83,7 +89,7 @@ export function ComponentGalleryClient({ items }: { items: GalleryItem[] }) {
           return (
             <Link
               key={item.name}
-              href={`/components/${item.name}`}
+              href={`${basePath}/${item.name}`}
               className="group flex flex-col rounded-xl border border-border p-4 transition-colors hover:border-foreground/20 hover:bg-muted/50"
             >
               <div className="flex items-center justify-between">
