@@ -2,9 +2,11 @@ import { getUbuntuPillars, getUbuntuPrinciples, getBrandMeta, isSupabaseConfigur
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import type { UbuntuPillarRow, UbuntuPrincipleRow } from "@/lib/db/types"
 
-// Re-fetch hourly. The doctrine is the data — when a maintainer updates
-// ubuntu_pillars / ubuntu_principles / brand_meta.philosophy in Supabase,
-// the next read will see the new shape.
+// Render at request time, not at build time. The page reads live from
+// Supabase; preview branches don't carry the public schema, so build-time
+// prerender would fail with "Could not find the table 'public.brand_meta'".
+// Runtime SSR + ISR-style revalidation keeps the doctrine fresh.
+export const dynamic = "force-dynamic"
 export const revalidate = 3600
 
 export const metadata = {
