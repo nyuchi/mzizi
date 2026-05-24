@@ -134,8 +134,8 @@ export default async function PlaygroundComponentPage({
         <section className="space-y-3">
           <h2 className="text-xl font-semibold">API tester</h2>
           <p className="text-sm text-muted-foreground">
-            Hit the registry API live and see the JSON the shadcn CLI consumes when it
-            installs this component.
+            Hit the registry API live and see the JSON the shadcn CLI consumes when it installs this
+            component.
           </p>
           <ApiTester name={item.name} />
         </section>
