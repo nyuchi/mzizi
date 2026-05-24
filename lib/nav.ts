@@ -4,7 +4,9 @@ import {
   Box,
   HeartHandshake,
   Layers,
+  ScrollText,
   Sparkles,
+  Wrench,
   type LucideIcon,
 } from "lucide-react"
 
@@ -13,9 +15,10 @@ import {
 // surfaces only; long-form guides live in the standalone Mintlify
 // docs site at docs.bundu.org/mzizi.
 //
-//   Explore       — the component gallery + the 3D architecture explorer
+//   Explore       — the component gallery, tools, and the 3D architecture explorer
 //   Playground    — interactive registry browser (live preview + API tester)
 //   Doctrine      — Ubuntu Five Pillars + Five Principles (issue #45)
+//   Releases      — the node-aware changelog (issue #85)
 //   Observability — live registry / API / MCP usage metrics
 //   Documentation — external link to the Mintlify docs site
 //
@@ -43,6 +46,7 @@ export const SIDEBAR_NAV: NavGroup[] = [
     label: "Explore",
     items: [
       { label: "Components", href: "/components", icon: Layers },
+      { label: "Tools", href: "/tools", icon: Wrench },
       { label: "3D architecture", href: "/architecture", icon: Box },
       { label: "Observability", href: "/observability", icon: Activity },
     ],
@@ -56,6 +60,10 @@ export const SIDEBAR_NAV: NavGroup[] = [
     items: [{ label: "Ubuntu", href: "/ubuntu", icon: HeartHandshake }],
   },
   {
+    label: "Releases",
+    items: [{ label: "Changelog", href: "/changelog", icon: ScrollText }],
+  },
+  {
     label: "Documentation",
     items: [
       { label: "Docs", href: "https://docs.bundu.org/mzizi", icon: BookOpen, external: true },
@@ -67,9 +75,11 @@ export const SIDEBAR_NAV: NavGroup[] = [
 // and sidebar tell the same story.
 export const HEADER_NAV: NavItem[] = [
   { label: "Components", href: "/components" },
+  { label: "Tools", href: "/tools" },
   { label: "Architecture", href: "/architecture" },
   { label: "Playground", href: "/playground" },
   { label: "Ubuntu", href: "/ubuntu" },
+  { label: "Changelog", href: "/changelog" },
   { label: "Observability", href: "/observability" },
   { label: "Docs", href: "https://docs.bundu.org/mzizi", external: true },
 ]
@@ -83,6 +93,7 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   observability: "Observability",
   playground: "Playground",
   changelog: "Changelog",
+  tools: "Tools",
   source: "Source",
   layers: "Layers",
   ubuntu: "Ubuntu",

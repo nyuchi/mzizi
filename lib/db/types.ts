@@ -522,28 +522,107 @@ export interface SkillRow {
 export type SkillSummary = Omit<SkillRow, "body_mdx" | "id" | "created_at">
 
 // ── Changelog table types ───────────────────────────────────────────
+//
+// The `changelog` table was migrated by `versioning_and_changelog_v2`
+// to a node-aware shape. Each row tracks which ecosystem nodes (N1–N10)
+// and which components / tools moved in the release. The legacy
+// optional fields (`body`, `is_latest`, `categories`, `updated_at`)
+// are retained for backwards compatibility with the older
+// `getChangelogEntries` / `db-changelog.tsx` rendering path; they are
+// null/undefined on rows fetched via the new `list_changelog()` RPC.
 
 export interface ChangelogRow {
   id: number
   version: string
   title: string
   description: string | null
-  body: string | null
+  /**
+   * Ecosystem nodes (N1–N10) touched by this release. Rendered as
+   * axis-coloured pill badges via the nyuchi-changelog-renderer.
+   */
+  nodes_affected: number[] | null
+  axes_affected: string[] | null
+  components_added: string[] | null
+  components_modified: string[] | null
+  components_deprecated: string[] | null
+  components_removed: string[] | null
+  tools_added: string[] | null
+  tools_modified: string[] | null
+  tools_deprecated: string[] | null
+  tools_removed: string[] | null
+  total_stable: number | null
+  total_deprecated: number | null
+  total_alpha: number | null
+  changed_by: string | null
   released_at: string
-  is_latest: boolean
-  categories: Record<string, unknown> | null
+  linked_issues: string[] | null
   created_at: string
-  updated_at: string
+  // legacy fields (post-v2 migration leaves these absent)
+  body?: string | null
+  is_latest?: boolean
+  categories?: Record<string, unknown> | null
+  updated_at?: string
 }
 
 export interface ChangelogInsert {
   version: string
   title: string
   description?: string | null
-  body?: string | null
+  nodes_affected?: number[] | null
+  axes_affected?: string[] | null
+  components_added?: string[] | null
+  components_modified?: string[] | null
+  components_deprecated?: string[] | null
+  components_removed?: string[] | null
   released_at: string
-  is_latest?: boolean
-  categories?: Record<string, unknown> | null
+}
+
+/**
+ * Shape returned by the `list_changelog(p_limit, p_offset)` RPC. Mirrors
+ * the row shape minus the ID / archive columns. Used by `/changelog`.
+ */
+export interface ChangelogListRow {
+  version: string
+  title: string
+  description: string | null
+  nodes_affected: number[] | null
+  axes_affected: string[] | null
+  components_added: string[] | null
+  components_modified: string[] | null
+  components_deprecated: string[] | null
+  components_removed: string[] | null
+  total_stable: number | null
+  total_deprecated: number | null
+  total_alpha: number | null
+  changed_by: string | null
+  created_at: string
+}
+
+// ── mcp_tool_registry table types ───────────────────────────────────
+
+export type ToolStability = "experimental" | "evolving" | "stable" | "frozen" | "deprecated"
+
+export interface McpToolRegistryRow {
+  tool_name: string
+  category: string | null
+  description: string | null
+  sql_function: string | null
+  source_table: string | null
+  input_schema: Record<string, unknown> | null
+  output_shape: Record<string, unknown> | null
+  stability: ToolStability | null
+  tool_kind: string | null
+  requires_first_party: boolean | null
+  requires_domain_feature: string | null
+  cache_ttl_seconds: number | null
+  enabled: boolean | null
+  added_in_version: string | null
+  notes: string | null
+  created_at: string
+  updated_at: string
+  current_version: string | null
+  version_count: number | null
+  edge_function: string | null
 }
 
 // ── Component version table types ───────────────────────────────────
