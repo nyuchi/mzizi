@@ -1,0 +1,57 @@
+{
+  "name": "mzizi-mcp",
+  "version": "0.1.0",
+  "description": "Mzizi MCP — Model Context Protocol server for the Mzizi component registry. Reads the document-route store, one component per JSON document.",
+  "license": "Apache-2.0",
+  "homepage": "https://mzizi.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nyuchi/design-portal.git",
+    "directory": "mzizi-mcp"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mzizi",
+    "bundu",
+    "supabase",
+    "registry"
+  ],
+  "type": "module",
+  "bin": {
+    "mzizi-mcp": "./dist/stdio.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    },
+    "./http": {
+      "types": "./dist/http.d.ts",
+      "import": "./dist/http.js"
+    },
+    "./stdio": "./dist/stdio.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@supabase/server": "^1.1.0",
+    "@supabase/supabase-js": "^2.104.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
