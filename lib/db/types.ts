@@ -832,3 +832,86 @@ export interface UbuntuPrincipleInsert {
   source: string
   sort_order?: number
 }
+
+// ── Observability open-data tables — issue #84 ──────────────────────
+//
+// The /observability dashboard reads from four public tables (and the
+// `get_system_counts()` RPC). All rows are public-read via RLS — see
+// nyuchi/design-portal#82.
+
+export interface FundiIssueRow {
+  id: number
+  github_issue_number: number | null
+  github_issue_url: string | null
+  component_name: string | null
+  ecosystem_node: number | null
+  portal_url: string | null
+  severity: string | null
+  error_type: string | null
+  blast_radius: string | null
+  status: string | null
+  resolution: string | null
+  auto_fixable: boolean | null
+  requires_human: boolean | null
+  root_cause: string | null
+  resolved_by: string | null
+  resolved_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface ObservabilityEventRow {
+  id: number
+  event_type: string
+  component_name: string | null
+  ecosystem_node: number | null
+  domain: string | null
+  page_path: string | null
+  created_at: string
+  metadata: Record<string, unknown> | null
+}
+
+export interface ChaosEventRow {
+  id: number
+  event_type: string
+  injection_kind: string | null
+  domain: string | null
+  environment: string | null
+  component_name: string | null
+  ecosystem_node: number | null
+  page_path: string | null
+  blocked_reason: string | null
+  injected_by: string | null
+  duration_ms: number | null
+  metadata: Record<string, unknown> | null
+  created_at: string
+}
+
+/**
+ * Row from the `get_system_counts()` RPC (v4.0.33+ replacement for the
+ * deprecated `get_layer_counts()`). The dashboard reads `total_nodes`.
+ */
+export interface SystemCountsRow {
+  total_components: number
+  total_stable: number
+  total_alpha: number
+  total_deprecated: number
+  total_nodes: number
+  total_categories: number
+  total_mini_apps: number
+  total_doc_pages: number
+  total_ai_instructions: number
+  total_changelog_entries: number
+}
+
+/**
+ * Component count per `ecosystem_node`, enriched with the node's
+ * sub_label, title, and axis from `architecture_frontend_layers`.
+ */
+export interface NodeDistributionRow {
+  ecosystem_node: number
+  sub_label: string
+  title: string
+  ecosystem_axis: string
+  component_count: number
+}

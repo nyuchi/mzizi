@@ -32,6 +32,7 @@ const columns: FooterColumn[] = [
     title: "Explore",
     links: [
       { label: "Components", href: "/components" },
+      { label: "Playground", href: "/playground" },
       { label: "3D architecture", href: "/architecture" },
       { label: "Observability", href: "/observability" },
     ],

@@ -3,24 +3,39 @@ import {
   Activity,
   AlertTriangle,
   BarChart2,
+  Boxes,
   CheckCircle,
   Clock,
   Code,
+  ExternalLink,
+  FlaskConical,
+  ShieldCheck,
+  Stethoscope,
   TrendingDown,
   TrendingUp,
+  Wrench,
   Zap,
 } from "lucide-react"
 import { getUsageStats } from "@/lib/metrics"
-import { getRegistryCounts } from "@/lib/db"
-import { ObservabilityCharts } from "./charts"
+import {
+  getRegistryCounts,
+  getFundiIssues,
+  getChaosEvents,
+  getSystemCounts,
+  getNodeDistribution,
+  isSupabaseConfigured,
+} from "@/lib/db"
+import { ObservabilityCharts, NodeDistributionChart } from "./charts"
 
 export const metadata: Metadata = {
   title: "Observability",
   description:
-    "Public API and MCP usage metrics for the Nyuchi Design Portal — open data for the community.",
+    "Public API, MCP, Fundi, chaos, and registry telemetry for Mzizi — open data for the community.",
 }
 
-export const revalidate = 60 // refresh every 60 seconds
+// ISR per issue #84: revalidate every 5 minutes. Long enough to keep
+// the dashboard cheap; short enough that open data stays fresh.
+export const revalidate = 300
 
 function fmt(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
@@ -38,18 +53,70 @@ function uptimePct(errorRate: number): string {
   return `${(100 - errorRate).toFixed(1)}%`
 }
 
+function relTime(iso: string): string {
+  const then = new Date(iso).getTime()
+  if (Number.isNaN(then)) return ""
+  const diffSec = Math.max(0, Math.floor((Date.now() - then) / 1000))
+  if (diffSec < 60) return `${diffSec}s ago`
+  if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`
+  if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`
+  return `${Math.floor(diffSec / 86400)}d ago`
+}
+
+function severityColor(severity: string | null): string {
+  switch ((severity ?? "").toLowerCase()) {
+    case "critical":
+    case "high":
+      return "text-destructive"
+    case "medium":
+      return "text-[var(--color-gold)]"
+    case "low":
+      return "text-[var(--color-malachite)]"
+    default:
+      return "text-muted-foreground"
+  }
+}
+
+function statusColor(status: string | null): string {
+  switch ((status ?? "").toLowerCase()) {
+    case "resolved":
+    case "healed":
+      return "text-[var(--color-malachite)]"
+    case "open":
+    case "investigating":
+      return "text-[var(--color-gold)]"
+    case "failed":
+    case "escalated":
+      return "text-destructive"
+    default:
+      return "text-muted-foreground"
+  }
+}
+
 export default async function ObservabilityPage() {
-  const [stats30, stats7, counts] = await Promise.all([
-    getUsageStats(30).catch(() => null),
-    getUsageStats(7).catch(() => null),
-    getRegistryCounts().catch(() => ({ total: 0, ui: 0, blocks: 0, hooks: 0, lib: 0 })),
-  ])
+  // Short-circuit to a graceful empty-state shell when Supabase env vars
+  // are missing — every panel below depends on the public-read tables.
+  if (!isSupabaseConfigured()) {
+    return <UnconfiguredState />
+  }
+
+  const [stats30, stats7, counts, fundiIssues, chaosEvents, sysCounts, nodeDistribution] =
+    await Promise.all([
+      getUsageStats(30).catch(() => null),
+      getUsageStats(7).catch(() => null),
+      getRegistryCounts().catch(() => ({ total: 0, ui: 0, blocks: 0, hooks: 0, lib: 0 })),
+      getFundiIssues(8).catch(() => []),
+      getChaosEvents(10).catch(() => []),
+      getSystemCounts().catch(() => null),
+      getNodeDistribution().catch(() => []),
+    ])
 
   const s = stats30
   const s7 = stats7
   const totalCalls = (s?.total_api_calls ?? 0) + (s?.total_mcp_calls ?? 0)
   const errorRate = s?.overall_error_rate ?? 0
   const avgMs = s?.avg_duration_ms ?? 0
+  const totalNodes = sysCounts?.total_nodes ?? 0
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
@@ -65,8 +132,9 @@ export default async function ObservabilityPage() {
           Observability
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Real-time usage metrics for the Nyuchi Design Portal API and MCP server. Public by design
-          — aligned with the open data philosophy of the bundu ecosystem.
+          Live API usage, MCP tool calls, Fundi self-healing activity, chaos test feed, and
+          component distribution by <span className="font-mono">ecosystem_node</span> — public by
+          design, aligned with the open data philosophy of the bundu ecosystem.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <a
@@ -147,7 +215,12 @@ export default async function ObservabilityPage() {
             {
               label: "Registry items",
               value: counts.total > 0 ? fmt(counts.total) : "—",
-              sub: counts.ui > 0 ? `${counts.ui} UI · ${counts.blocks} blocks` : undefined,
+              sub:
+                totalNodes > 0
+                  ? `${counts.ui} UI · ${totalNodes} ecosystem_node`
+                  : counts.ui > 0
+                    ? `${counts.ui} UI · ${counts.blocks} blocks`
+                    : undefined,
               icon: Activity,
               accent: "text-[var(--color-gold)]",
             },
@@ -342,13 +415,183 @@ export default async function ObservabilityPage() {
       {/* ── Trend chart ────────────────────────────────────────────────── */}
       {(s?.calls_by_day?.length ?? 0) > 0 && (
         <div className="mb-8 rounded-[var(--radius-xl)] border border-border bg-card p-5">
-          <h3 className="mb-1 text-sm font-semibold text-foreground">Traffic trend (30d)</h3>
+          <h3 className="mb-1 text-sm font-semibold text-foreground">API usage trend (30d)</h3>
           <p className="mb-4 text-xs text-muted-foreground">
-            API calls · MCP tool calls · Errors — daily breakdown
+            API calls · MCP tool calls · Errors — daily breakdown from{" "}
+            <span className="font-mono">usage_events</span>
           </p>
           <ObservabilityCharts data={s!.calls_by_day} />
         </div>
       )}
+
+      {/* ── Component distribution by ecosystem_node ───────────────────── */}
+      {nodeDistribution.length > 0 && (
+        <div className="mb-8 rounded-[var(--radius-xl)] border border-border bg-card p-5">
+          <div className="mb-1 flex items-center gap-2">
+            <Boxes className="size-4 text-[var(--color-cobalt)]" />
+            <h3 className="text-sm font-semibold text-foreground">
+              Component distribution by node
+            </h3>
+          </div>
+          <p className="mb-4 text-xs text-muted-foreground">
+            From <span className="font-mono">get_system_counts()</span> · axes:{" "}
+            <span className="font-mono">horizontal</span> ·{" "}
+            <span className="font-mono">vertical</span> · <span className="font-mono">depth</span> ·{" "}
+            <span className="font-mono">outlier</span>
+          </p>
+          <NodeDistributionChart data={nodeDistribution} />
+          <div className="mt-3 flex flex-wrap gap-3 text-[10px] text-muted-foreground">
+            {(["horizontal", "vertical", "depth", "outlier"] as const).map((axis) => (
+              <span key={axis} className="inline-flex items-center gap-1.5">
+                <span
+                  className="size-2 rounded-full"
+                  style={{
+                    background:
+                      axis === "horizontal"
+                        ? "var(--color-cobalt)"
+                        : axis === "vertical"
+                          ? "var(--color-malachite)"
+                          : axis === "depth"
+                            ? "var(--color-tanzanite)"
+                            : "var(--color-gold)",
+                  }}
+                />
+                <span className="font-mono">{axis}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Fundi recent issues ────────────────────────────────────────── */}
+      <div className="mb-8 rounded-[var(--radius-xl)] border border-border bg-card p-5">
+        <div className="mb-1 flex items-center gap-2">
+          <Wrench className="size-4 text-[var(--color-tanzanite)]" />
+          <h3 className="text-sm font-semibold text-foreground">Fundi · recent issues</h3>
+        </div>
+        <p className="mb-4 text-xs text-muted-foreground">
+          Self-healing actor at{" "}
+          <a
+            href="https://fundi.nyuchi.dev"
+            className="inline-flex items-center gap-1 font-mono text-foreground hover:text-[var(--color-cobalt)]"
+            target="_blank"
+            rel="noreferrer"
+          >
+            fundi.nyuchi.dev
+            <ExternalLink className="size-3" />
+          </a>{" "}
+          · reading <span className="font-mono">fundi_issues</span>
+        </p>
+        {fundiIssues.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border text-left">
+                  <th className="pr-3 pb-2 font-medium text-muted-foreground">When</th>
+                  <th className="pr-3 pb-2 font-medium text-muted-foreground">Component</th>
+                  <th className="pr-3 pb-2 font-medium text-muted-foreground">Severity</th>
+                  <th className="pr-3 pb-2 font-medium text-muted-foreground">Error</th>
+                  <th className="pb-2 font-medium text-muted-foreground">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fundiIssues.map((issue) => (
+                  <tr key={issue.id} className="border-b border-border/50 last:border-0">
+                    <td className="py-2 pr-3 font-mono text-muted-foreground">
+                      {relTime(issue.created_at)}
+                    </td>
+                    <td className="py-2 pr-3 font-mono text-foreground">
+                      {issue.component_name ?? "—"}
+                    </td>
+                    <td className={`py-2 pr-3 font-mono ${severityColor(issue.severity)}`}>
+                      {issue.severity ?? "—"}
+                    </td>
+                    <td className="py-2 pr-3 font-mono text-muted-foreground">
+                      {issue.error_type ?? "—"}
+                    </td>
+                    <td className={`py-2 font-mono ${statusColor(issue.status)}`}>
+                      {issue.github_issue_url ? (
+                        <a
+                          className="inline-flex items-center gap-1 hover:underline"
+                          href={issue.github_issue_url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {issue.status ?? "open"}
+                          <ExternalLink className="size-3" />
+                        </a>
+                      ) : (
+                        (issue.status ?? "open")
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="flex items-center gap-3 rounded-[var(--radius-md)] border border-[var(--color-malachite)]/30 bg-[var(--color-malachite)]/5 px-4 py-3">
+            <ShieldCheck className="size-4 shrink-0 text-[var(--color-malachite)]" />
+            <p className="text-xs text-muted-foreground">
+              No recent Fundi issues — every surface is healthy.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* ── Chaos test feed ────────────────────────────────────────────── */}
+      <div className="mb-8 rounded-[var(--radius-xl)] border border-border bg-card p-5">
+        <div className="mb-1 flex items-center gap-2">
+          <FlaskConical className="size-4 text-[var(--color-gold)]" />
+          <h3 className="text-sm font-semibold text-foreground">Chaos test feed</h3>
+        </div>
+        <p className="mb-4 text-xs text-muted-foreground">
+          Injected and blocked faults from <span className="font-mono">chaos_events</span>
+        </p>
+        {chaosEvents.length > 0 ? (
+          <div className="space-y-2">
+            {chaosEvents.map((ev) => (
+              <div
+                key={ev.id}
+                className="flex flex-wrap items-center gap-2 rounded-[var(--radius-md)] bg-muted/40 px-3 py-2 text-xs"
+              >
+                <span className="w-16 shrink-0 font-mono text-muted-foreground">
+                  {relTime(ev.created_at)}
+                </span>
+                <span
+                  className={`shrink-0 rounded-full px-2 py-0.5 font-mono text-[10px] ${
+                    ev.event_type === "blocked"
+                      ? "bg-[var(--color-malachite)]/10 text-[var(--color-malachite)]"
+                      : ev.event_type === "injected"
+                        ? "bg-[var(--color-gold)]/10 text-[var(--color-gold)]"
+                        : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {ev.event_type}
+                </span>
+                <span className="shrink-0 font-mono text-foreground">
+                  {ev.injection_kind ?? "—"}
+                </span>
+                <span className="min-w-0 flex-1 truncate font-mono text-muted-foreground">
+                  {ev.component_name ?? ev.page_path ?? ev.domain ?? ""}
+                </span>
+                {typeof ev.duration_ms === "number" && (
+                  <span className="shrink-0 font-mono text-muted-foreground">
+                    {ev.duration_ms}ms
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex items-center gap-3 rounded-[var(--radius-md)] border border-border bg-muted/30 px-4 py-3">
+            <Stethoscope className="size-4 shrink-0 text-muted-foreground" />
+            <p className="text-xs text-muted-foreground">
+              No chaos events recorded in the lookback window.
+            </p>
+          </div>
+        )}
+      </div>
 
       {/* ── Empty state when no data ────────────────────────────────────── */}
       {totalCalls === 0 && (
@@ -369,12 +612,51 @@ export default async function ObservabilityPage() {
 
       {/* ── Footer note ────────────────────────────────────────────────── */}
       <p className="mt-10 text-center text-xs text-muted-foreground">
-        Data refreshes every 60 seconds · Lookback window: 30 days ·{" "}
+        Data refreshes every 5 minutes · Lookback window: 30 days ·{" "}
         <a href="/api/v1/stats" className="underline-offset-4 hover:underline">
           Raw JSON
         </a>{" "}
         available under CC BY 4.0
       </p>
+    </div>
+  )
+}
+
+/**
+ * Rendered when `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+ * are missing — e.g. local clones with no `.env.local`. Keeps the page
+ * chrome (so the route never hard-fails) and points the operator at the
+ * env vars they need to set.
+ */
+function UnconfiguredState() {
+  return (
+    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mb-8">
+        <div className="mb-2 flex items-center gap-2">
+          <Activity className="size-5 text-[var(--color-cobalt)]" />
+          <span className="font-mono text-xs font-medium tracking-widest text-muted-foreground uppercase">
+            Open Data
+          </span>
+        </div>
+        <h1 className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          Observability
+        </h1>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          Public usage, Fundi, chaos, and registry telemetry for the Mzizi ecosystem.
+        </p>
+      </div>
+      <div className="rounded-[var(--radius-xl)] border border-border bg-card px-8 py-16 text-center">
+        <Activity className="mx-auto mb-4 size-10 text-muted-foreground/40" />
+        <p className="font-semibold text-foreground">Database not configured</p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+          Set <span className="font-mono">NEXT_PUBLIC_SUPABASE_URL</span> and{" "}
+          <span className="font-mono">NEXT_PUBLIC_SUPABASE_ANON_KEY</span> to load live data from
+          the open-data tables (<span className="font-mono">usage_events</span>,{" "}
+          <span className="font-mono">fundi_issues</span>,{" "}
+          <span className="font-mono">chaos_events</span>,{" "}
+          <span className="font-mono">observability_events</span>).
+        </p>
+      </div>
     </div>
   )
 }
