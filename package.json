@@ -67,6 +67,7 @@
     "@radix-ui/react-tooltip": "1.2.8",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.0",
+    "@supabase/server": "^1.1.0",
     "@supabase/supabase-js": "^2.105.1",
     "@tanstack/react-table": "^8.21.3",
     "@vercel/analytics": "2.0.1",
@@ -138,6 +139,7 @@
   },
   "pnpm": {
     "overrides": {
+      "qs": "^6.15.2",
       "hono": "^4.12.18",
       "@hono/node-server": "^1.19.13",
       "express-rate-limit": "^8.3.2",
