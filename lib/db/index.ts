@@ -78,6 +78,11 @@ import type {
   SkillSummary,
   UbuntuPillarRow,
   UbuntuPrincipleRow,
+  FundiIssueRow,
+  ObservabilityEventRow,
+  ChaosEventRow,
+  SystemCountsRow,
+  NodeDistributionRow,
 } from "./types"
 
 // ── Supabase clients ────────────────────────────────────────────────
@@ -1402,4 +1407,132 @@ export async function getUbuntuPrinciples(): Promise<UbuntuPrincipleRow[]> {
 
   if (error || !Array.isArray(data)) return []
   return data as UbuntuPrincipleRow[]
+}
+
+// ── Observability open-data — issue #84 ─────────────────────────────
+//
+// Thin read wrappers over `fundi_issues`, `observability_events`,
+// `chaos_events`, and the `get_system_counts()` RPC. All four surfaces
+// are public-read via RLS — the dashboard renders them without auth.
+//
+// Doctrine: node language. Components are indexed on `ecosystem_node`
+// (1..10) not on `architecture_layer`. The system-counts RPC returns
+// `total_nodes`, replacing the legacy `get_layer_counts()` helper.
+
+/**
+ * Recent rows from `fundi_issues`, newest first. Returns an empty array
+ * when Supabase isn't configured or the table is empty.
+ */
+export async function getFundiIssues(limit = 10): Promise<FundiIssueRow[]> {
+  if (!isSupabaseConfigured()) return []
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (getPublicClient() as any)
+    .from("fundi_issues")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(limit)
+
+  if (error || !Array.isArray(data)) return []
+  return data as FundiIssueRow[]
+}
+
+/**
+ * Recent rows from `observability_events`, newest first.
+ */
+export async function getObservabilityEvents(limit = 20): Promise<ObservabilityEventRow[]> {
+  if (!isSupabaseConfigured()) return []
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (getPublicClient() as any)
+    .from("observability_events")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(limit)
+
+  if (error || !Array.isArray(data)) return []
+  return data as ObservabilityEventRow[]
+}
+
+/**
+ * Recent rows from `chaos_events`, newest first.
+ */
+export async function getChaosEvents(limit = 20): Promise<ChaosEventRow[]> {
+  if (!isSupabaseConfigured()) return []
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (getPublicClient() as any)
+    .from("chaos_events")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(limit)
+
+  if (error || !Array.isArray(data)) return []
+  return data as ChaosEventRow[]
+}
+
+/**
+ * Live system-wide counts via the `get_system_counts()` RPC. Replaces
+ * the deprecated `get_layer_counts()` — returns `total_nodes` rather
+ * than `total_layers`. Returns null when Supabase isn't configured or
+ * the RPC errors.
+ */
+export async function getSystemCounts(): Promise<SystemCountsRow | null> {
+  if (!isSupabaseConfigured()) return null
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (getPublicClient() as any).rpc("get_system_counts")
+  if (error || !Array.isArray(data) || data.length === 0) return null
+  return data[0] as SystemCountsRow
+}
+
+/**
+ * Component distribution by `ecosystem_node`, joined to the node's
+ * sub_label, title, and axis from `architecture_frontend_layers`.
+ *
+ * The dashboard's component-distribution panel renders this as a bar
+ * chart with axis labels `horizontal`, `vertical`, `depth`, `outlier`.
+ *
+ * The join is done client-side (two small queries) rather than via a
+ * Postgres function so the helper has no dependency on a not-yet-shipped
+ * RPC. Both tables are small — round-trip cost is negligible.
+ */
+export async function getNodeDistribution(): Promise<NodeDistributionRow[]> {
+  if (!isSupabaseConfigured()) return []
+
+  const client = getPublicClient()
+
+  const [layersRes, componentsRes] = await Promise.all([
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (client as any)
+      .from("architecture_frontend_layers")
+      .select("node_number, sub_label, title, ecosystem_axis")
+      .order("node_number", { ascending: true }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (client as any).from("components").select("ecosystem_node").not("ecosystem_node", "is", null),
+  ])
+
+  if (layersRes.error || !Array.isArray(layersRes.data)) return []
+
+  type LayerRow = {
+    node_number: number
+    sub_label: string
+    title: string
+    ecosystem_axis: string
+  }
+
+  const layers = layersRes.data as LayerRow[]
+
+  const counts = new Map<number, number>()
+  if (!componentsRes.error && Array.isArray(componentsRes.data)) {
+    for (const row of componentsRes.data as Array<{ ecosystem_node: number | null }>) {
+      const node = row.ecosystem_node
+      if (typeof node !== "number") continue
+      counts.set(node, (counts.get(node) ?? 0) + 1)
+    }
+  }
+
+  return layers.map((l) => ({
+    ecosystem_node: l.node_number,
+    sub_label: l.sub_label,
+    title: l.title,
+    ecosystem_axis: l.ecosystem_axis,
+    component_count: counts.get(l.node_number) ?? 0,
+  }))
 }
