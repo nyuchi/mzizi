@@ -1,0 +1,24 @@
+name = "mzizi-mcp"
+main = "src/worker.ts"
+compatibility_date = "2026-05-22"
+compatibility_flags = ["nodejs_compat"]
+
+# Built-in observability — Logpush + analytics for free.
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+# Smart placement keeps the worker close to the Supabase region.
+[placement]
+mode = "smart"
+
+# Custom domain — enable once mzizi.dev DNS is on Cloudflare.
+# [[routes]]
+# pattern = "mcp.mzizi.dev/*"
+# zone_name = "mzizi.dev"
+# custom_domain = true
+
+# Secrets are set out-of-band via `wrangler secret put`:
+#   SUPABASE_URL
+#   SUPABASE_PUBLISHABLE_KEY
+# Local dev: create mzizi-mcp/.dev.vars with the same names.
