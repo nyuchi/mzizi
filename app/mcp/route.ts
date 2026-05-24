@@ -1,16 +1,18 @@
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js"
-import { createMukokoMcpServer } from "@/lib/mcp-server"
+import { createMziziMcpServer } from "@/lib/mcp-server"
 
 /**
- * MCP Endpoint — mzizi.dev/mcp
+ * Mzizi MCP — mzizi.dev/mcp (new tooling, document-route)
  *
- * Serves the Nyuchi Design Portal MCP server over Streamable HTTP transport.
- * Stateless mode — each request creates a fresh transport/server pair.
+ * Reads the `component_documents` Supabase table — one document per component
+ * — and serves it over Streamable HTTP transport, stateless. Read-only via
+ * the anon key + RLS. The legacy relational MCP lives on the `legacy` branch
+ * (→ design.nyuchi.com/mcp); the two are split deliberately.
  *
- * Supports:
- *   POST /mcp — JSON-RPC messages (initialize, tool calls, resource reads)
- *   GET  /mcp — SSE stream for server-initiated notifications
- *   DELETE /mcp — Session cleanup
+ *   POST /mcp    — JSON-RPC (initialize, tool calls, resource reads)
+ *   GET  /mcp    — SSE stream for server-initiated notifications
+ *   DELETE /mcp  — Session cleanup
+ *   OPTIONS /mcp — CORS preflight
  */
 
 const CORS_HEADERS = {
@@ -40,7 +42,7 @@ function withCors(response: Response): Response {
 
 export async function POST(request: Request) {
   const transport = createTransport()
-  const server = await createMukokoMcpServer()
+  const server = await createMziziMcpServer()
 
   await server.connect(transport)
 
@@ -51,7 +53,7 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   const transport = createTransport()
-  const server = await createMukokoMcpServer()
+  const server = await createMziziMcpServer()
 
   await server.connect(transport)
 
@@ -62,7 +64,7 @@ export async function GET(request: Request) {
 
 export async function DELETE(request: Request) {
   const transport = createTransport()
-  const server = await createMukokoMcpServer()
+  const server = await createMziziMcpServer()
 
   await server.connect(transport)
 
