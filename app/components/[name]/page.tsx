@@ -73,9 +73,10 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
           <Badge variant="outline" className="font-mono text-xs">
             {item.registry_type.replace("registry:", "")}
           </Badge>
-          {item.layer && (
+          {item.ecosystem_node != null && (
             <Badge variant="secondary" className="font-mono text-xs">
-              L{item.layer}
+              N{item.ecosystem_node}
+              {item.node_label ? ` ${item.node_label}` : ""}
             </Badge>
           )}
         </div>

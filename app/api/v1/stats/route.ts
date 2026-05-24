@@ -6,23 +6,24 @@ import { getPublicClient, isSupabaseConfigured } from "@/lib/db"
 const logger = createLogger("api")
 
 /**
- * Count stable components grouped by architecture_layer. Returns an empty
- * object if Supabase is unreachable or the layer column is missing — callers
- * should treat the absence of data as "don't render layer breakdown".
+ * Count stable components grouped by ecosystem node. Returns an empty object
+ * if Supabase is unreachable — callers should treat the absence of data as
+ * "don't render the node breakdown". Keyed by `node_label` (the v4.0.33+
+ * rename of the legacy `layer` column).
  */
-async function getLayerBreakdown(): Promise<Record<string, number>> {
+async function getNodeBreakdown(): Promise<Record<string, number>> {
   if (!isSupabaseConfigured()) return {}
   try {
     const { data, error } = await getPublicClient()
       .from("components")
-      .select("layer")
+      .select("node_label")
       .not("source_code", "is", null)
 
     if (error || !data) return {}
 
     const breakdown: Record<string, number> = {}
-    for (const row of data as unknown as Array<{ layer: string | null }>) {
-      const key = row.layer ?? "unknown"
+    for (const row of data as unknown as Array<{ node_label: string | null }>) {
+      const key = row.node_label ?? "unknown"
       breakdown[key] = (breakdown[key] ?? 0) + 1
     }
     return breakdown
@@ -51,7 +52,7 @@ export async function GET(request: Request) {
     const daysParam = url.searchParams.get("days")
     const days = daysParam ? Math.min(Math.max(parseInt(daysParam, 10) || 30, 1), 90) : 30
 
-    const [stats, layers] = await Promise.all([getUsageStats(days), getLayerBreakdown()])
+    const [stats, nodes] = await Promise.all([getUsageStats(days), getNodeBreakdown()])
 
     logger.info("Stats served", {
       data: { days, totalCalls: stats.total_api_calls + stats.total_mcp_calls },
@@ -66,7 +67,7 @@ export async function GET(request: Request) {
           "Public API and MCP usage metrics for the Nyuchi Design Portal. Open data aligned with the bundu ecosystem philosophy.",
         license: "https://creativecommons.org/licenses/by/4.0/",
         ...stats,
-        layers,
+        nodes,
       },
       { headers: CORS }
     )

@@ -30,6 +30,7 @@ import type {
   ComponentDocRow,
   ComponentDemoRow,
   ComponentWithDocs,
+  ComponentWithSource,
   ComponentInsert,
   ComponentDocInsert,
   ComponentDemoInsert,
@@ -141,6 +142,24 @@ export async function getComponent(name: string): Promise<ComponentRow | null> {
 }
 
 /**
+ * Get a single component including its `source_code` and `source_code_svelte`
+ * via the `get_component_with_source(p_name)` RPC (issue #77).
+ *
+ * Use this when component source is explicitly required. For catalogue and
+ * listing use cases prefer {@link getComponent}, which stays lean.
+ * Returns null when Supabase isn't configured or the component is missing.
+ */
+export async function getComponentWithSource(name: string): Promise<ComponentWithSource | null> {
+  if (!isSupabaseConfigured()) return null
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (getPublicClient() as any).rpc("get_component_with_source", {
+    p_name: name,
+  })
+  if (error || !Array.isArray(data) || data.length === 0) return null
+  return data[0] as ComponentWithSource
+}
+
+/**
  * Get all components, sorted by name.
  */
 export async function getAllComponents(): Promise<ComponentRow[]> {
@@ -165,13 +184,17 @@ export async function getComponentsByCategory(category: string): Promise<Compone
 }
 
 /**
- * Get components by layer.
+ * Get components by ecosystem node (1–10).
+ *
+ * The `architecture_layer`/`layer` columns were renamed to
+ * `ecosystem_node` (integer) and `node_label` (text) in the v4.0.33–v4.0.36
+ * DB migrations. Callers pass the integer node, not a text label.
  */
-export async function getComponentsByLayer(layer: string): Promise<ComponentRow[]> {
+export async function getComponentsByNode(node: number): Promise<ComponentRow[]> {
   const { data, error } = await getPublicClient()
     .from("components")
     .select("*")
-    .eq("layer", layer)
+    .eq("ecosystem_node", node)
     .order("name")
 
   if (error) throw new Error(error.message)
@@ -1124,19 +1147,20 @@ export async function getDesignTokens(): Promise<DesignTokens | null> {
 
 // ── Layer summary query ─────────────────────────────────────────────
 
-export interface LayerSummary {
-  layer: string
+export interface NodeSummary {
+  node: number
+  nodeLabel: string | null
   total: number
   byCategory: Record<string, number>
   components: Array<{ name: string; category: string | null; description: string }>
 }
 
 /**
- * Get a summary of components in a given architecture layer.
- * Used by the MCP server's get_layer_summary tool.
+ * Get a summary of components at a given ecosystem node (1–10).
+ * Used by the MCP server's get_node_summary tool.
  */
-export async function getLayerSummary(layer: string): Promise<LayerSummary> {
-  const components = await getComponentsByLayer(layer)
+export async function getNodeSummary(node: number): Promise<NodeSummary> {
+  const components = await getComponentsByNode(node)
 
   const byCategory: Record<string, number> = {}
   for (const c of components) {
@@ -1145,7 +1169,8 @@ export async function getLayerSummary(layer: string): Promise<LayerSummary> {
   }
 
   return {
-    layer,
+    node,
+    nodeLabel: components[0]?.node_label ?? null,
     total: components.length,
     byCategory,
     components: components.map((c) => ({

@@ -27,7 +27,7 @@ import {
   getSovereignty,
   getRemovedTechnologies,
   getDesignTokens,
-  getLayerSummary,
+  getNodeSummary,
   getAiInstruction,
   getAiInstructionByTarget,
   getComponentLinks,
@@ -1107,30 +1107,33 @@ export { ${pascalName}, ${camelVariants}Variants }
   // ─── New tools (v4.0.26) ─────────────────────────────────────────────
 
   server.tool(
-    "get_layer_summary",
-    "Get a summary of components in a given architecture layer (1-10). Returns total count, per-category breakdown, and the full component list.",
+    "get_node_summary",
+    "Get a summary of components at a given ecosystem node (1-10). Returns the node label, total count, per-category breakdown, and the full component list.",
     {
-      layer: z
-        .string()
+      node: z
+        .number()
+        .int()
+        .min(1)
+        .max(10)
         .describe(
-          "Architecture layer identifier (e.g. '1', '2', '10'). See /docs/3d-architecture for the full layer model."
+          "Ecosystem node number 1–10 (1 tokens … 10 documentation). See /docs/3d-architecture for the full node model."
         ),
     },
-    async ({ layer }) => {
+    async ({ node }) => {
       const start = Date.now()
       try {
-        const summary = await getLayerSummary(layer)
-        trackMcpTool({ toolName: "get_layer_summary", durationMs: Date.now() - start })
+        const summary = await getNodeSummary(node)
+        trackMcpTool({ toolName: "get_node_summary", durationMs: Date.now() - start })
         return {
           content: [{ type: "text" as const, text: JSON.stringify(summary, null, 2) }],
         }
       } catch (err) {
         trackMcpTool({
-          toolName: "get_layer_summary",
+          toolName: "get_node_summary",
           durationMs: Date.now() - start,
           isError: true,
         })
-        return toolError(`Failed to get summary for layer "${layer}"`, err)
+        return toolError(`Failed to get summary for ecosystem node ${node}`, err)
       }
     }
   )

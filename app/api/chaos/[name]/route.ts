@@ -108,7 +108,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ nam
       {
         name: component.name,
         description: `Chaos surface for ${component.name}. Faults are injected in-process via the L8 chaos lib — install with \`npx shadcn@latest add https://mzizi.dev/api/v1/ui/chaos\`.`,
-        layer: component.layer ?? null,
+        node: component.ecosystem_node ?? null,
+        node_label: component.node_label ?? null,
         registry_type: component.registry_type,
         supported_faults: faults,
         engine: {

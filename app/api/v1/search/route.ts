@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { createLogger } from "@/lib/observability"
 import {
   searchComponents,
-  getComponentsByLayer,
+  getComponentsByNode,
   getComponentsByCategory,
   isSupabaseConfigured,
 } from "@/lib/db"
@@ -18,17 +18,28 @@ const CORS_CACHE = {
 const CORS = { "Access-Control-Allow-Origin": "*" }
 
 /**
- * GET /api/v1/search?q=&layer=&category=
+ * GET /api/v1/search?q=&node=&category=
  *
- * Search components by name or description, optionally filtered by layer and/or category.
+ * Search components by name or description, optionally filtered by ecosystem
+ * node (integer 1–10) and/or category. The `node` filter replaces the legacy
+ * `layer` text filter — the DB column was renamed in v4.0.33–v4.0.36.
  */
 export async function GET(request: Request) {
   const start = Date.now()
   try {
     const url = new URL(request.url)
     const q = (url.searchParams.get("q") ?? "").trim()
-    const layer = url.searchParams.get("layer")
+    const nodeParam = url.searchParams.get("node")
     const category = url.searchParams.get("category")
+
+    const node = nodeParam !== null ? Number.parseInt(nodeParam, 10) : null
+    if (nodeParam !== null && (node === null || Number.isNaN(node) || node < 1 || node > 10)) {
+      trackApiCall({ endpoint: "/api/v1/search", durationMs: Date.now() - start, statusCode: 400 })
+      return NextResponse.json(
+        { error: "node must be an integer between 1 and 10" },
+        { status: 400, headers: CORS }
+      )
+    }
 
     if (!isSupabaseConfigured()) {
       trackApiCall({ endpoint: "/api/v1/search", durationMs: Date.now() - start, statusCode: 503 })
@@ -38,19 +49,19 @@ export async function GET(request: Request) {
     let results
     if (q) {
       results = await searchComponents(q)
-    } else if (layer) {
-      results = await getComponentsByLayer(layer)
+    } else if (node !== null) {
+      results = await getComponentsByNode(node)
     } else if (category) {
       results = await getComponentsByCategory(category)
     } else {
       trackApiCall({ endpoint: "/api/v1/search", durationMs: Date.now() - start, statusCode: 400 })
       return NextResponse.json(
-        { error: "At least one of q, layer, or category is required" },
+        { error: "At least one of q, node, or category is required" },
         { status: 400, headers: CORS }
       )
     }
 
-    if (layer) results = results.filter((c) => c.layer === layer)
+    if (node !== null) results = results.filter((c) => c.ecosystem_node === node)
     if (category) results = results.filter((c) => c.category === category)
 
     const items = results.map((c) => ({
@@ -58,7 +69,8 @@ export async function GET(request: Request) {
       type: c.registry_type,
       description: c.description,
       category: c.category,
-      layer: c.layer,
+      node: c.ecosystem_node,
+      nodeLabel: c.node_label,
     }))
 
     trackApiCall({ endpoint: "/api/v1/search", durationMs: Date.now() - start, statusCode: 200 })
@@ -66,7 +78,7 @@ export async function GET(request: Request) {
     return NextResponse.json(
       {
         data: items,
-        meta: { total: items.length, query: q || null, layer, category },
+        meta: { total: items.length, query: q || null, node, category },
       },
       { headers: CORS_CACHE }
     )
