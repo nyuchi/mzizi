@@ -553,7 +553,7 @@ export const COMPONENT_DEMOS: Record<string, React.ReactNode> = {
         <div className="rounded-md px-3 py-1.5 text-xs text-muted-foreground">API</div>
       </div>
       <div className="mt-3 border-t border-border pt-2 text-[10px] text-muted-foreground">
-        v4.0.39
+        v4.0.40
       </div>
     </div>
   ),
@@ -604,7 +604,7 @@ export const COMPONENT_DEMOS: Record<string, React.ReactNode> = {
         </div>
       </div>
       <div className="mt-3 border-t border-border pt-2 text-[10px] text-muted-foreground">
-        Built by Nyuchi — v4.0.39
+        Built by Nyuchi — v4.0.40
       </div>
     </div>
   ),

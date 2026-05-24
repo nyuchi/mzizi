@@ -617,7 +617,7 @@ paths:
         - name: version
           in: path
           required: true
-          schema: { type: string, example: "4.0.39" }
+          schema: { type: string, example: "4.0.40" }
       responses:
         "200":
           description: Release
@@ -1121,7 +1121,7 @@ components:
           const: "Brand"
         version:
           type: string
-          example: "4.0.39"
+          example: "4.0.40"
         name:
           type: string
           example: "Nyuchi Brand System"

@@ -63,7 +63,7 @@ design-portal (this repo)
         │   (each Mzizi mini-app ships as the `mzizi-console-app` npm package
         │    and plugs into platform.nyuchi.com)
         ├── Sister brands (Zimbabwe Information Platform, Barstool by Nyuchi)
-        └── Any new bundu ecosystem app — via @nyuchi/design-cli init
+        └── Any new bundu ecosystem app — via the shadcn CLI against /api/v1/ui/<component>
 ```
 
 **Rule:** When building a new app, install components from this registry. Do not copy-paste component code or create parallel component libraries. Mzizi-side agentic tooling (the Fundi self-healing agent, MCP transport, console mini-app shell) lives in `nyuchi/mzizi-tools`; long-form product docs live in `nyuchi/bundu-docs`; engineering docs in `nyuchi/nyuchi-docs`. Do not reintroduce any of those into `design-portal`.
