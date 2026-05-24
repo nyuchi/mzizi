@@ -1,4 +1,4 @@
-import { Activity, Box, BookOpen, Layers, type LucideIcon } from "lucide-react"
+import { Activity, BookOpen, Box, HeartHandshake, Layers, type LucideIcon } from "lucide-react"
 
 // Shared navigation structure for the Mzizi portal shell.
 // Curated (not auto-generated) — the portal hosts the functional
@@ -6,6 +6,7 @@ import { Activity, Box, BookOpen, Layers, type LucideIcon } from "lucide-react"
 // docs site at docs.bundu.org/mzizi.
 //
 //   Explore       — the component gallery + the 3D architecture explorer
+//   Doctrine      — Ubuntu Five Pillars + Five Principles (issue #45)
 //   Observability — live registry / API / MCP usage metrics
 //   Documentation — external link to the Mintlify docs site
 //
@@ -38,6 +39,10 @@ export const SIDEBAR_NAV: NavGroup[] = [
     ],
   },
   {
+    label: "Doctrine",
+    items: [{ label: "Ubuntu", href: "/ubuntu", icon: HeartHandshake }],
+  },
+  {
     label: "Documentation",
     items: [
       { label: "Docs", href: "https://docs.bundu.org/mzizi", icon: BookOpen, external: true },
@@ -50,6 +55,7 @@ export const SIDEBAR_NAV: NavGroup[] = [
 export const HEADER_NAV: NavItem[] = [
   { label: "Components", href: "/components" },
   { label: "Architecture", href: "/architecture" },
+  { label: "Ubuntu", href: "/ubuntu" },
   { label: "Observability", href: "/observability" },
   { label: "Docs", href: "https://docs.bundu.org/mzizi", external: true },
 ]
@@ -64,4 +70,5 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   changelog: "Changelog",
   source: "Source",
   layers: "Layers",
+  ubuntu: "Ubuntu",
 }
