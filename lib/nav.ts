@@ -1,7 +1,8 @@
 import {
   Activity,
-  Box,
   BookOpen,
+  Box,
+  HeartHandshake,
   Layers,
   ScrollText,
   Sparkles,
@@ -16,6 +17,7 @@ import {
 //
 //   Explore       — the component gallery, tools, and the 3D architecture explorer
 //   Playground    — interactive registry browser (live preview + API tester)
+//   Doctrine      — Ubuntu Five Pillars + Five Principles (issue #45)
 //   Releases      — the node-aware changelog (issue #85)
 //   Observability — live registry / API / MCP usage metrics
 //   Documentation — external link to the Mintlify docs site
@@ -54,6 +56,10 @@ export const SIDEBAR_NAV: NavGroup[] = [
     items: [{ label: "Playground", href: "/playground", icon: Sparkles }],
   },
   {
+    label: "Doctrine",
+    items: [{ label: "Ubuntu", href: "/ubuntu", icon: HeartHandshake }],
+  },
+  {
     label: "Releases",
     items: [{ label: "Changelog", href: "/changelog", icon: ScrollText }],
   },
@@ -72,6 +78,7 @@ export const HEADER_NAV: NavItem[] = [
   { label: "Tools", href: "/tools" },
   { label: "Architecture", href: "/architecture" },
   { label: "Playground", href: "/playground" },
+  { label: "Ubuntu", href: "/ubuntu" },
   { label: "Changelog", href: "/changelog" },
   { label: "Observability", href: "/observability" },
   { label: "Docs", href: "https://docs.bundu.org/mzizi", external: true },
@@ -89,4 +96,5 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   tools: "Tools",
   source: "Source",
   layers: "Layers",
+  ubuntu: "Ubuntu",
 }
