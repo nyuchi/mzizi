@@ -5,8 +5,11 @@ import { ComponentGalleryClient, type GalleryItem } from "./component-gallery-cl
  * Server component that fetches the full registry from Supabase and hands it
  * to the client filter UI. Replaces the previous `registry.json` import so
  * the catalog reflects live DB state (545+ components, 10 architecture layers).
+ *
+ * `basePath` controls where the per-card links go — `/components` (the docs
+ * surface) by default, `/playground` when rendered from the playground index.
  */
-export async function ComponentGallery() {
+export async function ComponentGallery({ basePath }: { basePath?: string } = {}) {
   let items: GalleryItem[] = []
 
   if (isSupabaseConfigured()) {
@@ -32,5 +35,5 @@ export async function ComponentGallery() {
     )
   }
 
-  return <ComponentGalleryClient items={items} />
+  return <ComponentGalleryClient items={items} basePath={basePath} />
 }
