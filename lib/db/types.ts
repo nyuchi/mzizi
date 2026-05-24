@@ -799,6 +799,17 @@ export interface UbuntuPillarRow {
   updated_at: string
 }
 
+export interface UbuntuPillarInsert {
+  name: string
+  shona: string
+  title: string
+  description: string
+  sphere: string
+  platform_surface: string
+  source: string
+  sort_order?: number
+}
+
 export interface UbuntuPrincipleRow {
   id: number
   name: string
@@ -810,4 +821,14 @@ export interface UbuntuPrincipleRow {
   sort_order: number
   created_at: string
   updated_at: string
+}
+
+export interface UbuntuPrincipleInsert {
+  name: string
+  shona: string
+  title: string
+  description: string
+  expression: string
+  source: string
+  sort_order?: number
 }
