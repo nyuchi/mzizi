@@ -6,32 +6,20 @@
  * keyed by node collection (n1_tokens … n10_documentation). One fetch, no
  * joins — the MCP just looks up a document and returns it.
  *
- * Read-only. Uses the public anon key against Supabase RLS — no write APIs
- * exposed, no service-role key in scope. The relational tables remain as the
- * legacy/old tier on the `legacy` branch; this server doesn't touch them.
+ * Read-only. The HTTP entrypoint at `app/mcp/route.ts` uses
+ * `@supabase/server`'s `createSupabaseContext` with `auth: 'none'` to mint a
+ * per-request anon-scoped `SupabaseClient` (RLS-enforced public select on
+ * `component_documents`). The factory below just consumes that client.
  *
- * Served via the HTTP endpoint at /mcp (app/mcp/route.ts).
+ * The legacy relational MCP lives on the `legacy` branch and deploys to
+ * design.nyuchi.com/mcp; the two are split deliberately.
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
-import { createClient, type SupabaseClient } from "@supabase/supabase-js"
+import type { SupabaseClient } from "@supabase/supabase-js"
 import { z } from "zod"
 
 const VERSION = "4.0.39"
-
-// ─── Read-only Supabase client (anon key, RLS-enforced) ─────────────────────
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ""
-
-let _client: SupabaseClient | null = null
-function client(): SupabaseClient {
-  if (!_client) _client = createClient(supabaseUrl, supabaseAnonKey)
-  return _client
-}
-function configured(): boolean {
-  return Boolean(supabaseUrl && supabaseAnonKey)
-}
 
 // ─── Result helpers ─────────────────────────────────────────────────────────
 
@@ -49,7 +37,14 @@ function jsonContent(value: unknown) {
 
 // ─── Server factory ─────────────────────────────────────────────────────────
 
-export async function createMziziMcpServer(): Promise<McpServer> {
+/**
+ * Build the Mzizi MCP server bound to a request-scoped Supabase client.
+ *
+ * The caller (the `/mcp` route handler) creates the client via
+ * `createSupabaseContext` from `@supabase/server` with `auth: 'none'` — the
+ * resulting `ctx.supabase` is anon-scoped and read-only under RLS.
+ */
+export async function createMziziMcpServer(supabase: SupabaseClient): Promise<McpServer> {
   const server = new McpServer({ name: "mzizi", version: VERSION })
 
   // ── Resources ─────────────────────────────────────────────────────────────
@@ -62,12 +57,8 @@ export async function createMziziMcpServer(): Promise<McpServer> {
         "Mzizi component registry index — one row per component (name / node / collection / owner). The full document is available via the get_component tool.",
     },
     async () => {
-      if (!configured())
-        return {
-          contents: [{ uri: "mzizi://components", mimeType: "application/json", text: "[]" }],
-        }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { data } = await (client() as any)
+      const { data } = await (supabase as any)
         .from("component_documents")
         .select("name, node, collection, owner")
         .order("collection", { ascending: true })
@@ -89,10 +80,8 @@ export async function createMziziMcpServer(): Promise<McpServer> {
     "mzizi://nodes",
     { description: "Per-node collection summary — counts and ownership breakdown." },
     async () => {
-      if (!configured())
-        return { contents: [{ uri: "mzizi://nodes", mimeType: "application/json", text: "[]" }] }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { data } = await (client() as any)
+      const { data } = await (supabase as any)
         .from("component_documents")
         .select("node, collection, owner")
       const summary = new Map<
@@ -142,9 +131,8 @@ export async function createMziziMcpServer(): Promise<McpServer> {
     },
     async ({ node, owner, limit }) => {
       try {
-        if (!configured()) return toolError("Supabase not configured")
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let q: any = (client() as any)
+        let q: any = (supabase as any)
           .from("component_documents")
           .select("name, node, collection, owner")
           .order("collection", { ascending: true })
@@ -169,9 +157,8 @@ export async function createMziziMcpServer(): Promise<McpServer> {
     },
     async ({ name }) => {
       try {
-        if (!configured()) return toolError("Supabase not configured")
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const { data, error } = await (client() as any)
+        const { data, error } = await (supabase as any)
           .from("component_documents")
           .select("name, node, collection, owner, schema_version, document, updated_at")
           .eq("name", name)
@@ -191,9 +178,8 @@ export async function createMziziMcpServer(): Promise<McpServer> {
     {},
     async () => {
       try {
-        if (!configured()) return toolError("Supabase not configured")
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const { data, error } = await (client() as any)
+        const { data, error } = await (supabase as any)
           .from("component_documents")
           .select("node, collection, owner")
         if (error) return toolError("list_collections query failed", error)
@@ -229,22 +215,13 @@ export async function createMziziMcpServer(): Promise<McpServer> {
     {},
     async () => {
       try {
-        if (!configured())
-          return jsonContent({
-            provider: "supabase",
-            configured: false,
-            status: "unconfigured",
-            documents: 0,
-            readOnly: true,
-          })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const { count, error } = await (client() as any)
+        const { count, error } = await (supabase as any)
           .from("component_documents")
           .select("*", { count: "exact", head: true })
         if (error)
           return jsonContent({
             provider: "supabase",
-            configured: true,
             status: "error",
             error: error.message,
             documents: 0,
@@ -252,7 +229,6 @@ export async function createMziziMcpServer(): Promise<McpServer> {
           })
         return jsonContent({
           provider: "supabase",
-          configured: true,
           status: "connected",
           documents: count ?? 0,
           readOnly: true,
