@@ -10,6 +10,8 @@ export default tseslint.config(
       "node_modules/**",
       "packages/*/node_modules/**",
       "packages/*/dist/**",
+      "mzizi-mcp/node_modules/**",
+      "mzizi-mcp/dist/**",
       "public/**",
       "scripts/**",
       "supabase/**",
