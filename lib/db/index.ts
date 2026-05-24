@@ -66,7 +66,9 @@ import type {
   AiInstructionInsert,
   ChangelogRow,
   ChangelogInsert,
+  ChangelogListRow,
   ComponentVersionRow,
+  McpToolRegistryRow,
   DesignTokens,
   ArchitectureFrontendAxisRow,
   ArchitectureFrontendLayerRow,
@@ -1535,4 +1537,68 @@ export async function getNodeDistribution(): Promise<NodeDistributionRow[]> {
     ecosystem_axis: l.ecosystem_axis,
     component_count: counts.get(l.node_number) ?? 0,
   }))
+}
+
+// ── Changelog v2 — issue #85 (`versioning_and_changelog_v2`) ────────
+//
+// The node-aware changelog lives behind the `list_changelog(limit, offset)`
+// SQL helper. Each row carries `nodes_affected integer[]` (N1–N10) and
+// component / tool deltas. `/changelog` reads via this RPC; the older
+// `getChangelogEntries()` helper is kept for backwards compatibility
+// with `components/docs/db-changelog.tsx`.
+
+/**
+ * Live fetch of changelog entries via the `list_changelog()` RPC. Most
+ * recent first. Returns an empty array if Supabase isn't configured or
+ * the RPC errors. Bounded by `limit` (default 50) for the page render.
+ */
+export async function listChangelog(limit = 50, offset = 0): Promise<ChangelogListRow[]> {
+  if (!isSupabaseConfigured()) return []
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (getPublicClient() as any).rpc("list_changelog", {
+    p_limit: limit,
+    p_offset: offset,
+  })
+  if (error || !Array.isArray(data)) return []
+  return data as ChangelogListRow[]
+}
+
+// ── MCP tool registry — issue #85 / #83 (`mcp_tool_registry` table) ──
+//
+// The published Mzizi tools (mzizi-mcp, mzizi-sdk, mzizi-skills,
+// mzizi-cli) live in `mcp_tool_registry`. Thin read helpers backing
+// `/tools/[name]`. The full registry-driven endpoints land with #83.
+
+/**
+ * List all enabled rows from `mcp_tool_registry`. Empty array on
+ * configuration / query failure.
+ */
+export async function listMcpToolRegistry(): Promise<McpToolRegistryRow[]> {
+  if (!isSupabaseConfigured()) return []
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (getPublicClient() as any)
+    .from("mcp_tool_registry")
+    .select("*")
+    .eq("enabled", true)
+    .order("tool_name", { ascending: true })
+
+  if (error || !Array.isArray(data)) return []
+  return data as McpToolRegistryRow[]
+}
+
+/**
+ * Fetch a single tool row by `tool_name`. Returns null when missing or
+ * when Supabase isn't configured.
+ */
+export async function getMcpTool(toolName: string): Promise<McpToolRegistryRow | null> {
+  if (!isSupabaseConfigured()) return null
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (getPublicClient() as any)
+    .from("mcp_tool_registry")
+    .select("*")
+    .eq("tool_name", toolName)
+    .maybeSingle()
+
+  if (error || !data) return null
+  return data as McpToolRegistryRow
 }
