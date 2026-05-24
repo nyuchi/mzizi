@@ -851,36 +851,53 @@ paths:
 
   /stats:
     get:
-      summary: Live registry stats
-      description: Live counts across the registry — total stable components, per-layer and per-category breakdown, token counts. Never hardcoded.
+      summary: Public usage statistics (open data — CC BY 4.0)
+      description: |
+        Live API + MCP usage metrics for the public observability dashboard
+        (`/observability`) — aligned with the bundu open data philosophy.
+        Returns aggregate counts (calls, errors, p95 latency, top components,
+        top tools) over the lookback window plus a `layers` breakdown sourced
+        live from the `components` table. Carries schema.org `Dataset` JSON-LD
+        + CC BY 4.0 license. Never hardcoded.
       operationId: getStats
       tags: [Discovery]
+      parameters:
+        - name: days
+          in: query
+          required: false
+          description: "Lookback period in days. Clamped to [1, 90]."
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 90
+            default: 30
       responses:
         "200":
           description: Stats
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                example: "public, max-age=60, s-maxage=120"
+            Access-Control-Allow-Origin:
+              $ref: "#/components/headers/CorsWildcard"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  components:
-                    type: object
-                    properties:
-                      total: { type: integer }
-                      stable: { type: integer }
-                      alpha: { type: integer }
-                      deprecated: { type: integer }
+                  "@context": { type: string, const: "https://schema.org" }
+                  "@type": { type: string, const: "Dataset" }
+                  name: { type: string }
+                  description: { type: string }
+                  license: { type: string, format: uri }
+                  total_api_calls: { type: integer }
+                  total_mcp_calls: { type: integer }
                   layers:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        layer: { type: integer }
-                        axis: { type: string }
-                        count: { type: integer }
-                  tokens:
                     type: object
                     additionalProperties: { type: integer }
+        "500":
+          $ref: "#/components/responses/InternalError"
 
   /ui/{name}/docs:
     get:
@@ -1884,28 +1901,53 @@ components:
 
     ChangelogEntry:
       type: object
-      required: [version, title, createdAt]
+      required: [version, title, description, changed_by, created_at, released_at]
       properties:
-        version: { type: string, example: "4.0.39" }
+        version: { type: string, example: "4.0.40" }
         title: { type: string }
         description: { type: string }
-        layersAffected:
+        nodes_affected:
           type: array
+          description: "Architecture nodes (1–10) touched by this release."
+          items: { type: integer, minimum: 1, maximum: 10 }
+        axes_affected:
+          type: array
+          items: { type: string }
+        components_added:
+          type: array
+          items: { type: string }
+        components_modified:
+          type: array
+          items: { type: string }
+        components_deprecated:
+          type: array
+          items: { type: string }
+        components_removed:
+          type: array
+          items: { type: string }
+        tools_added:
+          type: array
+          description: "Mzizi tools — MCP tools, SDK helpers — added in this release."
+          items: { type: string }
+        tools_modified:
+          type: array
+          items: { type: string }
+        tools_deprecated:
+          type: array
+          items: { type: string }
+        tools_removed:
+          type: array
+          items: { type: string }
+        linked_issues:
+          type: array
+          description: "GitHub issue / PR numbers referenced by this release."
           items: { type: integer }
-        axesAffected:
-          type: array
-          items: { type: string }
-        componentsAdded:
-          type: array
-          items: { type: string }
-        componentsModified:
-          type: array
-          items: { type: string }
-        componentsDeprecated:
-          type: array
-          items: { type: string }
-        changedBy: { type: string }
-        createdAt: { type: string, format: date-time }
+        total_stable: { type: integer, nullable: true }
+        total_deprecated: { type: integer, nullable: true }
+        total_alpha: { type: integer, nullable: true }
+        changed_by: { type: string }
+        created_at: { type: string, format: date-time }
+        released_at: { type: string, format: date-time }
 
   responses:
     InternalError:
