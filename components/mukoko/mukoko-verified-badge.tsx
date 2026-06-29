@@ -164,7 +164,7 @@ function NyuchiVerifiedBadge({
     return (
       <span
         data-slot="nyuchi-verified-badge"
-        data-portal="https://design.nyuchi.com/components/nyuchi-verified-badge"
+        data-portal="https://mzizi.dev/components/nyuchi-verified-badge"
         data-loading
         className="inline-flex size-4 animate-pulse rounded-full bg-muted"
       />

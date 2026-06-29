@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
 import type { ArchitectureFrontendAxisRow, ArchitectureFrontendLayerRow } from "@/lib/db/types"
+import { paletteColor } from "@/lib/tokens"
 
 // ──────────────────────────────────────────────────────────────────────
 // Geometry — coordinate convention
@@ -20,13 +21,14 @@ import type { ArchitectureFrontendAxisRow, ArchitectureFrontendLayerRow } from "
 // keeps the picture brand-correct.
 // ──────────────────────────────────────────────────────────────────────
 
-// Mineral palette (constant across light/dark per CLAUDE.md §7.1).
+// Mineral palette for the axis colours — sourced from the DB token snapshot
+// so the picture stays brand-correct without hardcoding hex.
 const AXIS_COLOR: Record<string, string> = {
-  "X-axis": "#0047ab", // Cobalt
-  "Y-axis": "#64ffda", // Malachite
-  "Z-axis": "#b388ff", // Tanzanite
-  Outside: "#d4a574", // Terracotta
-  Documentation: "#ffd740", // Gold
+  "X-axis": paletteColor("cobalt", "light"),
+  "Y-axis": paletteColor("malachite"),
+  "Z-axis": paletteColor("tanzanite"),
+  Outside: paletteColor("terracotta"),
+  Documentation: paletteColor("gold"),
 }
 
 // X-axis layers (2, 3, 6, 7) get spaced along +X.

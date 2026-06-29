@@ -4,6 +4,7 @@ import {
   Box,
   HeartHandshake,
   Layers,
+  Palette,
   ScrollText,
   Sparkles,
   Wrench,
@@ -46,6 +47,7 @@ export const SIDEBAR_NAV: NavGroup[] = [
     label: "Explore",
     items: [
       { label: "Components", href: "/components", icon: Layers },
+      { label: "Colour tokens", href: "/tokens", icon: Palette },
       { label: "Tools", href: "/tools", icon: Wrench },
       { label: "3D architecture", href: "/architecture", icon: Box },
       { label: "Observability", href: "/observability", icon: Activity },
@@ -75,6 +77,7 @@ export const SIDEBAR_NAV: NavGroup[] = [
 // and sidebar tell the same story.
 export const HEADER_NAV: NavItem[] = [
   { label: "Components", href: "/components" },
+  { label: "Tokens", href: "/tokens" },
   { label: "Tools", href: "/tools" },
   { label: "Architecture", href: "/architecture" },
   { label: "Playground", href: "/playground" },

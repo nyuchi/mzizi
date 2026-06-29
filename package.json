@@ -1,6 +1,6 @@
 {
   "name": "mzizi",
-  "version": "4.0.40",
+  "version": "4.0.41",
   "private": true,
   "description": "Mzizi — an open-architecture project of the Bundu Foundation. Open 3D frontend architecture, component registry, and MCP server, operated and developed by Nyuchi.",
   "homepage": "https://mzizi.dev",
@@ -20,6 +20,9 @@
     "build:packages": "pnpm --filter \"./packages/*\" build",
     "registry:sync": "tsx scripts/sync-registry.ts",
     "registry:verify": "tsx scripts/sync-registry.ts --check",
+    "tokens:sync": "tsx scripts/sync-tokens.ts",
+    "tokens:verify": "tsx scripts/sync-tokens.ts --check",
+    "lint:colors": "tsx scripts/lint-colors.ts",
     "skills:sync": "tsx scripts/sync-skills.ts",
     "skills:verify": "tsx scripts/sync-skills.ts --check",
     "prepare": "husky",
@@ -29,7 +32,7 @@
     "lint:md": "markdownlint-cli2",
     "lint:yaml": "yamllint .",
     "lint:json": "node -e \"const{execSync}=require('child_process');const fs=require('fs');const files=execSync(\\\"git ls-files '*.json' ':!pnpm-lock.yaml'\\\").toString().trim().split('\\n').filter(Boolean);let fail=0;for(const f of files){try{JSON.parse(fs.readFileSync(f,'utf8'))}catch(e){console.error('INVALID JSON:',f,e.message);fail=1}}process.exit(fail)\"",
-    "check": "pnpm format:check && pnpm lint && pnpm lint:md && pnpm lint:json && pnpm typecheck && pnpm test && pnpm audit:check && pnpm registry:verify && pnpm build"
+    "check": "pnpm format:check && pnpm lint && pnpm lint:colors && pnpm lint:md && pnpm lint:json && pnpm typecheck && pnpm test && pnpm audit:check && pnpm registry:verify && pnpm tokens:verify && pnpm build"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

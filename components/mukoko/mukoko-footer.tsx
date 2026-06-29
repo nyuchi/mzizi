@@ -84,7 +84,7 @@ export function NyuchiFooter({
   return (
     <footer
       data-slot="nyuchi-footer"
-      data-portal="https://design.nyuchi.com/components/nyuchi-footer"
+      data-portal="https://mzizi.dev/components/nyuchi-footer"
       role="contentinfo"
       className={cn("border-t border-border bg-card", className)}
     >

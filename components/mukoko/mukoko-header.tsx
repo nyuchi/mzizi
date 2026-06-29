@@ -83,7 +83,7 @@ export function NyuchiHeader({
   return (
     <header
       data-slot="nyuchi-header"
-      data-portal="https://design.nyuchi.com/components/nyuchi-header"
+      data-portal="https://mzizi.dev/components/nyuchi-header"
       className={cn(
         "sticky top-0 z-50 flex h-14 items-center gap-2 px-5 transition-all duration-300",
         scrolled ? "border-b border-border/50 bg-background/80 backdrop-blur-xl" : "bg-transparent",

@@ -1,7 +1,7 @@
 /**
  * NYUCHI DESIGN TOKENS — Layer 1: The Mathematical Substrate
  *
- * Canonical source: design.nyuchi.com
+ * Canonical source: mzizi.dev
  * W3C Design Tokens Specification (2025.10) compliant
  * Nyuchi Frontend Architecture Layer 1 of 7
  *
@@ -27,6 +27,40 @@
  * — The Mukoko Order, v4.0.2
  */
 
+import {
+  minerals,
+  heritageColors,
+  type MineralToken,
+  type HeritageToken,
+} from "./palette.generated"
+
+// The seven minerals + seven heritage tones are the single source of truth for
+// the palette and are generated from the DB (see palette.generated.ts). Re-export
+// them so consumers can read the canonical swatch list with role/family/origin.
+export { minerals, heritageColors }
+export type { MineralToken, HeritageToken }
+
+/** Canonical render order: the seven minerals first, then the seven heritage tones. */
+export const paletteSwatches = [...minerals, ...heritageColors]
+
+const swatchByName = new Map(paletteSwatches.map((s) => [s.name, s]))
+
+/**
+ * Resolve a palette colour to its concrete hex, sourced from the DB snapshot.
+ * Use this in raster/canvas/OG contexts where CSS custom properties don't
+ * resolve (satori, Canvas 2D) so values stay DB-driven instead of hardcoded.
+ */
+export function paletteColor(name: string, mode: "dark" | "light" = "dark"): string {
+  const s = swatchByName.get(name)
+  if (!s) throw new Error(`unknown palette colour: ${name}`)
+  return mode === "light" ? s.lightHex : s.darkHex
+}
+
+/** Mineral names in sort order — derived from the DB snapshot, never hardcoded. */
+const mineralKeys = minerals.map((m) => m.name)
+/** Heritage names in sort order — derived from the DB snapshot, never hardcoded. */
+const heritageKeys = heritageColors.map((h) => h.name)
+
 // ═══════════════════════════════════════════════════════════════
 // TIER 1 — PRIMITIVE TOKENS
 // These are absolute values. They never change.
@@ -38,86 +72,12 @@ export const primitives = {
   // Dark mode values are used in the Nyuchi default dark theme.
   // Light mode values are used for light theme and text-on-light.
   color: {
-    // Minerals
-    cobalt: { value: "#00B0FF", description: "Primary blue, links, CTAs" },
-    cobaltLight: { value: "#0047AB", description: "Cobalt on light backgrounds" },
-    tanzanite: { value: "#B388FF", description: "Purple accent, brand/logo, social" },
-    tanzaniteLight: { value: "#4B0082", description: "Tanzanite on light backgrounds" },
-    malachite: {
-      value: "#64FFDA",
-      description: "Success states, positive actions, Mukoko identity",
-    },
-    malachiteLight: { value: "#004D40", description: "Malachite on light backgrounds" },
-    gold: { value: "#FFD740", description: "Achievements, rewards, highlights" },
-    goldLight: { value: "#5D4037", description: "Gold on light backgrounds" },
-    terracotta: { value: "#D4A574", description: "Community features, warmth, earth" },
-    terracottaLight: { value: "#8B4513", description: "Terracotta on light backgrounds" },
-
-    // ─── MINERAL CONTAINER COLORS ─────────────────────────────
-    // Subtle background surfaces when a mineral needs to be an area fill.
-    // Used for cards, banners, alerts, and category-tinted sections.
-    // Each mineral has a light container and dark container variant.
-    cobaltContainer: { value: "#E3F2FD", description: "Cobalt-tinted surface (light)" },
-    cobaltContainerDark: { value: "#001F3F", description: "Cobalt-tinted surface (dark)" },
-    tanzaniteContainer: { value: "#F3E5F5", description: "Tanzanite-tinted surface (light)" },
-    tanzaniteContainerDark: { value: "#1A0033", description: "Tanzanite-tinted surface (dark)" },
-    malachiteContainer: { value: "#E0F2F1", description: "Malachite-tinted surface (light)" },
-    malachiteContainerDark: { value: "#00251A", description: "Malachite-tinted surface (dark)" },
-    goldContainer: { value: "#FFF8E1", description: "Gold-tinted surface (light)" },
-    goldContainerDark: { value: "#332200", description: "Gold-tinted surface (dark)" },
-    terracottaContainer: { value: "#FBE9E7", description: "Terracotta-tinted surface (light)" },
-    terracottaContainerDark: { value: "#3E1A00", description: "Terracotta-tinted surface (dark)" },
-
-    // ─── ON-CONTAINER COLORS (text/icons on container surfaces) ──
-    // High-contrast foreground colors for use on mineral container backgrounds.
-    // These ensure WCAG AAA readability when text sits on a container surface.
-    cobaltOnContainer: { value: "#002966", description: "Text on cobalt container (light)" },
-    cobaltOnContainerDark: { value: "#B3E5FC", description: "Text on cobalt container (dark)" },
-    tanzaniteOnContainer: { value: "#2E004D", description: "Text on tanzanite container (light)" },
-    tanzaniteOnContainerDark: {
-      value: "#E1BEE7",
-      description: "Text on tanzanite container (dark)",
-    },
-    malachiteOnContainer: { value: "#00332B", description: "Text on malachite container (light)" },
-    malachiteOnContainerDark: {
-      value: "#A7FFEB",
-      description: "Text on malachite container (dark)",
-    },
-    goldOnContainer: { value: "#3E2723", description: "Text on gold container (light)" },
-    goldOnContainerDark: { value: "#FFECB3", description: "Text on gold container (dark)" },
-    terracottaOnContainer: {
-      value: "#5D2906",
-      description: "Text on terracotta container (light)",
-    },
-    terracottaOnContainerDark: {
-      value: "#FFCCBC",
-      description: "Text on terracotta container (dark)",
-    },
-
-    // ─── FIVE HERITAGE COLORS (atmospheric, from above ground) ───
-    // African fashion, sunset, savanna, rivers, ancient and biblical.
-    indigo: {
-      value: "#8C9EFF",
-      description: "Yoruba adire dye pits, Shweshwe cloth — longevity, resilience",
-    },
-    indigoLight: { value: "#1A237E", description: "Indigo on light backgrounds" },
-    savanna: {
-      value: "#FFCC80",
-      description: "Golden grasslands, Sahel to Southern Africa — the journey",
-    },
-    savannaLight: { value: "#5D4037", description: "Savanna on light backgrounds" },
-    baobab: {
-      value: "#A5D6A7",
-      description: "Tree of life, ancestral wisdom — endurance, community roots",
-    },
-    baobabLight: { value: "#2E4A2E", description: "Baobab on light backgrounds" },
-    sunset: {
-      value: "#FF8A80",
-      description: "African dusk, rose-copper sky — endings that are beginnings",
-    },
-    sunsetLight: { value: "#8B2500", description: "Sunset on light backgrounds" },
-    river: { value: "#80DEEA", description: "Zambezi, Limpopo, Nile — life-giving waterways" },
-    riverLight: { value: "#00525A", description: "River on light backgrounds" },
+    // ─── PALETTE (seven minerals + seven heritage) ─────────────
+    // Sourced from the DB and generated into ./palette.generated.ts
+    // (see `minerals` / `heritageColors`). They are intentionally NOT
+    // duplicated here — every generator below reads the snapshot directly,
+    // so there is exactly one source of truth and no value can drift from
+    // the live database.
 
     // Neutrals — warm stone palette (April 2026, AAA-optimised)
     // Named by role, not arbitrary grey percentage.
@@ -355,11 +315,15 @@ export type ListingTheme =
   | "malachite"
   | "gold"
   | "terracotta"
+  | "sodalite"
+  | "copper"
   | "indigo"
   | "savanna"
   | "baobab"
   | "sunset"
   | "river"
+  | "hematite"
+  | "kalahari"
 
 export const listingThemes: Record<
   ListingTheme,
@@ -421,12 +385,30 @@ export const listingThemes: Record<
   },
   terracotta: {
     name: "Terracotta",
-    accent: "#D4A574",
+    accent: "#E1B07E",
     bg: "#1A0F05",
     surface: "#2A1A0A",
     gradient: "linear-gradient(145deg, #0D0800 0%, #1A0F05 50%, #2A1A0A 100%)",
     family: "mineral",
     origin: "Pan-African Sahel",
+  },
+  sodalite: {
+    name: "Sodalite",
+    accent: "#3D5AFE",
+    bg: "#0D1240",
+    surface: "#141A66",
+    gradient: "linear-gradient(145deg, #060920 0%, #0D1240 50%, #141A66 100%)",
+    family: "mineral",
+    origin: "Kunene River, Namibia & South Africa",
+  },
+  copper: {
+    name: "Copper",
+    accent: "#FF8A65",
+    bg: "#2A1206",
+    surface: "#3D1C0E",
+    gradient: "linear-gradient(145deg, #1A0B03 0%, #2A1206 50%, #3D1C0E 100%)",
+    family: "mineral",
+    origin: "Central African Copperbelt, Zambia & DRC",
   },
   // Heritage
   indigo: {
@@ -467,12 +449,30 @@ export const listingThemes: Record<
   },
   river: {
     name: "River",
-    accent: "#80DEEA",
+    accent: "#4DD0E1",
     bg: "#002025",
     surface: "#003035",
     gradient: "linear-gradient(145deg, #001418 0%, #002025 50%, #003035 100%)",
     family: "heritage",
     origin: "Zambezi, Limpopo, Nile, Congo",
+  },
+  hematite: {
+    name: "Hematite",
+    accent: "#90A4AE",
+    bg: "#14191C",
+    surface: "#20282C",
+    gradient: "linear-gradient(145deg, #0B0E10 0%, #14191C 50%, #20282C 100%)",
+    family: "heritage",
+    origin: "Sishen & Thabazimbi, South Africa",
+  },
+  kalahari: {
+    name: "Kalahari",
+    accent: "#E8D9B5",
+    bg: "#1F1B12",
+    surface: "#2E281B",
+    gradient: "linear-gradient(145deg, #100E09 0%, #1F1B12 50%, #2E281B 100%)",
+    family: "heritage",
+    origin: "Kalahari & Namib, Southern Africa",
   },
 }
 
@@ -751,24 +751,23 @@ export function generateCSSVariables(theme: ThemeMode = "dark", brand: BrandId =
 
   const lines: string[] = [":root {"]
 
-  // Mineral colors (constant across themes)
-  const mineralKeys = ["cobalt", "tanzanite", "malachite", "gold", "terracotta"] as const
-  for (const mineral of mineralKeys) {
-    const val =
-      theme === "light"
-        ? primitives.color[`${mineral}Light` as keyof typeof primitives.color]
-        : primitives.color[mineral]
-    lines.push(`  --color-${mineral}: ${val.value};`)
+  // Seven minerals — theme-adaptive, each with container / on-container surfaces.
+  // Values come straight from the DB snapshot (palette.generated.ts).
+  for (const m of minerals) {
+    lines.push(`  --color-${m.name}: ${theme === "light" ? m.lightHex : m.darkHex};`)
+    lines.push(
+      `  --color-${m.name}-container: ${theme === "light" ? m.containerLight : m.containerDark};`
+    )
+    lines.push(
+      `  --color-${m.name}-on-container: ${
+        theme === "light" ? m.onContainerLight : m.onContainerDark
+      };`
+    )
   }
 
-  // Heritage colors (constant across themes)
-  const heritageKeys = ["indigo", "savanna", "baobab", "sunset", "river"] as const
-  for (const heritage of heritageKeys) {
-    const val =
-      theme === "light"
-        ? primitives.color[`${heritage}Light` as keyof typeof primitives.color]
-        : primitives.color[heritage]
-    lines.push(`  --color-${heritage}: ${val.value};`)
+  // Seven heritage tones — theme-adaptive.
+  for (const h of heritageColors) {
+    lines.push(`  --color-${h.name}: ${theme === "light" ? h.lightHex : h.darkHex};`)
   }
 
   // Radii
@@ -838,7 +837,15 @@ export function generateTokens(format: PlatformFormat): string {
   switch (format) {
     case "json":
       return JSON.stringify(
-        { primitives, semanticTokens, brandOverrides, listingThemes, componentTokens },
+        {
+          primitives,
+          minerals,
+          heritageColors,
+          semanticTokens,
+          brandOverrides,
+          listingThemes,
+          componentTokens,
+        },
         null,
         2
       )
@@ -863,13 +870,11 @@ export function generateTokens(format: PlatformFormat): string {
 function generateSwiftTokens(): string {
   const lines = [
     "// MUKOKO DESIGN TOKENS — Auto-generated from tokens.ts",
-    "// Do not edit manually. Source: design.nyuchi.com",
+    "// Do not edit manually. Source: mzizi.dev",
     "import SwiftUI",
     "",
     "extension Color {",
   ]
-  const mineralKeys = ["cobalt", "tanzanite", "malachite", "gold", "terracotta"] as const
-  const heritageKeys = ["indigo", "savanna", "baobab", "sunset", "river"] as const
   for (const key of [...mineralKeys, ...heritageKeys]) {
     // Swift color values are baked at asset-catalog generation time; the
     // emitted line just references the catalog key, so the dark/light
@@ -885,29 +890,16 @@ function generateSwiftTokens(): string {
 function generateKotlinTokens(): string {
   const lines = [
     "// MUKOKO DESIGN TOKENS — Auto-generated from tokens.ts",
-    "// Do not edit manually. Source: design.nyuchi.com",
+    "// Do not edit manually. Source: mzizi.dev",
     "package com.mukoko.design.tokens",
     "",
     "import androidx.compose.ui.graphics.Color",
     "",
     "object MukokoColors {",
   ]
-  const allKeys = [
-    "cobalt",
-    "tanzanite",
-    "malachite",
-    "gold",
-    "terracotta",
-    "indigo",
-    "savanna",
-    "baobab",
-    "sunset",
-    "river",
-  ] as const
-  for (const key of allKeys) {
-    const val = primitives.color[key].value
-    const hex = val.replace("#", "")
-    lines.push(`    val ${key.charAt(0).toUpperCase() + key.slice(1)} = Color(0xFF${hex})`)
+  for (const sw of paletteSwatches) {
+    const hex = sw.darkHex.replace("#", "")
+    lines.push(`    val ${sw.name.charAt(0).toUpperCase() + sw.name.slice(1)} = Color(0xFF${hex})`)
   }
   lines.push("}")
   return lines.join("\n")
@@ -916,24 +908,11 @@ function generateKotlinTokens(): string {
 function generateRustTokens(): string {
   const lines = [
     "// MUKOKO DESIGN TOKENS — Auto-generated from tokens.ts",
-    "// Do not edit manually. Source: design.nyuchi.com",
+    "// Do not edit manually. Source: mzizi.dev",
     "",
   ]
-  const allKeys = [
-    "cobalt",
-    "tanzanite",
-    "malachite",
-    "gold",
-    "terracotta",
-    "indigo",
-    "savanna",
-    "baobab",
-    "sunset",
-    "river",
-  ] as const
-  for (const key of allKeys) {
-    const val = primitives.color[key].value
-    lines.push(`pub const MUKOKO_${key.toUpperCase()}: &str = "${val}";`)
+  for (const sw of paletteSwatches) {
+    lines.push(`pub const MUKOKO_${sw.name.toUpperCase()}: &str = "${sw.darkHex}";`)
   }
   return lines.join("\n")
 }
@@ -941,27 +920,14 @@ function generateRustTokens(): string {
 function generatePythonTokens(): string {
   const lines = [
     "# MUKOKO DESIGN TOKENS — Auto-generated from tokens.ts",
-    "# Do not edit manually. Source: design.nyuchi.com",
+    "# Do not edit manually. Source: mzizi.dev",
     "from dataclasses import dataclass",
     "",
     "@dataclass(frozen=True)",
     "class MukokoColors:",
   ]
-  const allKeys = [
-    "cobalt",
-    "tanzanite",
-    "malachite",
-    "gold",
-    "terracotta",
-    "indigo",
-    "savanna",
-    "baobab",
-    "sunset",
-    "river",
-  ] as const
-  for (const key of allKeys) {
-    const val = primitives.color[key].value
-    lines.push(`    ${key.toUpperCase()}: str = "${val}"`)
+  for (const sw of paletteSwatches) {
+    lines.push(`    ${sw.name.toUpperCase()}: str = "${sw.darkHex}"`)
   }
   return lines.join("\n")
 }
@@ -1352,32 +1318,19 @@ export const mineralChartConfig = {
     },
     [labels[4].toLowerCase().replace(/\\s/g, "_")]: {
       label: labels[4],
-      color: "var(--color-terracotta, #D4A574)",
+      color: "var(--color-terracotta, #E1B07E)",
     },
   }),
-  /** Heritage colors for series 6-10 */
-  heritage: {
-    indigo: "var(--color-indigo, #8C9EFF)",
-    savanna: "var(--color-savanna, #FFCC80)",
-    baobab: "var(--color-baobab, #A5D6A7)",
-    sunset: "var(--color-sunset, #FF8A80)",
-    river: "var(--color-river, #80DEEA)",
-  },
+  /** Heritage colors for the atmospheric series — all seven, DB-sourced */
+  heritage: Object.fromEntries(
+    heritageColors.map((h) => [h.name, `var(${h.cssVar}, ${h.darkHex})`])
+  ) as Record<string, string>,
 } as const
 
-/** Chart color array for recharts — mineral order */
-export const mineralChartColors = [
-  "var(--color-cobalt, #00B0FF)",
-  "var(--color-tanzanite, #B388FF)",
-  "var(--color-malachite, #64FFDA)",
-  "var(--color-gold, #FFD740)",
-  "var(--color-terracotta, #D4A574)",
-  "var(--color-indigo, #8C9EFF)",
-  "var(--color-savanna, #FFCC80)",
-  "var(--color-baobab, #A5D6A7)",
-  "var(--color-sunset, #FF8A80)",
-  "var(--color-river, #80DEEA)",
-] as const
+/** Chart color array for recharts — seven minerals then seven heritage, DB order */
+export const mineralChartColors: readonly string[] = paletteSwatches.map(
+  (sw) => `var(${sw.cssVar}, ${sw.darkHex})`
+)
 
 // ═══════════════════════════════════════════════════════════════
 // COLOR RESOLUTION UTILITIES
@@ -1455,10 +1408,10 @@ export function generateTokensJSON(): string {
   // primitives or reference it from componentTokens.
   return JSON.stringify(
     {
-      $schema: "https://design.nyuchi.com/tokens/v1",
+      $schema: "https://mzizi.dev/tokens/v1",
       version: "4.0.2",
       generated: new Date().toISOString(),
-      colors: { minerals: primitives.color, semantic: semanticTokens },
+      colors: { minerals, heritage: heritageColors, semantic: semanticTokens },
       radii: primitives.radius,
       spacing: primitives.spacing,
       motion: primitives.motion,
@@ -1486,25 +1439,12 @@ export function generateTokensJSON(): string {
 export function generateArkTS(): string {
   const lines: string[] = [
     "// Auto-generated — Nyuchi Design Tokens for ArkUI",
-    "// Source: design.nyuchi.com",
+    "// Source: mzizi.dev",
     "",
   ]
   lines.push("export const NyuchiColors = {")
-  const allKeys = [
-    "cobalt",
-    "tanzanite",
-    "malachite",
-    "gold",
-    "terracotta",
-    "indigo",
-    "savanna",
-    "baobab",
-    "sunset",
-    "river",
-  ] as const
-  for (const key of allKeys) {
-    const val = primitives.color[key]?.value ?? "#000000"
-    lines.push(`  ${key}: "${val}",`)
+  for (const sw of paletteSwatches) {
+    lines.push(`  ${sw.name}: "${sw.darkHex}",`)
   }
   lines.push("}")
   lines.push("")

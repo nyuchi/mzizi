@@ -3,6 +3,7 @@
 // Infrastructure lib — accessibility primitives for brand components.
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { paletteColor } from "@/lib/tokens"
 
 /* ═══════════════════════════════════════════════════════════════
    MUKOKO ACCESSIBILITY INFRASTRUCTURE
@@ -49,18 +50,18 @@ export const a11yTokens = {
    *  Each mineral paired with its safe text color for both themes. */
   contrastPairs: {
     dark: {
-      malachite: { bg: "#64FFDA", text: "#0A0A0A", ratio: 15.9 },
-      cobalt: { bg: "#00B0FF", text: "#0A0A0A", ratio: 8.2 },
-      tanzanite: { bg: "#B388FF", text: "#0A0A0A", ratio: 7.4 },
-      gold: { bg: "#FFD740", text: "#0A0A0A", ratio: 14.2 },
-      terracotta: { bg: "#D4A574", text: "#0A0A0A", ratio: 8.9 },
+      malachite: { bg: paletteColor("malachite"), text: "#0A0A0A", ratio: 15.9 },
+      cobalt: { bg: paletteColor("cobalt"), text: "#0A0A0A", ratio: 8.2 },
+      tanzanite: { bg: paletteColor("tanzanite"), text: "#0A0A0A", ratio: 7.4 },
+      gold: { bg: paletteColor("gold"), text: "#0A0A0A", ratio: 14.2 },
+      terracotta: { bg: paletteColor("terracotta"), text: "#0A0A0A", ratio: 8.9 },
     },
     light: {
-      malachite: { bg: "#004D40", text: "#FFFFFF", ratio: 9.1 },
-      cobalt: { bg: "#0047AB", text: "#FFFFFF", ratio: 7.3 },
-      tanzanite: { bg: "#4B0082", text: "#FFFFFF", ratio: 12.6 },
-      gold: { bg: "#5D4037", text: "#FFFFFF", ratio: 7.5 },
-      terracotta: { bg: "#8B4513", text: "#FFFFFF", ratio: 6.8 },
+      malachite: { bg: paletteColor("malachite", "light"), text: "#FFFFFF", ratio: 9.1 },
+      cobalt: { bg: paletteColor("cobalt", "light"), text: "#FFFFFF", ratio: 7.3 },
+      tanzanite: { bg: paletteColor("tanzanite", "light"), text: "#FFFFFF", ratio: 12.6 },
+      gold: { bg: paletteColor("gold", "light"), text: "#FFFFFF", ratio: 7.5 },
+      terracotta: { bg: paletteColor("terracotta", "light"), text: "#FFFFFF", ratio: 6.8 },
     },
   },
 
