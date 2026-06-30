@@ -73,7 +73,7 @@ export default function OpengraphImage() {
             maxWidth: 920,
           }}
         >
-          Open 3D frontend architecture · Five African Minerals palette · shadcn-compatible registry
+          Open 3D frontend architecture · Seven African Minerals palette · shadcn-compatible registry
           · MCP server.
         </div>
         <div

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
 
 /**
- * Vertical 4px accent stripe using the Five African Minerals (top-to-bottom:
+ * Vertical 4px accent stripe using the Seven African Minerals (top-to-bottom:
  * Cobalt → Tanzanite → Malachite → Gold → Terracotta). Always vertical per the
  * brand rule. Self-contained — the full styled variants live in the registry.
  */

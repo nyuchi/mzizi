@@ -585,7 +585,7 @@ export const COMPONENT_DEMOS: Record<string, React.ReactNode> = {
     <div className="w-full max-w-md rounded-lg border border-border p-4">
       <div className="mb-3 text-sm font-bold">mukoko</div>
       <p className="mb-2 text-xs text-muted-foreground">
-        Built on the Five African Minerals palette.
+        Built on the Seven African Minerals palette.
       </p>
       <div className="mb-3 flex items-center gap-1.5">
         <span className="size-2 rounded-full bg-[var(--color-cobalt)]" />
@@ -1048,7 +1048,7 @@ export const COMPONENT_DEMOS: Record<string, React.ReactNode> = {
         <div className="flex-1 space-y-1 pt-0">
           <h4 className="text-sm font-medium">Registry v7.0 released</h4>
           <p className="text-xs text-muted-foreground">
-            Five African Minerals design system launched.
+            Seven African Minerals design system launched.
           </p>
           <time className="text-xs text-muted-foreground">March 2026</time>
         </div>

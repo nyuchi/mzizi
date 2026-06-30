@@ -119,13 +119,13 @@ export function AiNativeSection() {
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">
                 nyuchi-design-system
               </code>{" "}
-              skill teaches Claude Code the Five African Minerals palette, component patterns,
+              skill teaches Claude Code the Seven African Minerals palette, component patterns,
               Ubuntu design principles, and APCA accessibility standards.
             </p>
             <CopySnippet code={skillUsage} label="Usage" />
             <ul className="mt-auto space-y-1.5 text-xs text-muted-foreground">
               {[
-                "Five African Minerals palette",
+                "Seven African Minerals palette",
                 "CVA + Radix + cn() patterns",
                 "Ubuntu design checklist",
                 "APCA Lc 90+ contrast guide",

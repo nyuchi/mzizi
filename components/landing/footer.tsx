@@ -157,9 +157,9 @@ export function Footer() {
             <NyuchiLogo size={24} showWordmark suffix="mzizi" />
             <p className="max-w-xs text-xs leading-relaxed text-muted-foreground">
               Mzizi — an open-architecture project of the Bundu Foundation, operated and developed
-              by Nyuchi. Built on the Five African Minerals palette.
+              by Nyuchi. Built on the Seven African Minerals palette.
             </p>
-            <div className="flex items-center gap-1.5 pt-1" aria-label="Five African Minerals">
+            <div className="flex items-center gap-1.5 pt-1" aria-label="Seven African Minerals">
               {minerals.map((m) => (
                 <span key={m.name} className={`size-2 rounded-full ${m.color}`} title={m.name} />
               ))}

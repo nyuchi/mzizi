@@ -148,7 +148,7 @@ export function NyuchiFooter({
           <p className="text-xs text-muted-foreground">
             &copy; {year} {companyName}. All rights reserved.
           </p>
-          {/* L1: TOKENS — Five African Minerals dots */}
+          {/* L1: TOKENS — Seven African Minerals dots */}
           <div className="flex items-center gap-1.5" aria-hidden="true">
             {[
               "var(--color-primary, #00B0FF)",

@@ -56,7 +56,7 @@ export function BuildWithSection() {
             <p className="text-sm leading-relaxed text-muted-foreground">
               Copy the <code className="font-mono text-xs">:root</code> and{" "}
               <code className="font-mono text-xs">.dark</code> blocks from{" "}
-              <code className="font-mono text-xs">app/globals.css</code> — Five African Minerals,
+              <code className="font-mono text-xs">app/globals.css</code> — Seven African Minerals,
               semantic colors, typography, radius scale. Every component reads from these CSS
               variables.
             </p>

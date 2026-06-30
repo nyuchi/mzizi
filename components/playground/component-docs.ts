@@ -151,7 +151,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDoc> = {
     ],
     features: [
       "Built on Recharts",
-      "Uses Five African Minerals chart colors",
+      "Uses Seven African Minerals chart colors",
       "Theme-aware (light/dark)",
       "Tooltip and legend support",
     ],
@@ -612,7 +612,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDoc> = {
     ],
     features: [
       "Wraps sidebar primitive with Mukoko branding",
-      "Mineral accent strip at top (Five African Minerals)",
+      "Mineral accent strip at top (Seven African Minerals)",
       "Automatic active state detection from pathname",
       "Section-based navigation with group labels",
       "Nested menu support for hierarchical navigation",

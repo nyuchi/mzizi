@@ -21,7 +21,7 @@ const steps = [
     icon: Palette,
     title: "Inherit the brand",
     description:
-      "Five African Minerals built in. Swap tokens to match your product, or ship as-is.",
+      "Seven African Minerals built in. Swap tokens to match your product, or ship as-is.",
     code: '<Button variant="outline">Ship it</Button>',
     mineralColor: "bg-[var(--color-gold)]",
   },
