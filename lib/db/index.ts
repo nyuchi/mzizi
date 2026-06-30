@@ -2,11 +2,15 @@
  * Nyuchi Design Portal Document Store — Supabase Backend
  *
  * Replaces hardcoded JSON files (registry.json, component-docs.ts) with
- * Supabase Postgres. All registry data lives in three tables:
+ * Supabase Postgres. Registry data lives in the document store:
  *
- *   components       — Component metadata (name, deps, files, category)
- *   component_docs   — Documentation (use cases, variants, features)
- *   component_demos  — Demo configuration
+ *   component_documents  — one self-contained JSON document per item, keyed by
+ *                          (collection, name). `components` is a VIEW projecting
+ *                          the `collection = 'components'` rows. Docs (use_cases,
+ *                          variants, features, a11y, examples) and demo info
+ *                          (`demo: { has_demo, demo_type }`) live INSIDE each
+ *                          component's document — the old standalone
+ *                          `component_docs` / `component_demos` tables are gone.
  *
  * Architecture:
  *   Browser  →  Next.js API routes  →  Supabase (Postgres + RLS)
@@ -122,10 +126,59 @@ export function getAdminClient(): SupabaseClient {
 }
 
 /**
- * Check if Supabase is configured.
+ * Check if Supabase is configured (URL + anon key — enough for public reads).
  */
 export function isSupabaseConfigured(): boolean {
   return Boolean(supabaseUrl && supabaseAnonKey)
+}
+
+/**
+ * Check if the service-role (admin) client is configured. Admin/write paths
+ * must guard on this so they no-op cleanly when the secret is absent (e.g. in
+ * preview/CI) instead of constructing a client with an empty key.
+ */
+export function isAdminConfigured(): boolean {
+  return Boolean(supabaseUrl && supabaseServiceKey)
+}
+
+// ── Document-store mapping ──────────────────────────────────────────
+// Component docs/demos used to live in the dropped `component_docs` /
+// `component_demos` tables; they now live inside each component's JSON
+// document in `component_documents` (collection 'components').
+
+type ComponentDocument = {
+  name: string
+  document: Record<string, unknown> | null
+  updated_at: string | null
+}
+
+function asStringArray(v: unknown): string[] {
+  return Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : []
+}
+
+function docRowFromDocument(row: ComponentDocument): ComponentDocRow {
+  const d = row.document ?? {}
+  return {
+    id: 0,
+    component_name: row.name,
+    use_cases: asStringArray(d["use_cases"]),
+    variants: asStringArray(d["variants"]),
+    sizes: asStringArray(d["sizes"]),
+    features: asStringArray(d["features"]),
+    a11y: asStringArray(d["a11y"]),
+    examples: Array.isArray(d["examples"]) ? (d["examples"] as ComponentDocRow["examples"]) : [],
+    created_at: row.updated_at ?? "",
+    updated_at: row.updated_at ?? "",
+  }
+}
+
+function documentHasDemo(document: Record<string, unknown> | null): boolean {
+  const demo = document?.["demo"]
+  // `demo` is a `{ has_demo, demo_type }` object in the document store.
+  if (demo && typeof demo === "object") {
+    return Boolean((demo as Record<string, unknown>)["has_demo"])
+  }
+  return Boolean(demo)
 }
 
 // ── Component queries ───────────────────────────────────────────────
@@ -189,10 +242,16 @@ export async function getComponentsByLayer(layer: string): Promise<ComponentRow[
  * Search components by name or description (case-insensitive).
  */
 export async function searchComponents(query: string): Promise<ComponentRow[]> {
+  // The term is interpolated into a PostgREST `.or()` filter string, so strip
+  // characters that are significant to PostgREST/ilike (`,()*:.%_\"\\`) to
+  // prevent filter-structure injection and wildcard abuse (e.g. `q=*`).
+  const safe = query.replace(/[%_(),:*.\\"]/g, " ").trim()
+  if (!safe) return []
+
   const { data, error } = await getPublicClient()
     .from("components")
     .select("*")
-    .or(`name.ilike.%${query}%,description.ilike.%${query}%`)
+    .or(`name.ilike.%${safe}%,description.ilike.%${safe}%`)
     .order("name")
 
   if (error) throw new Error(error.message)
@@ -206,26 +265,28 @@ export async function searchComponents(query: string): Promise<ComponentRow[]> {
  */
 export async function getComponentDoc(name: string): Promise<ComponentDocRow | null> {
   const { data, error } = await getPublicClient()
-    .from("component_docs")
-    .select("*")
-    .eq("component_name", name)
-    .single()
+    .from("component_documents")
+    .select("name, document, updated_at")
+    .eq("collection", "components")
+    .eq("name", name)
+    .maybeSingle()
 
-  if (error) {
-    if (error.code === "PGRST116") return null
-    throw new Error(error.message)
-  }
-  return data as unknown as ComponentDocRow
+  if (error) throw new Error(error.message)
+  if (!data) return null
+  return docRowFromDocument(data as unknown as ComponentDocument)
 }
 
 /**
  * Get all component documentation.
  */
 export async function getAllComponentDocs(): Promise<ComponentDocRow[]> {
-  const { data, error } = await getPublicClient().from("component_docs").select("*")
+  const { data, error } = await getPublicClient()
+    .from("component_documents")
+    .select("name, document, updated_at")
+    .eq("collection", "components")
 
   if (error) throw new Error(error.message)
-  return (data ?? []) as unknown as ComponentDocRow[]
+  return ((data ?? []) as unknown as ComponentDocument[]).map(docRowFromDocument)
 }
 
 // ── Demo queries ────────────────────────────────────────────────────
@@ -235,12 +296,15 @@ export async function getAllComponentDocs(): Promise<ComponentDocRow[]> {
  */
 export async function hasDemoFor(name: string): Promise<boolean> {
   const { data } = await getPublicClient()
-    .from("component_demos")
-    .select("has_demo")
-    .eq("component_name", name)
-    .single()
+    .from("component_documents")
+    .select("document")
+    .eq("collection", "components")
+    .eq("name", name)
+    .maybeSingle()
 
-  return (data as unknown as { has_demo: boolean } | null)?.has_demo ?? false
+  return documentHasDemo(
+    (data as { document?: Record<string, unknown> | null } | null)?.document ?? null
+  )
 }
 
 /**
@@ -248,12 +312,16 @@ export async function hasDemoFor(name: string): Promise<boolean> {
  */
 export async function getDemoNames(): Promise<string[]> {
   const { data, error } = await getPublicClient()
-    .from("component_demos")
-    .select("component_name")
-    .eq("has_demo", true)
+    .from("component_documents")
+    .select("name, document")
+    .eq("collection", "components")
 
   if (error) throw new Error(error.message)
-  return ((data ?? []) as unknown as Array<{ component_name: string }>).map((d) => d.component_name)
+  return (
+    (data ?? []) as unknown as Array<{ name: string; document: Record<string, unknown> | null }>
+  )
+    .filter((d) => documentHasDemo(d.document))
+    .map((d) => d.name)
 }
 
 // ── Enriched queries ────────────────────────────────────────────────
@@ -265,15 +333,17 @@ export async function getComponentWithDocs(name: string): Promise<ComponentWithD
   const component = await getComponent(name)
   if (!component) return null
 
-  const [docs, demo] = await Promise.all([
-    getComponentDoc(name),
-    getPublicClient()
-      .from("component_demos")
-      .select("*")
-      .eq("component_name", name)
-      .single()
-      .then(({ data }) => data as unknown as ComponentDemoRow | null),
-  ])
+  const [docs, hasDemo] = await Promise.all([getComponentDoc(name), hasDemoFor(name)])
+  const demo: ComponentDemoRow | null = hasDemo
+    ? {
+        id: 0,
+        component_name: name,
+        has_demo: true,
+        demo_type: null,
+        created_at: "",
+        updated_at: "",
+      }
+    : null
 
   return { ...component, docs, demo }
 }
@@ -282,23 +352,27 @@ export async function getComponentWithDocs(name: string): Promise<ComponentWithD
  * Get all components with their docs (for catalog pages).
  */
 export async function getAllComponentsWithDocs(): Promise<ComponentWithDocs[]> {
-  const [components, docs, demos] = await Promise.all([
+  const [components, docs, demoNames] = await Promise.all([
     getAllComponents(),
     getAllComponentDocs(),
-    getPublicClient()
-      .from("component_demos")
-      .select("*")
-      .eq("has_demo", true)
-      .then(({ data }) => (data ?? []) as unknown as ComponentDemoRow[]),
+    getDemoNames().then((names) => new Set(names)),
   ])
 
   const docMap = new Map(docs.map((d) => [d.component_name, d]))
-  const demoMap = new Map(demos.map((d) => [d.component_name, d]))
 
   return components.map((component) => ({
     ...component,
     docs: docMap.get(component.name) ?? null,
-    demo: demoMap.get(component.name) ?? null,
+    demo: demoNames.has(component.name)
+      ? {
+          id: 0,
+          component_name: component.name,
+          has_demo: true,
+          demo_type: null,
+          created_at: "",
+          updated_at: "",
+        }
+      : null,
   }))
 }
 
@@ -418,17 +492,27 @@ export async function getRegistryCounts(): Promise<RegistryCounts> {
  */
 export async function getDatabaseInfo(): Promise<DatabaseInfo> {
   try {
-    const [components, docs, demos] = await Promise.all([
+    // Docs + demos now live inside each component's JSON document
+    // (component_documents, collection 'components') — the standalone
+    // component_docs / component_demos tables were dropped.
+    const [components, docDocs] = await Promise.all([
       getPublicClient().from("components").select("*", { count: "exact", head: true }),
-      getPublicClient().from("component_docs").select("*", { count: "exact", head: true }),
-      getPublicClient().from("component_demos").select("*", { count: "exact", head: true }),
+      getPublicClient()
+        .from("component_documents")
+        .select("document", { count: "exact" })
+        .eq("collection", "components"),
     ])
+
+    const docRows = (docDocs.data ?? []) as unknown as Array<{
+      document: Record<string, unknown> | null
+    }>
+    const demos = docRows.filter((r) => documentHasDemo(r.document)).length
 
     return {
       provider: "supabase",
       components: components.count ?? 0,
-      docs: docs.count ?? 0,
-      demos: demos.count ?? 0,
+      docs: docDocs.count ?? docRows.length,
+      demos,
       status: "connected",
     }
   } catch {
