@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { Section, SectionHeader } from "@/components/landing/section"
 import { Check, Copy, Bot, Zap, BarChart2, Terminal } from "lucide-react"
 import { LiveMcpStats } from "@/components/live-mcp-stats"
 
@@ -48,146 +49,136 @@ const skillUsage = `# In any Claude Code session:
 
 export function AiNativeSection() {
   return (
-    <section className="px-4 py-12 sm:px-6 sm:py-16 md:py-24">
-      <div className="mx-auto max-w-5xl">
-        {/* Header */}
-        <div className="mb-8 text-center sm:mb-14">
-          <p className="mb-3 text-xs font-medium tracking-widest text-muted-foreground uppercase sm:text-sm">
-            AI-Native
+    <Section>
+      <SectionHeader
+        align="center"
+        eyebrow="AI-native"
+        title="Your design system, inside your AI assistant"
+        sub="Mzizi ships with a Model Context Protocol server and a Claude Code skill. Your AI assistant can browse components, generate scaffolds, and fetch source code — without leaving the conversation."
+      />
+
+      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* MCP Server */}
+        <div className="flex flex-col gap-4 rounded-[var(--radius-xl)] border border-border bg-card p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-cobalt)]/10">
+              <Bot className="size-5 text-[var(--color-cobalt)]" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-foreground">MCP Server</h3>
+              <p className="text-xs text-muted-foreground">
+                Streamable HTTP · <LiveMcpStats format="tools" />
+              </p>
+            </div>
+          </div>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            Connect Claude Code, Cursor, or any MCP-compatible assistant to the full component
+            registry. Browse, search, scaffold, and fetch source — live from the database.
           </p>
-          <h2 className="font-serif text-2xl font-bold tracking-tight text-balance text-foreground sm:text-3xl md:text-4xl">
-            Your design system, inside your AI assistant
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground sm:mt-4 sm:text-base">
-            Mzizi ships with a Model Context Protocol server and a Claude Code skill. Your AI
-            assistant can browse components, generate scaffolds, and fetch source code — without
-            leaving the conversation.
-          </p>
+          <CopySnippet code={mcpConfig} label=".claude/settings.json" />
+          <div className="mt-auto grid grid-cols-2 gap-1.5">
+            {[
+              "list_components",
+              "get_component",
+              "search_components",
+              "scaffold_component",
+              "get_design_tokens",
+              "get_usage_stats",
+            ].map((tool) => (
+              <span
+                key={tool}
+                className="truncate rounded-full bg-muted px-2 py-0.5 font-mono text-[10px] text-muted-foreground"
+              >
+                {tool}
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {/* MCP Server */}
-          <div className="flex flex-col gap-4 rounded-[var(--radius-xl)] border border-border bg-card p-6">
-            <div className="flex items-center gap-3">
-              <div className="flex size-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-cobalt)]/10">
-                <Bot className="size-5 text-[var(--color-cobalt)]" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-foreground">MCP Server</h3>
-                <p className="text-xs text-muted-foreground">
-                  Streamable HTTP · <LiveMcpStats format="tools" />
-                </p>
-              </div>
+        {/* Claude Code Skill */}
+        <div className="flex flex-col gap-4 rounded-[var(--radius-xl)] border border-border bg-card p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-tanzanite)]/10">
+              <Terminal className="size-5 text-[var(--color-tanzanite)]" />
             </div>
-            <p className="text-xs leading-relaxed text-muted-foreground">
-              Connect Claude Code, Cursor, or any MCP-compatible assistant to the full component
-              registry. Browse, search, scaffold, and fetch source — live from the database.
-            </p>
-            <CopySnippet code={mcpConfig} label=".claude/settings.json" />
-            <div className="mt-auto grid grid-cols-2 gap-1.5">
-              {[
-                "list_components",
-                "get_component",
-                "search_components",
-                "scaffold_component",
-                "get_design_tokens",
-                "get_usage_stats",
-              ].map((tool) => (
-                <span
-                  key={tool}
-                  className="truncate rounded-full bg-muted px-2 py-0.5 font-mono text-[10px] text-muted-foreground"
-                >
-                  {tool}
-                </span>
-              ))}
+            <div>
+              <h3 className="text-sm font-semibold text-foreground">Claude Code Skill</h3>
+              <p className="text-xs text-muted-foreground">Slash command · Design system aware</p>
             </div>
           </div>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            The{" "}
+            <code className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">
+              nyuchi-design-system
+            </code>{" "}
+            skill teaches Claude Code the Seven African Minerals palette, component patterns, Ubuntu
+            design principles, and APCA accessibility standards.
+          </p>
+          <CopySnippet code={skillUsage} label="Usage" />
+          <ul className="mt-auto space-y-1.5 text-xs text-muted-foreground">
+            {[
+              "Seven African Minerals palette",
+              "CVA + Radix + cn() patterns",
+              "Ubuntu design checklist",
+              "APCA Lc 90+ contrast guide",
+              "56px touch target enforcement",
+            ].map((f) => (
+              <li key={f} className="flex items-center gap-2">
+                <span className="size-1 shrink-0 rounded-full bg-[var(--color-tanzanite)]" />
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-          {/* Claude Code Skill */}
-          <div className="flex flex-col gap-4 rounded-[var(--radius-xl)] border border-border bg-card p-6">
-            <div className="flex items-center gap-3">
-              <div className="flex size-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-tanzanite)]/10">
-                <Terminal className="size-5 text-[var(--color-tanzanite)]" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-foreground">Claude Code Skill</h3>
-                <p className="text-xs text-muted-foreground">Slash command · Design system aware</p>
-              </div>
+        {/* Open Data / Observability */}
+        <div className="flex flex-col gap-4 rounded-[var(--radius-xl)] border border-border bg-card p-6">
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-malachite)]/10">
+              <BarChart2 className="size-5 text-[var(--color-malachite)]" />
             </div>
-            <p className="text-xs leading-relaxed text-muted-foreground">
-              The{" "}
-              <code className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">
-                nyuchi-design-system
-              </code>{" "}
-              skill teaches Claude Code the Seven African Minerals palette, component patterns,
-              Ubuntu design principles, and APCA accessibility standards.
-            </p>
-            <CopySnippet code={skillUsage} label="Usage" />
-            <ul className="mt-auto space-y-1.5 text-xs text-muted-foreground">
-              {[
-                "Seven African Minerals palette",
-                "CVA + Radix + cn() patterns",
-                "Ubuntu design checklist",
-                "APCA Lc 90+ contrast guide",
-                "56px touch target enforcement",
-              ].map((f) => (
-                <li key={f} className="flex items-center gap-2">
-                  <span className="size-1 shrink-0 rounded-full bg-[var(--color-tanzanite)]" />
-                  {f}
-                </li>
-              ))}
-            </ul>
+            <div>
+              <h3 className="text-sm font-semibold text-foreground">Open Data</h3>
+              <p className="text-xs text-muted-foreground">Public metrics · CC BY 4.0</p>
+            </div>
           </div>
-
-          {/* Open Data / Observability */}
-          <div className="flex flex-col gap-4 rounded-[var(--radius-xl)] border border-border bg-card p-6">
-            <div className="flex items-center gap-3">
-              <div className="flex size-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-malachite)]/10">
-                <BarChart2 className="size-5 text-[var(--color-malachite)]" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-foreground">Open Data</h3>
-                <p className="text-xs text-muted-foreground">Public metrics · CC BY 4.0</p>
-              </div>
-            </div>
-            <p className="text-xs leading-relaxed text-muted-foreground">
-              Usage metrics are public — aligned with the bundu open data philosophy. See which
-              components are most installed, API latency, error rates, and MCP tool usage in real
-              time.
-            </p>
-            <div className="space-y-2">
-              <a
-                href="/observability"
-                className="flex items-center justify-between rounded-[var(--radius-md)] border border-border bg-muted/50 px-3 py-2 text-xs transition-colors hover:border-foreground/15"
-              >
-                <span className="font-mono text-foreground">/observability</span>
-                <Zap className="size-3 text-[var(--color-malachite)]" />
-              </a>
-              <a
-                href="/api/v1/stats"
-                className="flex items-center justify-between rounded-[var(--radius-md)] border border-border bg-muted/50 px-3 py-2 text-xs transition-colors hover:border-foreground/15"
-              >
-                <span className="font-mono text-foreground">GET /api/v1/stats</span>
-                <Copy className="size-3 text-muted-foreground" />
-              </a>
-            </div>
-            <ul className="mt-auto space-y-1.5 text-xs text-muted-foreground">
-              {[
-                "Most installed components",
-                "API call volumes + latency",
-                "MCP tool usage breakdown",
-                "Error rates by endpoint",
-                "30-day traffic trends",
-              ].map((f) => (
-                <li key={f} className="flex items-center gap-2">
-                  <span className="size-1 shrink-0 rounded-full bg-[var(--color-malachite)]" />
-                  {f}
-                </li>
-              ))}
-            </ul>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            Usage metrics are public — aligned with the bundu open data philosophy. See which
+            components are most installed, API latency, error rates, and MCP tool usage in real
+            time.
+          </p>
+          <div className="space-y-2">
+            <a
+              href="/observability"
+              className="flex items-center justify-between rounded-[var(--radius-md)] border border-border bg-muted/50 px-3 py-2 text-xs transition-colors hover:border-foreground/15"
+            >
+              <span className="font-mono text-foreground">/observability</span>
+              <Zap className="size-3 text-[var(--color-malachite)]" />
+            </a>
+            <a
+              href="/api/v1/stats"
+              className="flex items-center justify-between rounded-[var(--radius-md)] border border-border bg-muted/50 px-3 py-2 text-xs transition-colors hover:border-foreground/15"
+            >
+              <span className="font-mono text-foreground">GET /api/v1/stats</span>
+              <Copy className="size-3 text-muted-foreground" />
+            </a>
           </div>
+          <ul className="mt-auto space-y-1.5 text-xs text-muted-foreground">
+            {[
+              "Most installed components",
+              "API call volumes + latency",
+              "MCP tool usage breakdown",
+              "Error rates by endpoint",
+              "30-day traffic trends",
+            ].map((f) => (
+              <li key={f} className="flex items-center gap-2">
+                <span className="size-1 shrink-0 rounded-full bg-[var(--color-malachite)]" />
+                {f}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </section>
+    </Section>
   )
 }

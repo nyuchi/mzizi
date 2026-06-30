@@ -1,5 +1,6 @@
 import { BookOpen, Layers, Box, Activity, Code } from "lucide-react"
 import { getRegistryCounts } from "@/lib/db"
+import { Section, SectionHeader } from "@/components/landing/section"
 
 export async function ExploreSection() {
   const counts = await getRegistryCounts().catch(() => ({
@@ -58,48 +59,40 @@ export async function ExploreSection() {
   ]
 
   return (
-    <section className="px-4 py-16 sm:px-6 md:py-28">
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-10 text-center sm:mb-14">
-          <p className="mb-3 text-sm font-medium tracking-widest text-muted-foreground uppercase">
-            Explore
-          </p>
-          <h2 className="font-serif text-2xl font-bold tracking-tight text-balance text-foreground sm:text-3xl md:text-4xl">
-            Everything you need to build
-          </h2>
-          <p className="mt-3 text-sm text-muted-foreground sm:mt-4 sm:text-base">
-            Design system, component library, architecture reference, and developer docs — all in
-            one place.
-          </p>
-        </div>
+    <Section>
+      <SectionHeader
+        align="center"
+        eyebrow="Explore"
+        title="Everything you need to build"
+        sub="Design system, component library, architecture reference, and developer docs — all in one place."
+      />
 
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {sections.map((section) => (
-            <a
-              key={section.href}
-              href={section.href}
-              target={section.external ? "_blank" : undefined}
-              rel={section.external ? "noopener noreferrer" : undefined}
-              className="group flex flex-col gap-3 rounded-[var(--radius-xl)] border border-border bg-card p-5 transition-all hover:border-foreground/12 hover:bg-card/80"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex size-10 items-center justify-center rounded-[var(--radius-md)] bg-secondary text-foreground">
-                  <section.icon className="size-5" />
-                </div>
-                {section.count && (
-                  <span className="font-mono text-xs text-muted-foreground">{section.count}</span>
-                )}
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+        {sections.map((section) => (
+          <a
+            key={section.href}
+            href={section.href}
+            target={section.external ? "_blank" : undefined}
+            rel={section.external ? "noopener noreferrer" : undefined}
+            className="group flex flex-col gap-3 rounded-[var(--radius-xl)] border border-border bg-card p-5 transition-all hover:border-foreground/12 hover:bg-card/80"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex size-10 items-center justify-center rounded-[var(--radius-md)] bg-secondary text-foreground">
+                <section.icon className="size-5" />
               </div>
-              <div>
-                <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
-                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                  {section.description}
-                </p>
-              </div>
-            </a>
-          ))}
-        </div>
+              {section.count && (
+                <span className="font-mono text-xs text-muted-foreground">{section.count}</span>
+              )}
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                {section.description}
+              </p>
+            </div>
+          </a>
+        ))}
       </div>
-    </section>
+    </Section>
   )
 }
