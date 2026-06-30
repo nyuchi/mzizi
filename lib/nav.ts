@@ -78,12 +78,8 @@ export const SIDEBAR_NAV: NavGroup[] = [
 export const HEADER_NAV: NavItem[] = [
   { label: "Components", href: "/components" },
   { label: "Tokens", href: "/tokens" },
-  { label: "Tools", href: "/tools" },
   { label: "Architecture", href: "/architecture" },
   { label: "Playground", href: "/playground" },
-  { label: "Ubuntu", href: "/ubuntu" },
-  { label: "Changelog", href: "/changelog" },
-  { label: "Observability", href: "/observability" },
   { label: "Docs", href: "https://docs.bundu.org/mzizi", external: true },
 ]
 

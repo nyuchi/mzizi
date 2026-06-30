@@ -2,13 +2,8 @@ import type { Metadata, Viewport } from "next"
 import { Noto_Sans, Noto_Serif, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { MineralStrip } from "@/components/layout/mineral-strip"
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { DashboardSidebar } from "@/components/landing/dashboard-sidebar"
-import { Header } from "@/components/landing/header"
-import { Breadcrumbs } from "@/components/landing/breadcrumbs"
-import { Toc } from "@/components/landing/toc"
-import { Footer as CustomFooter } from "@/components/landing/footer"
+import { AppShell } from "@/components/layout/app-shell"
 import { ThemeProvider } from "@/components/theme-provider"
 
 const fontSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" })
@@ -187,27 +182,7 @@ export default function RootLayout({
           <MineralStrip className="fixed inset-y-0 left-0 z-40 h-screen rounded-none" />
 
           <TooltipProvider delayDuration={200}>
-            <SidebarProvider defaultOpen>
-              <DashboardSidebar />
-
-              <SidebarInset className="pl-1">
-                <Header />
-
-                <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_12rem] lg:py-8">
-                  <div className="min-w-0">
-                    <Breadcrumbs className="mb-4" />
-                    <article data-mdx className="prose-mdx">
-                      {children}
-                    </article>
-                  </div>
-                  <aside className="hidden self-start lg:sticky lg:top-20 lg:block">
-                    <Toc />
-                  </aside>
-                </div>
-
-                <CustomFooter />
-              </SidebarInset>
-            </SidebarProvider>
+            <AppShell>{children}</AppShell>
           </TooltipProvider>
         </ThemeProvider>
       </body>

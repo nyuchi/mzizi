@@ -6,26 +6,26 @@
 
 import { Search } from "@/lib/icons"
 import { NyuchiHeader, type NavItem, type PillAction } from "@/components/mukoko/mukoko-header"
+import { HEADER_NAV } from "@/lib/nav"
 
 /**
  * Portal-specific composition of the registry's `NyuchiHeader` (L7 shell).
  *
- * No design or behaviour lives here — this file only configures the
- * `navItems` (the portal's four top-level architecture surfaces) and
- * the `pillActions` group.
+ * No design or behaviour lives here — this file only adapts the single
+ * source-of-truth `HEADER_NAV` (lib/nav.ts) to the header's `navItems`
+ * shape and configures the `pillActions` group, so the header and sidebar
+ * never drift.
  *
  * Anything that would require a different header shape (logo, sticky,
  * scroll title, back button, blur background, etc.) belongs in
  * `components/mukoko/mukoko-header.tsx` (the registry source of truth).
- * Keep this file under 30 lines.
  */
 
-const NAV_ITEMS: NavItem[] = [
-  { label: "Components", href: "/components" },
-  { label: "Architecture", href: "/architecture" },
-  { label: "Observability", href: "/observability" },
-  { label: "Docs", href: "https://docs.bundu.org/mzizi" },
-]
+const NAV_ITEMS: NavItem[] = HEADER_NAV.map(({ label, href, external }) => ({
+  label,
+  href,
+  external,
+}))
 
 const PILL_ACTIONS: PillAction[] = [
   { icon: Search, label: "Search components", href: "/components" },
