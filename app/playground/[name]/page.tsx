@@ -60,7 +60,8 @@ export default async function PlaygroundComponentPage({
   if (!item) notFound()
 
   const sourceCode = item.source_code ?? "// Source not available"
-  const firstFilePath = item.files[0]?.path ?? ""
+  const firstFilePath = item.files?.[0]?.path ?? ""
+  const registryType = item.registry_type?.replace("registry:", "") ?? "component"
   const installUrl = `https://mzizi.dev/api/v1/ui/${item.name}`
   const hasDemo = hasDemoFor(item.name)
 
@@ -91,7 +92,7 @@ export default async function PlaygroundComponentPage({
         <div className="flex items-center gap-3">
           <h1 className="font-serif text-3xl font-bold tracking-tight">{item.name}</h1>
           <Badge variant="outline" className="font-mono text-xs">
-            {item.registry_type.replace("registry:", "")}
+            {registryType}
           </Badge>
           {item.layer && (
             <Badge variant="secondary" className="font-mono text-xs">
