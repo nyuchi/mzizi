@@ -3,6 +3,7 @@ import { Hero } from "@/components/landing/hero"
 import { InstallSteps } from "@/components/landing/install-steps"
 import { BuildWithSection } from "@/components/landing/build-with-section"
 import { AiNativeSection } from "@/components/landing/ai-native-section"
+import { HarnessSection } from "@/components/landing/harness-section"
 import { ResilientBySection } from "@/components/landing/resilient-by-design-section"
 import { ExploreSection } from "@/components/landing/explore-section"
 
@@ -23,6 +24,7 @@ export default function HomePage() {
       <InstallSteps />
       <BuildWithSection />
       <AiNativeSection />
+      <HarnessSection />
       <ResilientBySection />
       <ExploreSection />
     </div>
