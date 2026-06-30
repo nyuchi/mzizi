@@ -16,7 +16,9 @@ export const revalidate = 300
 
 export default function HomePage() {
   return (
-    <div className="full-bleed">
+    // The marketing shell already renders this route full-width — no `.full-bleed`
+    // breakout needed (that 100vw escape overflows on mobile post shell-split).
+    <div className="flex flex-col">
       <Hero />
       <InstallSteps />
       <BuildWithSection />

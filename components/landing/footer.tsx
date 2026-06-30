@@ -1,14 +1,7 @@
 import { Separator } from "@/components/ui/separator"
 import { NyuchiLogo } from "@/components/layout/nyuchi-logo"
 import { ThemeToggle } from "@/components/theme-toggle"
-
-const minerals = [
-  { name: "cobalt", color: "bg-[var(--color-cobalt)]" },
-  { name: "tanzanite", color: "bg-[var(--color-tanzanite)]" },
-  { name: "malachite", color: "bg-[var(--color-malachite)]" },
-  { name: "gold", color: "bg-[var(--color-gold)]" },
-  { name: "terracotta", color: "bg-[var(--color-terracotta)]" },
-]
+import { minerals } from "@/lib/tokens"
 
 // ──────────────────────────────────────────────────────────────────────────
 // Footer columns — the full navigation map.
@@ -122,10 +115,10 @@ const footerLink =
 
 export function Footer() {
   return (
-    // Full-bleed: the dashboard shell constrains the article column, so the
-    // negative margins + 100vw width here break out of that container so the
-    // footer spans the full viewport, then re-centres its grid via mx-auto.
-    <div className="relative right-1/2 left-1/2 -mx-[50vw] w-screen px-4 pt-8 pb-10 sm:px-6 sm:pb-12">
+    // Full-width within the content column. (No -mx/100vw breakout: the shell
+    // already gives this block full width, and a 100vw breakout overflows on
+    // mobile, causing a horizontal scrollbar.)
+    <div className="w-full px-4 pt-8 pb-10 sm:px-6 sm:pb-12">
       <div className="mx-auto max-w-6xl">
         <Separator className="mb-10" />
 
@@ -161,7 +154,12 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-1.5 pt-1" aria-label="Seven African Minerals">
               {minerals.map((m) => (
-                <span key={m.name} className={`size-2 rounded-full ${m.color}`} title={m.name} />
+                <span
+                  key={m.name}
+                  className="size-2 rounded-full"
+                  style={{ background: `var(${m.cssVar})` }}
+                  title={m.name}
+                />
               ))}
             </div>
           </div>
@@ -219,7 +217,7 @@ export function Footer() {
               </a>
             </span>
             <span aria-hidden="true">·</span>
-            <span className="font-mono text-[10px]">v4.0.40</span>
+            <span className="font-mono text-[10px]">v4.0.41</span>
           </div>
         </div>
       </div>
