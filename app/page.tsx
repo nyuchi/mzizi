@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
 import { Hero } from "@/components/landing/hero"
+import { ComponentShowcase } from "@/components/landing/component-showcase"
 import { InstallSteps } from "@/components/landing/install-steps"
 import { BuildWithSection } from "@/components/landing/build-with-section"
 import { AiNativeSection } from "@/components/landing/ai-native-section"
+import { HarnessSection } from "@/components/landing/harness-section"
 import { ResilientBySection } from "@/components/landing/resilient-by-design-section"
 import { ExploreSection } from "@/components/landing/explore-section"
 
@@ -16,11 +18,15 @@ export const revalidate = 300
 
 export default function HomePage() {
   return (
-    <div className="full-bleed">
+    // The marketing shell already renders this route full-width — no `.full-bleed`
+    // breakout needed (that 100vw escape overflows on mobile post shell-split).
+    <div className="flex flex-col">
       <Hero />
+      <ComponentShowcase />
       <InstallSteps />
       <BuildWithSection />
       <AiNativeSection />
+      <HarnessSection />
       <ResilientBySection />
       <ExploreSection />
     </div>

@@ -1,5 +1,6 @@
 "use client"
 
+import { minerals } from "@/lib/tokens"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -453,30 +454,32 @@ export const COMPONENT_DEMOS: Record<string, React.ReactNode> = {
 
   table: (
     <Table>
-      <TableCaption>Five African Minerals</TableCaption>
+      <TableCaption>Seven Minerals</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Mineral</TableHead>
+          <TableHead>Role</TableHead>
           <TableHead>Hex</TableHead>
           <TableHead>Usage</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell className="font-medium">Cobalt</TableCell>
-          <TableCell>#0047AB</TableCell>
-          <TableCell>Primary blue, links</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-medium">Tanzanite</TableCell>
-          <TableCell>#B388FF</TableCell>
-          <TableCell>Purple accent, brand</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-medium">Malachite</TableCell>
-          <TableCell>#64FFDA</TableCell>
-          <TableCell>Success states</TableCell>
-        </TableRow>
+        {minerals.map((m) => (
+          <TableRow key={m.name}>
+            <TableCell className="font-medium capitalize">
+              <span className="inline-flex items-center gap-2">
+                <span
+                  className="inline-block size-3 rounded-full"
+                  style={{ backgroundColor: `var(${m.cssVar})` }}
+                />
+                {m.name}
+              </span>
+            </TableCell>
+            <TableCell>{m.role}</TableCell>
+            <TableCell className="font-mono text-xs uppercase">{m.darkHex}</TableCell>
+            <TableCell>{m.usage}</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   ),
@@ -582,7 +585,7 @@ export const COMPONENT_DEMOS: Record<string, React.ReactNode> = {
     <div className="w-full max-w-md rounded-lg border border-border p-4">
       <div className="mb-3 text-sm font-bold">mukoko</div>
       <p className="mb-2 text-xs text-muted-foreground">
-        Built on the Five African Minerals palette.
+        Built on the Seven African Minerals palette.
       </p>
       <div className="mb-3 flex items-center gap-1.5">
         <span className="size-2 rounded-full bg-[var(--color-cobalt)]" />
@@ -1045,7 +1048,7 @@ export const COMPONENT_DEMOS: Record<string, React.ReactNode> = {
         <div className="flex-1 space-y-1 pt-0">
           <h4 className="text-sm font-medium">Registry v7.0 released</h4>
           <p className="text-xs text-muted-foreground">
-            Five African Minerals design system launched.
+            Seven African Minerals design system launched.
           </p>
           <time className="text-xs text-muted-foreground">March 2026</time>
         </div>

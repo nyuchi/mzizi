@@ -8,8 +8,10 @@ const minerals = [
   { name: "cobalt", color: "bg-[var(--color-cobalt)]" },
   { name: "tanzanite", color: "bg-[var(--color-tanzanite)]" },
   { name: "malachite", color: "bg-[var(--color-malachite)]" },
+  { name: "sodalite", color: "bg-[var(--color-sodalite)]" },
   { name: "gold", color: "bg-[var(--color-gold)]" },
   { name: "terracotta", color: "bg-[var(--color-terracotta)]" },
+  { name: "copper", color: "bg-[var(--color-copper)]" },
 ]
 
 const products = [
@@ -74,7 +76,7 @@ export async function Hero() {
           for the bundu ecosystem
         </h1>
         <p className="max-w-xl text-sm leading-relaxed text-pretty text-muted-foreground sm:text-base md:text-lg">
-          {totalLabel} components, blocks, and charts rooted in the Five African Minerals palette.
+          {totalLabel} components, blocks, and charts rooted in the Seven African Minerals palette.
           One design system powering mukoko, nyuchi, and every app in the bundu family. Install with
           the shadcn CLI — no packages, no lock-in.
         </p>
@@ -97,14 +99,13 @@ export async function Hero() {
         </div>
       </div>
 
-      {/* Stats — live from DB */}
+      {/* Registry stats — live counts from the DB (Palette is a brand constant). */}
       <div className="flex flex-wrap items-center justify-center gap-6 pt-4 sm:gap-8">
         {[
           { label: "Registry Items", value: counts.total > 0 ? `${counts.total}` : "—" },
-          { label: "Mini-Apps", value: "17" },
-          { label: "Enterprise Products", value: "7" },
-          { label: "Data Layers", value: "7" },
-          { label: "Palette", value: "5 minerals" },
+          { label: "UI Components", value: counts.ui > 0 ? `${counts.ui}` : "—" },
+          { label: "Blocks", value: counts.blocks > 0 ? `${counts.blocks}` : "—" },
+          { label: "Palette", value: "7 minerals" },
         ].map((stat) => (
           <div key={stat.label} className="flex flex-col items-center gap-0.5">
             <span className="font-mono text-lg font-semibold text-foreground">{stat.value}</span>

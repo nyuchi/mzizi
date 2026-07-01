@@ -39,7 +39,7 @@ export async function GET() {
           brand: {
             href: "/api/v1/brand",
             description:
-              "Brand system — Five African Minerals palette, typography, spacing, ecosystem brands.",
+              "Brand system — Seven African Minerals palette, typography, spacing, ecosystem brands.",
           },
           ui: {
             href: "/api/v1/ui",

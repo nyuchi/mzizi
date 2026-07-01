@@ -63,7 +63,7 @@ function ErrorCard({
   return (
     <div
       data-slot="nyuchi-error-card"
-      data-portal="https://design.nyuchi.com/components/nyuchi-error-card"
+      data-portal="https://mzizi.dev/components/nyuchi-error-card"
       role="alert"
       className={cn(
         "flex items-center gap-3 rounded-[var(--radius-card,14px)] border-l-4 bg-card px-4 py-3 ring-1 ring-foreground/10",

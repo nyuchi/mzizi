@@ -7,7 +7,7 @@
  * Data is exposed publicly via GET /api/v1/stats — aligned with the open data philosophy.
  */
 
-import { getAdminClient, isSupabaseConfigured } from "@/lib/db"
+import { getAdminClient, getPublicClient, isAdminConfigured, isSupabaseConfigured } from "@/lib/db"
 
 export interface TrackApiCallOptions {
   endpoint: string
@@ -27,7 +27,8 @@ export interface TrackMcpToolOptions {
  * Track an API route call. Fire-and-forget — never throws.
  */
 export function trackApiCall(opts: TrackApiCallOptions): void {
-  if (!isSupabaseConfigured()) return
+  // Writes go through the service-role client — no-op cleanly when it isn't configured.
+  if (!isAdminConfigured()) return
 
   const isError = opts.statusCode >= 400
 
@@ -55,7 +56,7 @@ export function trackApiCall(opts: TrackApiCallOptions): void {
  * Track an MCP tool invocation. Fire-and-forget — never throws.
  */
 export function trackMcpTool(opts: TrackMcpToolOptions): void {
-  if (!isSupabaseConfigured()) return
+  if (!isAdminConfigured()) return
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   void (getAdminClient() as any)
@@ -116,7 +117,8 @@ export async function getUsageStats(periodDays = 30): Promise<UsageStats> {
   }
 
   try {
-    const db = getAdminClient()
+    // Public, RLS-public read of usage_events — no need for the service-role key.
+    const db = getPublicClient()
     const since = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000).toISOString()
 
     // Total counts

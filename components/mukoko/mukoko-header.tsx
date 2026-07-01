@@ -83,7 +83,7 @@ export function NyuchiHeader({
   return (
     <header
       data-slot="nyuchi-header"
-      data-portal="https://design.nyuchi.com/components/nyuchi-header"
+      data-portal="https://mzizi.dev/components/nyuchi-header"
       className={cn(
         "sticky top-0 z-50 flex h-14 items-center gap-2 px-5 transition-all duration-300",
         scrolled ? "border-b border-border/50 bg-background/80 backdrop-blur-xl" : "bg-transparent",
@@ -140,28 +140,25 @@ export function NyuchiHeader({
       {/* Spacer */}
       <div className="flex-1" />
 
-      {/* ── PILL ACTION GROUP (brand identity pattern) ──────── */}
+      {/* ── ACTION GROUP — restrained ghost icon buttons (shadcn-style chrome) ── */}
       {pillActions && pillActions.length > 0 && (
-        <div
-          data-slot="pill-actions"
-          className="bg-[var(--brand-accent,var(--color-primary, #00B0FF))] flex items-center gap-1 rounded-full p-1"
-        >
+        <div data-slot="pill-actions" className="flex items-center gap-1">
           {pillActions.map((action, i) => {
             const Icon = action.icon
             const shared = cn(
-              "flex size-10 items-center justify-center rounded-full",
-              "bg-black/10 transition-colors hover:bg-black/20"
+              "flex size-9 items-center justify-center rounded-full",
+              "text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             )
             if (action.href) {
               return (
                 <a key={i} href={action.href} aria-label={action.label} className={shared}>
-                  <Icon className="size-5 text-background" />
+                  <Icon className="size-4" />
                 </a>
               )
             }
             return (
               <button key={i} onClick={action.onClick} aria-label={action.label} className={shared}>
-                <Icon className="size-5 text-background" />
+                <Icon className="size-4" />
               </button>
             )
           })}
@@ -171,7 +168,7 @@ export function NyuchiHeader({
       {/* Desktop actions area */}
       <div className="flex items-center gap-1">
         {actions}
-        {!pillActions && <ThemeToggle />}
+        <ThemeToggle />
       </div>
     </header>
   )

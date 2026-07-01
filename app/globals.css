@@ -54,12 +54,40 @@
   --radius-2xl: calc(var(--radius-unit) + 10px);
   --radius-3xl: 9999px;
   --radius-4xl: 9999px;
-  /* Five African Minerals — theme-adaptive */
+  /* Seven Minerals + Seven Heritage — theme-adaptive, sourced from the DB
+     (collections styling-minerals / styling-heritage-colors). Each mineral
+     also exposes -container / -on-container surface utilities.
+     Regenerate with `pnpm tokens:sync`; CI verifies via `pnpm tokens:verify`. */
+  /* tokens:generated:theme:start */
   --color-cobalt: var(--mineral-cobalt);
+  --color-cobalt-container: var(--mineral-cobalt-container);
+  --color-cobalt-on-container: var(--mineral-cobalt-on-container);
   --color-tanzanite: var(--mineral-tanzanite);
+  --color-tanzanite-container: var(--mineral-tanzanite-container);
+  --color-tanzanite-on-container: var(--mineral-tanzanite-on-container);
   --color-malachite: var(--mineral-malachite);
+  --color-malachite-container: var(--mineral-malachite-container);
+  --color-malachite-on-container: var(--mineral-malachite-on-container);
   --color-gold: var(--mineral-gold);
+  --color-gold-container: var(--mineral-gold-container);
+  --color-gold-on-container: var(--mineral-gold-on-container);
   --color-terracotta: var(--mineral-terracotta);
+  --color-terracotta-container: var(--mineral-terracotta-container);
+  --color-terracotta-on-container: var(--mineral-terracotta-on-container);
+  --color-sodalite: var(--mineral-sodalite);
+  --color-sodalite-container: var(--mineral-sodalite-container);
+  --color-sodalite-on-container: var(--mineral-sodalite-on-container);
+  --color-copper: var(--mineral-copper);
+  --color-copper-container: var(--mineral-copper-container);
+  --color-copper-on-container: var(--mineral-copper-on-container);
+  --color-indigo: var(--heritage-indigo);
+  --color-savanna: var(--heritage-savanna);
+  --color-baobab: var(--heritage-baobab);
+  --color-sunset: var(--heritage-sunset);
+  --color-river: var(--heritage-river);
+  --color-hematite: var(--heritage-hematite);
+  --color-kalahari: var(--heritage-kalahari);
+  /* tokens:generated:theme:end */
 }
 
 /* Light mode — L1 tokens synced from nyuchi-tokens registry (April 2026).
@@ -72,12 +100,37 @@
  * muted-foreground darkened for AAA contrast. Border/input alpha tightened
  * to 0.06. primary-foreground goes pure white. */
 :root {
-  /* Five African Minerals — light */
+  /* Seven Minerals + Seven Heritage — light (DB-sourced; pnpm tokens:sync) */
+  /* tokens:generated:light:start */
   --mineral-cobalt: #0047ab;
+  --mineral-cobalt-container: #e3f2fd;
+  --mineral-cobalt-on-container: #002966;
   --mineral-tanzanite: #4b0082;
+  --mineral-tanzanite-container: #f3e5f5;
+  --mineral-tanzanite-on-container: #2e004d;
   --mineral-malachite: #004d40;
+  --mineral-malachite-container: #e0f2f1;
+  --mineral-malachite-on-container: #00332b;
   --mineral-gold: #5d4037;
-  --mineral-terracotta: #8b4513;
+  --mineral-gold-container: #fff8e1;
+  --mineral-gold-on-container: #3e2723;
+  --mineral-terracotta: #a0522d;
+  --mineral-terracotta-container: #f5e6d3;
+  --mineral-terracotta-on-container: #5d2906;
+  --mineral-sodalite: #283593;
+  --mineral-sodalite-container: #e8eaf6;
+  --mineral-sodalite-on-container: #141a5c;
+  --mineral-copper: #bf5a36;
+  --mineral-copper-container: #fbe4da;
+  --mineral-copper-on-container: #5c2410;
+  --heritage-indigo: #4527a0;
+  --heritage-savanna: #8d6e1a;
+  --heritage-baobab: #4e342e;
+  --heritage-sunset: #d84315;
+  --heritage-river: #006064;
+  --heritage-hematite: #546e7a;
+  --heritage-kalahari: #c9b589;
+  /* tokens:generated:light:end */
   --background: #f3f2ee;
   --foreground: #141413;
   --card: #ffffff;
@@ -103,7 +156,7 @@
   --chart-2: #0047ab;
   --chart-3: #004d40;
   --chart-4: #5d4037;
-  --chart-5: #8b4513;
+  --chart-5: #a0522d;
   --radius: calc(var(--radius-unit) * 2);
   --sidebar: #faf9f5;
   --sidebar-foreground: #141413;
@@ -125,12 +178,37 @@
  * muted-foreground lightened for AAA contrast. Border/input alpha tightened
  * to 0.06. primary-foreground matches the new warm-near-black background. */
 .dark {
-  /* Five African Minerals — dark */
+  /* Seven Minerals + Seven Heritage — dark (DB-sourced; pnpm tokens:sync) */
+  /* tokens:generated:dark:start */
   --mineral-cobalt: #00b0ff;
+  --mineral-cobalt-container: #001f3f;
+  --mineral-cobalt-on-container: #b3e5fc;
   --mineral-tanzanite: #b388ff;
+  --mineral-tanzanite-container: #1a0033;
+  --mineral-tanzanite-on-container: #e1bee7;
   --mineral-malachite: #64ffda;
+  --mineral-malachite-container: #00251a;
+  --mineral-malachite-on-container: #a7ffeb;
   --mineral-gold: #ffd740;
-  --mineral-terracotta: #d4a574;
+  --mineral-gold-container: #332200;
+  --mineral-gold-on-container: #ffecb3;
+  --mineral-terracotta: #e1b07e;
+  --mineral-terracotta-container: #3e2817;
+  --mineral-terracotta-on-container: #f5e6d3;
+  --mineral-sodalite: #3d5afe;
+  --mineral-sodalite-container: #0d1442;
+  --mineral-sodalite-on-container: #c5cae9;
+  --mineral-copper: #ff8a65;
+  --mineral-copper-container: #3a1a0e;
+  --mineral-copper-on-container: #ffd3c2;
+  --heritage-indigo: #7986cb;
+  --heritage-savanna: #e5c158;
+  --heritage-baobab: #a1887f;
+  --heritage-sunset: #ff7043;
+  --heritage-river: #4dd0e1;
+  --heritage-hematite: #90a4ae;
+  --heritage-kalahari: #e8d9b5;
+  /* tokens:generated:dark:end */
   --background: #1b1a17;
   --foreground: #f5f5f4;
   --card: #100f0e;
@@ -156,7 +234,7 @@
   --chart-2: #00b0ff;
   --chart-3: #64ffda;
   --chart-4: #ffd740;
-  --chart-5: #d4a574;
+  --chart-5: #e1b07e;
   --sidebar: #100f0e;
   --sidebar-foreground: #f5f5f4;
   --sidebar-primary: #f5f5f4;

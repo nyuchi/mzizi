@@ -4,6 +4,7 @@ import {
   Box,
   HeartHandshake,
   Layers,
+  Palette,
   ScrollText,
   Sparkles,
   Wrench,
@@ -46,6 +47,7 @@ export const SIDEBAR_NAV: NavGroup[] = [
     label: "Explore",
     items: [
       { label: "Components", href: "/components", icon: Layers },
+      { label: "Colour tokens", href: "/tokens", icon: Palette },
       { label: "Tools", href: "/tools", icon: Wrench },
       { label: "3D architecture", href: "/architecture", icon: Box },
       { label: "Observability", href: "/observability", icon: Activity },
@@ -75,12 +77,9 @@ export const SIDEBAR_NAV: NavGroup[] = [
 // and sidebar tell the same story.
 export const HEADER_NAV: NavItem[] = [
   { label: "Components", href: "/components" },
-  { label: "Tools", href: "/tools" },
+  { label: "Tokens", href: "/tokens" },
   { label: "Architecture", href: "/architecture" },
   { label: "Playground", href: "/playground" },
-  { label: "Ubuntu", href: "/ubuntu" },
-  { label: "Changelog", href: "/changelog" },
-  { label: "Observability", href: "/observability" },
   { label: "Docs", href: "https://docs.bundu.org/mzizi", external: true },
 ]
 

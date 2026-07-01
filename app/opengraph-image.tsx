@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og"
+import { paletteColor } from "@/lib/tokens"
 
 export const runtime = "edge"
 export const alt = "Mzizi — an open-architecture project of the Bundu Foundation"
@@ -23,13 +24,14 @@ export default function OpengraphImage() {
         fontFamily: "Helvetica, Arial, sans-serif",
       }}
     >
-      {/* Vertical mineral strip — 20px, 5 mineral bands */}
+      {/* Vertical mineral strip — 20px, 5 mineral bands (DB-sourced hexes;
+          satori has no CSS custom properties so concrete values are required) */}
       <div style={{ width: 20, display: "flex", flexDirection: "column" }}>
-        <div style={{ flex: 1, backgroundColor: "#0047AB" }} />
-        <div style={{ flex: 1, backgroundColor: "#B388FF" }} />
-        <div style={{ flex: 1, backgroundColor: "#64FFDA" }} />
-        <div style={{ flex: 1, backgroundColor: "#FFD740" }} />
-        <div style={{ flex: 1, backgroundColor: "#D4A574" }} />
+        <div style={{ flex: 1, backgroundColor: paletteColor("cobalt", "light") }} />
+        <div style={{ flex: 1, backgroundColor: paletteColor("tanzanite") }} />
+        <div style={{ flex: 1, backgroundColor: paletteColor("malachite") }} />
+        <div style={{ flex: 1, backgroundColor: paletteColor("gold") }} />
+        <div style={{ flex: 1, backgroundColor: paletteColor("terracotta") }} />
       </div>
 
       <div
@@ -71,8 +73,8 @@ export default function OpengraphImage() {
             maxWidth: 920,
           }}
         >
-          Open 3D frontend architecture · Five African Minerals palette · shadcn-compatible registry
-          · MCP server.
+          Open 3D frontend architecture · Seven African Minerals palette · shadcn-compatible
+          registry · MCP server.
         </div>
         <div
           style={{

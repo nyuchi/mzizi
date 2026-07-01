@@ -72,7 +72,7 @@ function UserMenu({
       <DropdownMenuTrigger asChild>
         <button
           data-slot="user-menu"
-          data-portal="https://design.nyuchi.com/components/user-menu"
+          data-portal="https://mzizi.dev/components/user-menu"
           role="menu"
           aria-label="User menu"
           className={cn(

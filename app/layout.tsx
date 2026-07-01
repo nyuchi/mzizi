@@ -2,13 +2,9 @@ import type { Metadata, Viewport } from "next"
 import { Noto_Sans, Noto_Serif, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { MineralStrip } from "@/components/layout/mineral-strip"
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { DashboardSidebar } from "@/components/landing/dashboard-sidebar"
-import { Header } from "@/components/landing/header"
-import { Breadcrumbs } from "@/components/landing/breadcrumbs"
-import { Toc } from "@/components/landing/toc"
-import { Footer as CustomFooter } from "@/components/landing/footer"
+import { AppShell } from "@/components/layout/app-shell"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const fontSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" })
 const fontSerif = Noto_Serif({ subsets: ["latin"], variable: "--font-serif" })
@@ -20,7 +16,7 @@ const fontMono = JetBrains_Mono({
 const SITE_URL = "https://mzizi.dev"
 const SITE_NAME = "Mzizi"
 const SITE_DESCRIPTION =
-  "Mzizi — an open-architecture project of the Bundu Foundation. An open 3D frontend architecture, component registry, MCP server, and AI-native developer tooling built on the Five African Minerals palette. Operated and developed by Nyuchi. Install directly into your project with the shadcn CLI."
+  "Mzizi — an open-architecture project of the Bundu Foundation. An open 3D frontend architecture, component registry, MCP server, and AI-native developer tooling built on the Seven African Minerals palette. Operated and developed by Nyuchi. Install directly into your project with the shadcn CLI."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -40,7 +36,7 @@ export const metadata: Metadata = {
     "React",
     "Next.js",
     "Tailwind CSS",
-    "Five African Minerals",
+    "Seven African Minerals",
     "mzizi",
     "bundu",
     "UI components",
@@ -74,7 +70,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Mzizi — open architecture on the Five African Minerals design system",
+        alt: "Mzizi — open architecture on the Seven African Minerals design system",
       },
     ],
   },
@@ -174,34 +170,21 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
-        {/* Mineral strip — 4px fixed left-edge accent, z-40 so the sticky
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* Mineral strip — 4px fixed left-edge accent, z-40 so the sticky
             header (z-50) covers it cleanly. `pl-1` on the content column
             reserves 4px so nothing overlaps. */}
-        <MineralStrip className="fixed inset-y-0 left-0 z-40 h-screen rounded-none" />
+          <MineralStrip className="fixed inset-y-0 left-0 z-40 h-screen rounded-none" />
 
-        <TooltipProvider delayDuration={200}>
-          <SidebarProvider defaultOpen>
-            <DashboardSidebar />
-
-            <SidebarInset className="pl-1">
-              <Header />
-
-              <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_12rem] lg:py-8">
-                <div className="min-w-0">
-                  <Breadcrumbs className="mb-4" />
-                  <article data-mdx className="prose-mdx">
-                    {children}
-                  </article>
-                </div>
-                <aside className="hidden self-start lg:sticky lg:top-20 lg:block">
-                  <Toc />
-                </aside>
-              </div>
-
-              <CustomFooter />
-            </SidebarInset>
-          </SidebarProvider>
-        </TooltipProvider>
+          <TooltipProvider delayDuration={200}>
+            <AppShell>{children}</AppShell>
+          </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

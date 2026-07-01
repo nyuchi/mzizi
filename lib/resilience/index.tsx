@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { paletteColor } from "@/lib/tokens"
 
 /* ═══════════════════════════════════════════════════════════════
    MUKOKO RESILIENCE — Self-Monitoring Infrastructure
@@ -455,7 +456,7 @@ export function NyuchiHealthPanel({ className }: NyuchiHealthPanelProps) {
     healthy: "#4ADE80",
     degraded: "#FBBF24",
     error: "#F87171",
-    loading: "#00B0FF",
+    loading: paletteColor("cobalt"),
   }
 
   return (
