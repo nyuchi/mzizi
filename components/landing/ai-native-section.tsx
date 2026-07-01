@@ -41,11 +41,13 @@ const mcpConfig = `{
 }`
 
 const skillUsage = `# In any Claude Code session:
-/nyuchi-design-system
+/nyuchi-design
+/bundu-design
+/mukoko-design
 
 # Or ask Claude directly:
-@design-portal get_component button
-@design-portal scaffold_component data-table`
+@mzizi get_component button
+@mzizi scaffold_component data-table`
 
 export function AiNativeSection() {
   return (
@@ -107,11 +109,17 @@ export function AiNativeSection() {
             </div>
           </div>
           <p className="text-xs leading-relaxed text-muted-foreground">
-            The{" "}
+            Three design skills —{" "}
             <code className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">
-              nyuchi-design-system
+              nyuchi-design
+            </code>
+            ,{" "}
+            <code className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">bundu-design</code>
+            ,{" "}
+            <code className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">
+              mukoko-design
             </code>{" "}
-            skill teaches Claude Code the Seven African Minerals palette, component patterns, Ubuntu
+            — teach Claude Code the Seven African Minerals palette, component patterns, Ubuntu
             design principles, and APCA accessibility standards.
           </p>
           <CopySnippet code={skillUsage} label="Usage" />

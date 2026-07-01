@@ -84,15 +84,16 @@ export function BuildWithSection() {
           <span className="font-mono text-xs text-muted-foreground">04</span>
           <h3 className="font-serif text-xl font-semibold">Install the skills</h3>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Three Claude Code skills ship in this repo:{" "}
-            <code className="font-mono text-xs">nyuchi-design-system</code>,{" "}
-            <code className="font-mono text-xs">scaffold-component</code>,{" "}
-            <code className="font-mono text-xs">ecosystem-app-setup</code>. Symlink or copy into
-            your project&apos;s <code className="font-mono text-xs">.claude/skills/</code> and the
+            Three design skills ship in the{" "}
+            <code className="font-mono text-xs">@nyuchi/mzizi-skills</code> bundle:{" "}
+            <code className="font-mono text-xs">nyuchi-design</code>,{" "}
+            <code className="font-mono text-xs">bundu-design</code>,{" "}
+            <code className="font-mono text-xs">mukoko-design</code>. Run{" "}
+            <code className="font-mono text-xs">npx skills add @nyuchi/mzizi-skills</code> and the
             router activates them automatically.
           </p>
           <Link
-            href="https://github.com/nyuchi/design-portal/blob/main/.claude/skills/README.md"
+            href="https://docs.bundu.org/mzizi/skills"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-foreground hover:underline"

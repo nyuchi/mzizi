@@ -94,8 +94,8 @@ function XIcon({ className }: { className?: string }) {
 
 const socials = [
   {
-    label: "GitHub — design portal",
-    href: "https://github.com/nyuchi/design-portal",
+    label: "GitHub — mzizi",
+    href: "https://github.com/nyuchi/mzizi",
     Icon: GithubIcon,
   },
   {
