@@ -95,7 +95,7 @@
     "rehype-pretty-code": "^0.14.3",
     "rehype-slug": "^6.0.0",
     "sanitize-html": "^2.17.4",
-    "shiki": "^4.0.2",
+    "shiki": "^4.3.0",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",
     "three": "^0.184.0",
