@@ -19,7 +19,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import type { SupabaseClient } from "@supabase/supabase-js"
 import { z } from "zod"
 
-const VERSION = "4.0.41"
+const VERSION = "4.1.8"
 
 // ─── Result helpers ─────────────────────────────────────────────────────────
 
