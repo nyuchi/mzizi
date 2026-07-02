@@ -16,7 +16,7 @@ It serves the full stable registry across a 3D frontend architecture — **ten n
 npx shadcn@latest add https://mzizi.dev/api/v1/ui/<component>
 ```
 
-**Version:** 4.0.40
+**Version:** 4.0.41
 
 **Live at:** mzizi.dev
 
@@ -257,7 +257,7 @@ design-portal/
 ├── vitest.config.ts, vitest.setup.ts
 ├── components.json                   # shadcn CLI configuration
 ├── next.config.mjs, tsconfig.json, postcss.config.mjs, eslint.config.mjs, .prettierrc
-└── package.json                      # v4.0.40 (the Next.js app at root)
+└── package.json                      # v4.0.41 (the Next.js app at root)
 ```
 
 > **Note on `registry.json`:** post-v4.0.26 the authoritative registry lives in the
@@ -849,7 +849,7 @@ Three workflows in `.github/workflows/`:
 
 ### Versioning
 
-- **Current version:** 4.0.40 (must match in `package.json`, `lib/mcp-server.ts` (`VERSION` const), the `changelog` table in Supabase, `components/landing/footer.tsx`, `components/landing/dashboard-sidebar.tsx`, `app/layout.tsx` (`softwareVersion`), `README.md`, and CLAUDE.md §1)
+- **Current version:** 4.0.41 (must match in `package.json`, `lib/mcp-server.ts` (`VERSION` const), the `changelog` table in Supabase, `components/landing/footer.tsx`, `components/landing/dashboard-sidebar.tsx`, `app/layout.tsx` (`softwareVersion`), `README.md`, and CLAUDE.md §1)
 - **Scheme:** `4.0.x` is the internal pre-1.0-public iteration; `4.1.0` is reserved for the first community-contributed release
 - **Release process:**
   1. Update version in `package.json`
