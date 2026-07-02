@@ -732,9 +732,9 @@ const server = await createMziziMcpServer(ctx.supabase)
 | `list_collections`    | List the per-node collections (`n1_tokens … n10_documentation`) with total counts and ownership breakdown                                                                      |
 | `get_database_status` | Supabase connection health + document-store row count                                                                                                                          |
 
-### Legacy MCP — protected branch
+### Legacy MCP — RETIRED
 
-The previous relational MCP (the wider tool surface that read from `components`, `component_docs`, `brand_*`, `architecture_*`, `ubuntu_*`) lives on the protected `legacy` branch and deploys to `design.nyuchi.com/mcp`. The two are split deliberately — the document-route MCP on `main` is the canonical Mzizi surface; the legacy MCP stays available for consumers that haven't migrated.
+The previous relational MCP (the wider tool surface that read from `components`, `component_docs`, `brand_*`, `architecture_*`, `ubuntu_*`) has been retired. The `legacy` branch no longer exists and no legacy server is deployed — `design.nyuchi.com` is a domain-level 308 permanent redirect to `mzizi.dev`, so unmigrated consumers pointing at `design.nyuchi.com/mcp` reach the canonical document-route MCP transparently. Do not reference `design.nyuchi.com` in new code or docs.
 
 ---
 
@@ -909,7 +909,7 @@ When working on this codebase as an AI assistant:
 12. **Run tests before committing** — `pnpm test` must pass; add tests for new behaviour, especially around API routes.
 13. **Keep versions in sync** — `package.json`, `lib/mcp-server.ts` (`VERSION`), the `changelog` Supabase row, `components/landing/footer.tsx`, `components/landing/dashboard-sidebar.tsx`, `app/layout.tsx` (`softwareVersion`), `README.md`, and CLAUDE.md §1.
 14. **The mineral strip uses 5 mineral colors** and is always vertical (left-edge accent only).
-15. **Use the MCP server** — served at `/mcp` via `lib/mcp-server.ts` (`createMziziMcpServer`); reads `component_documents` only. The legacy relational MCP lives on the `legacy` branch.
+15. **Use the MCP server** — served at `/mcp` via `lib/mcp-server.ts` (`createMziziMcpServer`); reads `component_documents` only. The legacy relational MCP is retired; `design.nyuchi.com` is a 308 redirect to `mzizi.dev`.
 16. **Resilience patterns** (circuit-breaker, retry, timeout, fallback-chain, ai-safety, chaos) are vendored in `lib/` and also published as `registry:lib` items in Supabase. Consumer apps install them via the shadcn CLI.
 17. **Long-form documentation lives outside this repo** — product docs in `nyuchi/bundu-docs` (Astro Starlight → `docs.bundu.org`), engineering docs in `nyuchi/nyuchi-docs` (Astro Starlight → `docs.nyuchi.com`). The portal is a registry + brand + architecture surface, not a docs site. The `documentation_pages` Supabase table is HISTORICAL — content was migrated to the Starlight repos; `/api/v1/docs/*` returns HTTP 410 with a `migrated_to` map; the `get_documentation_page` MCP tool is gone. The `changelog` Supabase table is unaffected — it remains the source of truth for the release-bump workflow.
 18. **The playground (`components/playground/`) reads from the API**, not from local files.
