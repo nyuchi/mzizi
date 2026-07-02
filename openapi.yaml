@@ -1074,7 +1074,7 @@ components:
       properties:
         $schema:
           type: string
-          example: "https://design.nyuchi.com/schema/api.json"
+          example: "https://mzizi.dev/schema/api.json"
         "@context":
           type: string
           const: "https://schema.org"
@@ -1092,7 +1092,7 @@ components:
         homepage:
           type: string
           format: uri
-          example: "https://design.nyuchi.com"
+          example: "https://mzizi.dev"
         resources:
           type: object
           additionalProperties:
@@ -1112,7 +1112,7 @@ components:
       properties:
         $schema:
           type: string
-          example: "https://design.nyuchi.com/schema/brand.json"
+          example: "https://mzizi.dev/schema/brand.json"
         "@context":
           type: string
           const: "https://schema.org"
@@ -1132,7 +1132,7 @@ components:
         homepage:
           type: string
           format: uri
-          example: "https://design.nyuchi.com/brand"
+          example: "https://mzizi.dev/brand"
         minerals:
           type: array
           minItems: 5
@@ -1405,7 +1405,7 @@ components:
         homepage:
           type: string
           format: uri
-          example: "https://design.nyuchi.com"
+          example: "https://mzizi.dev"
         items:
           type: array
           minItems: 1

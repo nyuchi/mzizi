@@ -21,7 +21,7 @@ npx @nyuchi/design-cli init
 This scaffolds a Next.js 16 project (Turbopack, pnpm, Node 24) with:
 
 - globals.css pre-populated with the five African minerals tokens
-- components.json pointing at https://design.nyuchi.com/api/v1/ui
+- components.json pointing at https://mzizi.dev/api/v1/ui
 - lib/utils.ts with the cn() helper
 - app/layout.tsx wired with the nyuchi-theme-provider
 - .claude/skills/ populated with all published Nyuchi skills
@@ -95,7 +95,7 @@ Note: these are seed values. Query the live brand_semantic_colors table for the 
   },
   "registries": {
     "nyuchi": {
-      "url": "https://design.nyuchi.com/api/v1/ui"
+      "url": "https://mzizi.dev/api/v1/ui"
     }
   }
 }
@@ -104,8 +104,8 @@ Note: these are seed values. Query the live brand_semantic_colors table for the 
 ### 5. Add a component to verify
 
 ```bash
-pnpm dlx shadcn@latest add https://design.nyuchi.com/api/v1/ui/nyuchi-theme-provider
-pnpm dlx shadcn@latest add https://design.nyuchi.com/api/v1/ui/button
+pnpm dlx shadcn@latest add https://mzizi.dev/api/v1/ui/nyuchi-theme-provider
+pnpm dlx shadcn@latest add https://mzizi.dev/api/v1/ui/button
 ```
 
 ### 6. Wire the theme provider

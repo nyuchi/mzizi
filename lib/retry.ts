@@ -4,7 +4,7 @@
  * Wraps async operations with configurable retry logic, exponential delays,
  * and jitter to prevent thundering herd problems.
  *
- * Install via: npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/retry
+ * Install via: npx shadcn@latest add https://mzizi.dev/api/v1/ui/retry
  */
 
 import { createLogger } from "@/lib/observability"

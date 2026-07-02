@@ -4,7 +4,7 @@
  * Wraps any async operation with a configurable timeout. Used by the circuit
  * breaker, fallback chain, and any operation that should not hang indefinitely.
  *
- * Install via: npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/timeout
+ * Install via: npx shadcn@latest add https://mzizi.dev/api/v1/ui/timeout
  */
 
 /**

@@ -80,7 +80,7 @@ git checkout -b feature/your-feature
 ### Before You Code
 
 1. **Read [CLAUDE.md](CLAUDE.md)** -- it is the definitive reference for this codebase, covering architecture, conventions, and the full design system specification
-1. **Understand the [Five African Minerals design system](https://design.nyuchi.com/brand/colors)** -- all colors come from five mineral-named tokens
+1. **Understand the [Five African Minerals design system](https://mzizi.dev/brand/colors)** -- all colors come from five mineral-named tokens
 1. **Browse existing components** in `components/ui/` to understand the CVA + Radix + cn() pattern
 1. **Check `registry.json`** before modifying components to understand the dependency graph
 1. **Understand the DB-first architecture** -- API routes read from Supabase, not hardcoded objects
@@ -438,5 +438,5 @@ Harassment, discrimination, and exclusionary behavior are not tolerated. Maintai
 ## Questions?
 
 - Read [CLAUDE.md](CLAUDE.md) for the full technical reference
-- Browse the [portal](https://design.nyuchi.com) for design system documentation
+- Browse the [portal](https://mzizi.dev) for design system documentation
 - Open a discussion on GitHub for architectural questions

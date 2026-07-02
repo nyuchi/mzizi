@@ -11,8 +11,8 @@
  * per-request anon-scoped `SupabaseClient` (RLS-enforced public select on
  * `component_documents`). The factory below just consumes that client.
  *
- * The legacy relational MCP lives on the `legacy` branch and deploys to
- * design.nyuchi.com/mcp; the two are split deliberately.
+ * The legacy relational MCP is retired (the `legacy` branch was dropped);
+ * `design.nyuchi.com` now 308-redirects to `mzizi.dev`.
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"

@@ -12,7 +12,7 @@
  * - Tokens refill at a fixed rate (limit per window)
  * - When empty, calls either wait or are rejected
  *
- * Install via: npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/rate-limiter
+ * Install via: npx shadcn@latest add https://mzizi.dev/api/v1/ui/rate-limiter
  */
 
 import { createLogger } from "@/lib/observability"

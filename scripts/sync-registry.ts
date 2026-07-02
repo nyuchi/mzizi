@@ -26,7 +26,7 @@ const REGISTRY_PATH = join(process.cwd(), "registry.json")
 const REGISTRY_HEADER = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "mukoko",
-  homepage: "https://design.nyuchi.com",
+  homepage: "https://mzizi.dev",
 }
 
 // ── Primitives the portal itself imports from components/ui/ ──────────────

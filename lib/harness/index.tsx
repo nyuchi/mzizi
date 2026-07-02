@@ -306,7 +306,7 @@ function isObservabilityAllowedDomain(): boolean {
 
 function getObservabilityAttrs(componentName: string): Record<string, string> {
   if (!isObservabilityAllowedDomain()) return {}
-  return { "data-portal": `https://design.nyuchi.com/components/${componentName}` }
+  return { "data-portal": `https://mzizi.dev/components/${componentName}` }
 }
 
 export function useNyuchiHarness(componentName: string): ComponentHarnessResult {

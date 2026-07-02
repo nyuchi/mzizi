@@ -10,7 +10,7 @@ Installable Claude Code skills for working with the bundu ecosystem. Each `.md` 
 | `ecosystem-app-setup`  | Bootstrapping a brand-new ecosystem app (new mukoko mini-app, nyuchi product, sister brand, etc.).                                     |
 | `scaffold-component`   | Adding a new UI component to the registry (Supabase-first: MCP `scaffold_component` → upsert → `pnpm registry:sync`).                  |
 
-All three skills assume the live portal at <https://design.nyuchi.com> and the MCP server at <https://design.nyuchi.com/mcp>.
+All three skills assume the live portal at <https://mzizi.dev> and the MCP server at <https://mzizi.dev/mcp>.
 
 ## Install into another Claude Code project
 
@@ -55,7 +55,7 @@ For the richest experience, also wire up the live MCP server. Add to your Claude
   "mcpServers": {
     "nyuchi-design": {
       "type": "url",
-      "url": "https://design.nyuchi.com/mcp"
+      "url": "https://mzizi.dev/mcp"
     }
   }
 }

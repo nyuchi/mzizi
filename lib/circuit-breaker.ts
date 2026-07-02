@@ -7,7 +7,7 @@
  *
  * State machine: CLOSED → OPEN → HALF_OPEN → CLOSED (success) or OPEN (failure)
  *
- * Install via: npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/circuit-breaker
+ * Install via: npx shadcn@latest add https://mzizi.dev/api/v1/ui/circuit-breaker
  */
 
 import { withTimeout } from "@/lib/timeout"

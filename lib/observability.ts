@@ -4,7 +4,7 @@
  * Provides structured logging, performance timing, and error tracking
  * with the [mukoko] prefix for grep-ability across all services.
  *
- * Install via: npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/observability
+ * Install via: npx shadcn@latest add https://mzizi.dev/api/v1/ui/observability
  */
 
 type LogLevel = "debug" | "info" | "warn" | "error"
