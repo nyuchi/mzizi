@@ -12,8 +12,8 @@ import { createMziziMcpServer } from "@/lib/mcp-server"
  * a per-request anon-scoped `SupabaseClient` for public-read against RLS. No
  * service-role key in scope, no write APIs exposed.
  *
- * The legacy relational MCP lives on the `legacy` branch (→ design.nyuchi.com/mcp);
- * the two are split deliberately.
+ * The legacy relational MCP is retired (the `legacy` branch was dropped);
+ * `design.nyuchi.com` now 308-redirects to `mzizi.dev`.
  *
  *   POST /mcp    — JSON-RPC (initialize, tool calls, resource reads)
  *   GET  /mcp    — SSE stream for server-initiated notifications

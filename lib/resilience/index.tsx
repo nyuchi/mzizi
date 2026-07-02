@@ -274,7 +274,7 @@ class NyuchiSectionBoundary extends React.Component<NyuchiSectionProps, SectionS
       return (
         <div
           data-slot="nyuchi-section"
-          data-portal="https://design.nyuchi.com/components/nyuchi-section"
+          data-portal="https://mzizi.dev/components/nyuchi-section"
           data-section={name}
           data-status="loading"
           className={className}

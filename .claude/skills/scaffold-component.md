@@ -42,12 +42,12 @@ INSERT INTO components (
   2,            -- architecture_layer number
   'alpha',      -- start as alpha; flip to stable once source is production-ready
   '4.1.0',
-  'https://design.nyuchi.com/components/your-component-name',
-  'https://design.nyuchi.com/playground/your-component-name',
-  'https://design.nyuchi.com/health/your-component-name',
-  'https://design.nyuchi.com/source/your-component-name',
-  'https://design.nyuchi.com/changelog/your-component-name',
-  'https://design.nyuchi.com/api/your-component-name',
+  'https://mzizi.dev/components/your-component-name',
+  'https://mzizi.dev/playground/your-component-name',
+  'https://mzizi.dev/health/your-component-name',
+  'https://mzizi.dev/source/your-component-name',
+  'https://mzizi.dev/changelog/your-component-name',
+  'https://mzizi.dev/api/your-component-name',
   '{web}',
   ''  -- source_code starts empty, will be filled below
 );
@@ -61,7 +61,7 @@ Once registered, write the production source straight to the components.source_c
 
 - No useNyuchiHarness import
 - data-slot attribute on root element
-- data-portal attribute pointing to design.nyuchi.com/components/{name}
+- data-portal attribute pointing to mzizi.dev/components/{name}
 - cn() for className composition
 - No raw Tailwind colours — use semantic tokens (bg-primary, text-foreground, etc.)
 - Icons from @/lib/icons, never lucide-react directly

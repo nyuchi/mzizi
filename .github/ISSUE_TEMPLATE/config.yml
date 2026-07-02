@@ -4,10 +4,10 @@ contact_links:
     url: https://github.com/nyuchi/design-portal/discussions
     about: Ask questions, share ideas, show what you've built with the design system.
   - name: Component Registry
-    url: https://design.nyuchi.com/components
+    url: https://mzizi.dev/components
     about: Browse all 545+ components, blocks, and charts in the live portal.
   - name: MCP Server
-    url: https://design.nyuchi.com/mcp
+    url: https://mzizi.dev/mcp
     about: Connect Claude Code and AI assistants directly to the component registry.
   - name: Security Vulnerabilities
     url: https://github.com/nyuchi/design-portal/security/advisories/new

@@ -7,7 +7,7 @@
 [![CodeQL](https://github.com/nyuchi/design-portal/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/nyuchi/design-portal/security/code-scanning)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-**Version:** 4.0.40 | **Live:** [mzizi.dev](https://mzizi.dev) | **Product docs:** [docs.bundu.org](https://docs.bundu.org) | **Engineering docs:** [docs.nyuchi.com](https://docs.nyuchi.com) | **Observability:** [mzizi.dev/observability](https://mzizi.dev/observability)
+**Version:** 4.1.8 | **Live:** [mzizi.dev](https://mzizi.dev) | **Product docs:** [docs.bundu.org](https://docs.bundu.org) | **Engineering docs:** [docs.nyuchi.com](https://docs.nyuchi.com) | **Observability:** [mzizi.dev/observability](https://mzizi.dev/observability)
 
 > The previous Mintlify docs site is retired — long-form docs now live at [docs.bundu.org](https://docs.bundu.org) (product) and [docs.nyuchi.com](https://docs.nyuchi.com) (engineering).
 

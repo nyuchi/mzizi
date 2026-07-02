@@ -8,7 +8,7 @@
  * SAFETY: All chaos functions are disabled by default. You must explicitly
  * set `enabled: true` to activate them. Never enable in production.
  *
- * Install via: npx shadcn@latest add https://design.nyuchi.com/api/v1/ui/chaos
+ * Install via: npx shadcn@latest add https://mzizi.dev/api/v1/ui/chaos
  */
 
 import { createLogger } from "@/lib/observability"

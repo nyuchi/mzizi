@@ -94,12 +94,9 @@ describe("GET /api/v1/docs (soft-410)", () => {
 describe("GET /api/v1/docs/[slug] (soft-410)", () => {
   it("returns HTTP 410 Gone for a known migrated slug", async () => {
     const { GET } = await import("@/app/api/v1/docs/[slug]/route")
-    const response = (await GET(
-      new Request("https://design.nyuchi.com/api/v1/docs/3d-architecture"),
-      {
-        params: Promise.resolve({ slug: "3d-architecture" }),
-      }
-    )) as unknown as SlugResponse
+    const response = (await GET(new Request("https://mzizi.dev/api/v1/docs/3d-architecture"), {
+      params: Promise.resolve({ slug: "3d-architecture" }),
+    })) as unknown as SlugResponse
 
     expect(response.status).toBe(410)
     expect(response.data.error).toBe("Gone")
@@ -110,7 +107,7 @@ describe("GET /api/v1/docs/[slug] (soft-410)", () => {
     const slugs = ["3d-architecture", "unknown-slug", "with-dashes-and-words"]
 
     for (const slug of slugs) {
-      const response = (await GET(new Request(`https://design.nyuchi.com/api/v1/docs/${slug}`), {
+      const response = (await GET(new Request(`https://mzizi.dev/api/v1/docs/${slug}`), {
         params: Promise.resolve({ slug }),
       })) as unknown as SlugResponse
 
@@ -120,7 +117,7 @@ describe("GET /api/v1/docs/[slug] (soft-410)", () => {
 
   it("body message points at the per-slug migration map", async () => {
     const { GET } = await import("@/app/api/v1/docs/[slug]/route")
-    const response = (await GET(new Request("https://design.nyuchi.com/api/v1/docs/foo"), {
+    const response = (await GET(new Request("https://mzizi.dev/api/v1/docs/foo"), {
       params: Promise.resolve({ slug: "foo" }),
     })) as unknown as SlugResponse
 
@@ -129,7 +126,7 @@ describe("GET /api/v1/docs/[slug] (soft-410)", () => {
 
   it("sets CORS + cacheable headers", async () => {
     const { GET } = await import("@/app/api/v1/docs/[slug]/route")
-    const response = (await GET(new Request("https://design.nyuchi.com/api/v1/docs/foo"), {
+    const response = (await GET(new Request("https://mzizi.dev/api/v1/docs/foo"), {
       params: Promise.resolve({ slug: "foo" }),
     })) as unknown as SlugResponse
 
@@ -143,7 +140,7 @@ describe("GET /api/v1/docs/[slug] (soft-410)", () => {
     mocked.mockClear()
 
     const { GET } = await import("@/app/api/v1/docs/[slug]/route")
-    await GET(new Request("https://design.nyuchi.com/api/v1/docs/3d-architecture"), {
+    await GET(new Request("https://mzizi.dev/api/v1/docs/3d-architecture"), {
       params: Promise.resolve({ slug: "3d-architecture" }),
     })
 
@@ -156,7 +153,7 @@ describe("GET /api/v1/docs/[slug] (soft-410)", () => {
   it("handles URL-encoded slugs without throwing", async () => {
     const { GET } = await import("@/app/api/v1/docs/[slug]/route")
     const slug = "with%20spaces"
-    const response = (await GET(new Request(`https://design.nyuchi.com/api/v1/docs/${slug}`), {
+    const response = (await GET(new Request(`https://mzizi.dev/api/v1/docs/${slug}`), {
       params: Promise.resolve({ slug }),
     })) as unknown as SlugResponse
 

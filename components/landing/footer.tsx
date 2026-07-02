@@ -217,7 +217,7 @@ export function Footer() {
               </a>
             </span>
             <span aria-hidden="true">·</span>
-            <span className="font-mono text-[10px]">v4.0.41</span>
+            <span className="font-mono text-[10px]">v4.1.8</span>
           </div>
         </div>
       </div>

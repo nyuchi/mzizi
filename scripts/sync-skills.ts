@@ -95,11 +95,11 @@ function md5(s: string): string {
 
 function buildManifest(skills: SkillRow[]): SkillsManifest {
   return {
-    $schema: "https://design.nyuchi.com/schema/skills.json",
+    $schema: "https://mzizi.dev/schema/skills.json",
     name: "@nyuchi/design-agent-skills",
     description: "Agent skills for AI assistants working with the Nyuchi Design system.",
-    homepage: "https://design.nyuchi.com",
-    live: "https://design.nyuchi.com/api/v1/skills",
+    homepage: "https://mzizi.dev",
+    live: "https://mzizi.dev/api/v1/skills",
     skills: skills.map((s) => ({
       name: s.name,
       path: `skills/${s.name}.md`,

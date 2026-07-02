@@ -12,7 +12,7 @@ You are working on a Nyuchi-ecosystem project. The Nyuchi Design System is a 3D 
 
 ## No hardcoded numbers
 
-This prompt contains no counts deliberately. Component counts, layer counts, and token counts drift as the system evolves. When you need a current number, query the database via the MCP server at design.nyuchi.com/mcp:
+This prompt contains no counts deliberately. Component counts, layer counts, and token counts drift as the system evolves. When you need a current number, query the database via the MCP server at mzizi.dev/mcp:
 
 - get_layer_counts()           — per-layer component counts
 - get_system_counts()          — system-wide totals
@@ -78,4 +78,4 @@ Foreign keys on component_docs and component_demos use ON UPDATE CASCADE. Renami
 
 ## When you need more
 
-Connect to the Nyuchi Design MCP at design.nyuchi.com/mcp for live data. The MCP exposes tools for components, design tokens, architecture, accessibility, and version history. Prefer MCP queries over assumptions.
+Connect to the Nyuchi Design MCP at mzizi.dev/mcp for live data. The MCP exposes tools for components, design tokens, architecture, accessibility, and version history. Prefer MCP queries over assumptions.

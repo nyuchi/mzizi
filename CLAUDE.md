@@ -16,7 +16,7 @@ It serves the full stable registry across a 3D frontend architecture — **ten n
 npx shadcn@latest add https://mzizi.dev/api/v1/ui/<component>
 ```
 
-**Version:** 4.0.40
+**Version:** 4.1.8
 
 **Live at:** mzizi.dev
 
@@ -257,7 +257,7 @@ design-portal/
 ├── vitest.config.ts, vitest.setup.ts
 ├── components.json                   # shadcn CLI configuration
 ├── next.config.mjs, tsconfig.json, postcss.config.mjs, eslint.config.mjs, .prettierrc
-└── package.json                      # v4.0.40 (the Next.js app at root)
+└── package.json                      # v4.1.8 (the Next.js app at root)
 ```
 
 > **Note on `registry.json`:** post-v4.0.26 the authoritative registry lives in the
@@ -732,9 +732,9 @@ const server = await createMziziMcpServer(ctx.supabase)
 | `list_collections`    | List the per-node collections (`n1_tokens … n10_documentation`) with total counts and ownership breakdown                                                                      |
 | `get_database_status` | Supabase connection health + document-store row count                                                                                                                          |
 
-### Legacy MCP — protected branch
+### Legacy MCP — RETIRED
 
-The previous relational MCP (the wider tool surface that read from `components`, `component_docs`, `brand_*`, `architecture_*`, `ubuntu_*`) lives on the protected `legacy` branch and deploys to `design.nyuchi.com/mcp`. The two are split deliberately — the document-route MCP on `main` is the canonical Mzizi surface; the legacy MCP stays available for consumers that haven't migrated.
+The previous relational MCP (the wider tool surface that read from `components`, `component_docs`, `brand_*`, `architecture_*`, `ubuntu_*`) has been retired. The `legacy` branch no longer exists and no legacy server is deployed — `design.nyuchi.com` is a domain-level 308 permanent redirect to `mzizi.dev`, so unmigrated consumers pointing at `design.nyuchi.com/mcp` reach the canonical document-route MCP transparently. Do not reference `design.nyuchi.com` in new code or docs.
 
 ---
 
@@ -849,8 +849,8 @@ Three workflows in `.github/workflows/`:
 
 ### Versioning
 
-- **Current version:** 4.0.40 (must match in `package.json`, `lib/mcp-server.ts` (`VERSION` const), the `changelog` table in Supabase, `components/landing/footer.tsx`, `components/landing/dashboard-sidebar.tsx`, `app/layout.tsx` (`softwareVersion`), `README.md`, and CLAUDE.md §1)
-- **Scheme:** `4.0.x` is the internal pre-1.0-public iteration; `4.1.0` is reserved for the first community-contributed release
+- **Current version:** 4.1.8 (must match in `package.json`, `lib/mcp-server.ts` (`VERSION` const), the `changelog` table in Supabase, `components/landing/footer.tsx`, `components/landing/dashboard-sidebar.tsx`, `app/layout.tsx` (`softwareVersion`), `README.md`, and CLAUDE.md §1)
+- **Scheme:** `4.1.x` is the current internal pre-1.0-public iteration (the `4.1.0` DNA-helix reframe onward, tracked in the Supabase `changelog` table); `5.0.0` is the maintainers' call for the first public release
 - **Release process:**
   1. Update version in `package.json`
   2. Update the `VERSION` constant in `lib/mcp-server.ts`
@@ -909,7 +909,7 @@ When working on this codebase as an AI assistant:
 12. **Run tests before committing** — `pnpm test` must pass; add tests for new behaviour, especially around API routes.
 13. **Keep versions in sync** — `package.json`, `lib/mcp-server.ts` (`VERSION`), the `changelog` Supabase row, `components/landing/footer.tsx`, `components/landing/dashboard-sidebar.tsx`, `app/layout.tsx` (`softwareVersion`), `README.md`, and CLAUDE.md §1.
 14. **The mineral strip uses 5 mineral colors** and is always vertical (left-edge accent only).
-15. **Use the MCP server** — served at `/mcp` via `lib/mcp-server.ts` (`createMziziMcpServer`); reads `component_documents` only. The legacy relational MCP lives on the `legacy` branch.
+15. **Use the MCP server** — served at `/mcp` via `lib/mcp-server.ts` (`createMziziMcpServer`); reads `component_documents` only. The legacy relational MCP is retired; `design.nyuchi.com` is a 308 redirect to `mzizi.dev`.
 16. **Resilience patterns** (circuit-breaker, retry, timeout, fallback-chain, ai-safety, chaos) are vendored in `lib/` and also published as `registry:lib` items in Supabase. Consumer apps install them via the shadcn CLI.
 17. **Long-form documentation lives outside this repo** — product docs in `nyuchi/bundu-docs` (Astro Starlight → `docs.bundu.org`), engineering docs in `nyuchi/nyuchi-docs` (Astro Starlight → `docs.nyuchi.com`). The portal is a registry + brand + architecture surface, not a docs site. The `documentation_pages` Supabase table is HISTORICAL — content was migrated to the Starlight repos; `/api/v1/docs/*` returns HTTP 410 with a `migrated_to` map; the `get_documentation_page` MCP tool is gone. The `changelog` Supabase table is unaffected — it remains the source of truth for the release-bump workflow.
 18. **The playground (`components/playground/`) reads from the API**, not from local files.

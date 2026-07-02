@@ -74,7 +74,7 @@ Or, using the Dashboard SQL Editor: paste the contents of
 
 The replica is structurally identical to prod but contains **no rows**.
 Seed data is out of scope for this repo — fetch what you need from the
-live REST API (`https://design.nyuchi.com/api/v1/*`) or, for dev-only
+live REST API (`https://mzizi.dev/api/v1/*`) or, for dev-only
 fixtures, add a `supabase/fixtures.sql` alongside `schema.sql` (not
 present today).
 
