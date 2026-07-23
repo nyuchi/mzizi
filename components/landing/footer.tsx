@@ -217,6 +217,14 @@ export function Footer() {
               </a>
             </span>
             <span aria-hidden="true">·</span>
+            <a href="/privacy" className="transition-colors hover:text-foreground">
+              Privacy
+            </a>
+            <span aria-hidden="true">·</span>
+            <a href="/terms" className="transition-colors hover:text-foreground">
+              Terms
+            </a>
+            <span aria-hidden="true">·</span>
             <span className="font-mono text-[10px]">v4.1.8</span>
           </div>
         </div>
