@@ -82,7 +82,7 @@
     "embla-carousel-react": "8.6.0",
     "input-otp": "1.4.2",
     "lucide-react": "^1.14.0",
-    "next": "16.2.7",
+    "next": "16.2.11",
     "next-themes": "^0.4.6",
     "radix-ui": "1.4.3",
     "react": "19.2.7",
@@ -144,7 +144,7 @@
     "overrides": {
       "qs": "^6.15.2",
       "hono": "^4.12.25",
-      "@hono/node-server": "^1.19.13",
+      "@hono/node-server": "^2.0.5",
       "express-rate-limit": "^8.3.2",
       "flatted": "^3.4.2",
       "path-to-regexp": "^8.4.2",
@@ -154,20 +154,22 @@
       "esbuild": "^0.28.1",
       "@babel/core": "^7.29.6",
       "undici": "^7.28.0",
-      "linkify-it": "^5.0.1",
+      "linkify-it": "^5.0.2",
       "yaml": "^2.8.3",
       "lodash-es": "^4.18.1",
       "micromatch>picomatch": "^2.3.2",
       "tinyglobby>picomatch": "^4.0.4",
-      "minimatch>brace-expansion": "^5.0.6",
+      "minimatch>brace-expansion": "^5.0.7",
       "postcss": "^8.5.13",
       "dompurify": "^3.4.0",
       "sanitize-html": "^2.17.4",
       "js-yaml": "^4.2.0",
       "markdown-it": "^14.2.0",
-      "fast-uri": "^3.1.2",
+      "fast-uri": "^3.1.4",
       "ip-address": "^10.1.1",
-      "ws": "^8.20.1"
+      "ws": "^8.20.1",
+      "brace-expansion": "^5.0.7",
+      "sharp": "^0.35.0"
     }
   }
 }
