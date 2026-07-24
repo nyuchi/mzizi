@@ -116,6 +116,27 @@
   --color-hematite: var(--heritage-hematite);
   --color-kalahari: var(--heritage-kalahari);
   /* tokens:generated:theme:end */
+
+  /* Per-brand accent (DB brand_semantic_colors.brand-accent). Defaults to the
+     nyuchi brand mineral — GOLD — on this nyuchi-operated portal. mukoko maps
+     it to tanzanite, bundu to its own; consumer apps override --brand-accent. */
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-accent-foreground: var(--brand-accent-foreground);
+
+  /* Status tokens (DB brand_semantic_colors). error is --destructive. */
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-neutral: var(--neutral);
+  --color-offline: var(--offline);
+  --color-syncing: var(--syncing);
+
+  /* Surface-elevation ladder (DB prime-step surfaces P2–P17). background/card/
+     muted/overlay stay as the mapped Tailwind surfaces; these expose the extra
+     rungs (surface, container, raised) for elevation-aware compositions. */
+  --color-surface: var(--surface);
+  --color-container: var(--container);
+  --color-raised: var(--raised);
 }
 
 /* Light mode — L1 tokens synced from nyuchi-tokens registry (April 2026).
@@ -194,6 +215,22 @@
   --sidebar-accent-foreground: #141413;
   --sidebar-border: rgba(10, 10, 10, 0.06);
   --sidebar-ring: #141413;
+  /* Per-brand accent — nyuchi = gold (AAA: deep amber fill, white text). */
+  --brand-accent: #7a5c00;
+  --brand-accent-foreground: #ffffff;
+  /* Status (DB brand_semantic_colors, light) */
+  --success: #004d40;
+  --warning: #7a5c00;
+  --info: #0047ab;
+  --neutral: #55514b;
+  --offline: #674c32;
+  --syncing: #1c5962;
+  /* Surface-elevation rungs (DB, light) */
+  --surface: #eeeeec;
+  --container: #e5e4e1;
+  --raised: #d6d5d1;
+  /* Engineering dot-grid — subtle blueprint dots on the ambient base. */
+  --dot-color: rgba(10, 10, 10, 0.05);
 }
 
 /* Dark mode — L1 tokens synced from nyuchi-tokens registry (April 2026).
@@ -271,6 +308,22 @@
   --sidebar-accent-foreground: #f5f5f4;
   --sidebar-border: rgba(255, 255, 255, 0.06);
   --sidebar-ring: #f5f5f4;
+  /* Per-brand accent — nyuchi = gold (AAA: honey fill, deep-brown text). */
+  --brand-accent: #ffd740;
+  --brand-accent-foreground: #3e2723;
+  /* Status (DB brand_semantic_colors, dark) */
+  --success: #64ffda;
+  --warning: #ffd866;
+  --info: #00b0ff;
+  --neutral: #a09c93;
+  --offline: #ba9570;
+  --syncing: #36abba;
+  /* Surface-elevation rungs (DB, dark) */
+  --surface: #131211;
+  --container: #1e1d1a;
+  --raised: #2e2c29;
+  /* Engineering dot-grid — subtle blueprint dots on the ambient base. */
+  --dot-color: rgba(255, 255, 255, 0.05);
 }
 
 @layer base {
@@ -279,6 +332,13 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Engineering blueprint dot-grid across the whole site. Fixed so it reads
+       as paper the content sits on; sits under opaque surfaces (cards, sidebar,
+       header) and only shows through the ambient background gaps. */
+    background-image: radial-gradient(var(--dot-color) 1px, transparent 1.5px);
+    background-size: 24px 24px;
+    background-position: -1px -1px;
+    background-attachment: fixed;
   }
 }
 

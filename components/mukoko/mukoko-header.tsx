@@ -105,12 +105,12 @@ export function NyuchiHeader({
             </svg>
           </button>
         ) : (
-          <SidebarTrigger className="md:hidden" />
+          <SidebarTrigger />
         )}
 
         {/* App icon — rounded-lg square with border (brand marker) */}
         <a href="/" className="flex items-center gap-3">
-          <NyuchiLogo size={24} suffix={appName} />
+          <NyuchiLogo size={28} showWordmark suffix={appName} className="text-lg" />
         </a>
 
         {/* Scroll title override */}

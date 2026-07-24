@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { DashboardSidebar } from "@/components/landing/dashboard-sidebar"
 import { Header } from "@/components/landing/header"
+import { CommandPalette } from "@/components/landing/command-palette"
 import { Breadcrumbs } from "@/components/landing/breadcrumbs"
 import { Toc } from "@/components/landing/toc"
 import { Footer as CustomFooter } from "@/components/landing/footer"
@@ -27,8 +28,13 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isMarketing = pathname === "/"
 
+  // Load collapsed to the icon rail. The sidebar is `collapsible="icon"`, so
+  // this renders a stable icon-only strip on first paint — no expanded-then-hide
+  // flash on reload, and no cookie/dynamic-rendering cost (reading a cookie in
+  // the root layout would opt the whole site out of static prerendering).
   return (
-    <SidebarProvider defaultOpen>
+    <SidebarProvider defaultOpen={false}>
+      <CommandPalette />
       {!isMarketing && <DashboardSidebar />}
 
       <SidebarInset className="pl-1">

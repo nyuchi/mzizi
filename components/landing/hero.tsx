@@ -39,8 +39,12 @@ export async function Hero() {
 
   return (
     <section className="relative flex flex-col items-center gap-8 px-4 pt-12 pb-16 text-center sm:gap-10 sm:px-6 md:pt-20 md:pb-32">
-      {/* Subtle grid */}
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
+      {/* Engineering dot-field — theme-aware, denser than the site grid, faded
+          to the edges with a radial mask so the hero reads as a focal plate. */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(var(--dot-color)_1.25px,transparent_1.5px)] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,#000_40%,transparent_100%)] bg-[size:20px_20px]"
+        aria-hidden="true"
+      />
 
       <div className="flex w-full max-w-full flex-col items-center gap-4">
         <Badge variant="outline" className="max-w-full gap-2 px-3 py-1 text-[11px] sm:text-xs">

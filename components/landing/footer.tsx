@@ -25,9 +25,13 @@ const columns: FooterColumn[] = [
     title: "Explore",
     links: [
       { label: "Components", href: "/components" },
+      { label: "Colour tokens", href: "/tokens" },
       { label: "Playground", href: "/playground" },
+      { label: "Tools", href: "/tools" },
       { label: "3D architecture", href: "/architecture" },
       { label: "Observability", href: "/observability" },
+      { label: "Changelog", href: "/changelog" },
+      { label: "Ubuntu", href: "/ubuntu" },
     ],
   },
   {
@@ -51,27 +55,30 @@ const columns: FooterColumn[] = [
       { label: "Registry API", href: "/api/v1" },
       { label: "OpenAPI", href: "/api/openapi" },
       { label: "MCP server", href: "/mcp" },
+      { label: "llms.txt", href: "/llms.txt" },
     ],
   },
 ]
 
+// Ecosystem family — canonical brands + URLs from the live Mzizi registry
+// (`list_ecosystem_brands`). Grouped by tier: the three pillars, then the
+// standalone brands. Keep this aligned with the registry, not hand-guessed.
 const ecosystem: { heading: string; links: Array<{ label: string; href: string }> }[] = [
   {
-    heading: "mukoko — consumer",
+    heading: "Ecosystem",
     links: [
-      { label: "mukoko.com", href: "https://www.mukoko.com" },
-      { label: "weather", href: "https://weather.mukoko.com" },
-      { label: "news", href: "https://news.mukoko.com" },
-      { label: "lingo", href: "https://lingo.mukoko.com" },
-      { label: "nhimbe", href: "https://nhimbe.com" },
-      { label: "shamwari", href: "https://shamwari.ai" },
+      { label: "bundu", href: "https://www.bundu.org" },
+      { label: "nyuchi", href: "https://nyuchi.com" },
+      { label: "mukoko", href: "https://mukoko.com" },
     ],
   },
   {
-    heading: "nyuchi — enterprise",
+    heading: "Brands",
     links: [
-      { label: "nyuchi.com", href: "https://nyuchi.com" },
+      { label: "shamwari", href: "https://shamwari.ai" },
+      { label: "nhimbe", href: "https://nhimbe.com" },
       { label: "bushtrade", href: "https://bushtrade.co.zw" },
+      { label: "lingo", href: "https://lingo.mukoko.com" },
     ],
   },
 ]
@@ -111,7 +118,7 @@ const socials = [
 ]
 
 const footerLink =
-  "text-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
+  "text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
 
 export function Footer() {
   return (
@@ -123,10 +130,10 @@ export function Footer() {
         <Separator className="mb-10" />
 
         {/* Primary nav: 1 column at mobile, 2 at sm, 3 at lg. */}
-        <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {columns.map((col) => (
-            <div key={col.title} className="flex flex-col gap-2">
-              <span className="text-xs font-medium text-foreground">{col.title}</span>
+            <div key={col.title} className="flex flex-col gap-3">
+              <span className="text-sm font-semibold text-foreground">{col.title}</span>
               {col.links.map((link) => (
                 <a
                   key={link.href}
@@ -146,17 +153,17 @@ export function Footer() {
 
         {/* Brand lockup + ecosystem family */}
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-          <div className="flex flex-col gap-3">
-            <NyuchiLogo size={24} showWordmark suffix="mzizi" />
-            <p className="max-w-xs text-xs leading-relaxed text-muted-foreground">
+          <div className="flex flex-col gap-4">
+            <NyuchiLogo size={28} showWordmark suffix="mzizi" />
+            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
               Mzizi — an open-architecture project of the Bundu Foundation, operated and developed
               by Nyuchi. Built on the Seven African Minerals palette.
             </p>
-            <div className="flex items-center gap-1.5 pt-1" aria-label="Seven African Minerals">
+            <div className="flex items-center gap-2 pt-1" aria-label="Seven African Minerals">
               {minerals.map((m) => (
                 <span
                   key={m.name}
-                  className="size-2 rounded-full"
+                  className="size-2.5 rounded-full"
                   style={{ background: `var(${m.cssVar})` }}
                   title={m.name}
                 />
@@ -164,10 +171,10 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-10 md:gap-12">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10 md:gap-12">
             {ecosystem.map((group) => (
-              <div key={group.heading} className="flex flex-col gap-2">
-                <span className="text-xs font-medium text-foreground">{group.heading}</span>
+              <div key={group.heading} className="flex flex-col gap-3">
+                <span className="text-sm font-semibold text-foreground">{group.heading}</span>
                 {group.links.map((link) => (
                   <a
                     key={link.href}
@@ -204,7 +211,7 @@ export function Footer() {
             <ThemeToggle />
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
             <span>
               Built by{" "}
               <a
@@ -225,7 +232,7 @@ export function Footer() {
               Terms
             </a>
             <span aria-hidden="true">·</span>
-            <span className="font-mono text-[10px]">v4.1.8</span>
+            <span className="font-mono text-xs">v4.1.8</span>
           </div>
         </div>
       </div>
