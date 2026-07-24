@@ -80,6 +80,9 @@ import type {
   LayerDetailRow,
   ArchitectureSnapshotAxis,
   ArchitectureSnapshotLayer,
+  HelixModel,
+  HelixNode,
+  HelixStrand,
   SkillRow,
   SkillSummary,
   UbuntuPillarRow,
@@ -1412,6 +1415,105 @@ export async function getArchitectureSnapshot(): Promise<ArchitectureSnapshotAxi
   }
 
   return Array.from(byAxis.values()).sort((a, b) => a.sort_order - b.sort_order)
+}
+
+/**
+ * Live per-node component counts via the `get_node_counts()` RPC, keyed
+ * by node number. Empty object if Supabase isn't configured.
+ */
+export async function getNodeCounts(): Promise<Record<number, number>> {
+  if (!isSupabaseConfigured()) return {}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (getPublicClient() as any).rpc("get_node_counts")
+  if (error || !Array.isArray(data)) return {}
+  const counts: Record<number, number> = {}
+  for (const row of data as Array<{ ecosystem_node: number; component_count: number }>) {
+    if (typeof row?.ecosystem_node === "number") {
+      counts[row.ecosystem_node] = row.component_count ?? 0
+    }
+  }
+  return counts
+}
+
+/**
+ * The Mzizi DNA double helix — nodes (on engineering strands) + rungs
+ * (cross-cutting base pairs) + the six strands, read live from
+ * `component_documents` (`documentation-architecture-{nodes,strands}`),
+ * the single source of truth the MCP serves. Per-node component counts
+ * come from `get_node_counts()`. Returns empty arrays if Supabase isn't
+ * configured or the collections are empty — callers render an empty
+ * state. There are no axes and no outliers.
+ */
+export async function getHelixModel(): Promise<HelixModel> {
+  const empty: HelixModel = { nodes: [], rungs: [], strands: [] }
+  if (!isSupabaseConfigured()) return empty
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const client = getPublicClient() as any
+
+  const [nodeRes, strandRes, counts] = await Promise.all([
+    client
+      .from("component_documents")
+      .select("document")
+      .eq("collection", "documentation-architecture-nodes"),
+    client
+      .from("component_documents")
+      .select("document")
+      .eq("collection", "documentation-architecture-strands"),
+    getNodeCounts(),
+  ])
+
+  if (nodeRes.error || !Array.isArray(nodeRes.data)) return empty
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const read = (row: any) => (row?.document ?? {}) as Record<string, unknown>
+  const str = (v: unknown) => (typeof v === "string" ? v : "")
+  const num = (v: unknown) => (typeof v === "number" ? v : Number(v) || 0)
+
+  const strandRows: unknown[] = Array.isArray(strandRes?.data) ? strandRes.data : []
+  const strands: HelixStrand[] = strandRows
+    .map(read)
+    .map((d) => ({
+      name: str(d.strand) || str(d._id),
+      title: str(d.title),
+      backbone: str(d.backbone),
+      covenant: str(d.covenant),
+      description: str(d.description),
+      sort_order: num(d.sort_order),
+    }))
+    .sort((a, b) => a.sort_order - b.sort_order)
+
+  const backboneByStrand = new Map<string, string>(strands.map((s) => [s.name, s.backbone]))
+
+  const all: HelixNode[] = (nodeRes.data as unknown[])
+    .map(read)
+    .map((d) => {
+      const strand = d.strand == null ? null : str(d.strand)
+      const nodeNumber = num(d.node_number)
+      return {
+        node_number: nodeNumber,
+        sub_label: str(d.sub_label) || (nodeNumber ? `N${nodeNumber}` : ""),
+        title: str(d.title),
+        type: d.type === "rung" ? ("rung" as const) : ("node" as const),
+        strand,
+        backbone: strand ? (backboneByStrand.get(strand) ?? null) : null,
+        role: str(d.role),
+        covenant: str(d.covenant),
+        description: str(d.description),
+        stakeholder: str(d.stakeholder),
+        implementation_rules: Array.isArray(d.implementation_rules)
+          ? (d.implementation_rules as string[])
+          : [],
+        sort_order: num(d.sort_order) || nodeNumber,
+        component_count: counts[nodeNumber] ?? 0,
+      }
+    })
+    .sort((a, b) => a.sort_order - b.sort_order)
+
+  return {
+    nodes: all.filter((n) => n.type === "node"),
+    rungs: all.filter((n) => n.type === "rung"),
+    strands,
+  }
 }
 
 // ── Skills — issue #54 / #58 (FRD-15 Part A, `skills` table) ────────

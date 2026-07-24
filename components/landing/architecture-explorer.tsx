@@ -1,38 +1,37 @@
-import { getArchitectureFrontendAxes, getArchitectureFrontendLayers } from "@/lib/db"
+import { getHelixModel } from "@/lib/db"
 // Direct import is fine: `architecture-canvas.tsx` carries `"use client"`,
 // so Next.js evaluates it only in the browser. Three.js never runs during
 // SSR. Next.js automatically code-splits the client bundle.
 import { ArchitectureCanvas } from "./architecture-canvas"
 
 /**
- * Server wrapper for the interactive 3D architecture explorer.
+ * Server wrapper for the interactive DNA-helix architecture explorer.
  *
- * Fetches layer + axis rows from Supabase. If the tables are empty
- * (issue #46's DDL is applied but the out-of-band seed hasn't run),
- * renders an empty-state notice instead of a broken canvas. The canvas
- * itself is a client component — three.js never runs during SSR.
+ * Reads the live model from Supabase `component_documents`
+ * (`documentation-architecture-{nodes,strands}`) — the single source of
+ * truth the MCP serves. If the collections are empty, renders an
+ * empty-state notice instead of a broken canvas. The canvas itself is a
+ * client component — three.js never runs during SSR.
  */
 export async function ArchitectureExplorer() {
-  const [axes, layers] = await Promise.all([
-    getArchitectureFrontendAxes(),
-    getArchitectureFrontendLayers(),
-  ])
+  const model = await getHelixModel()
 
-  if (axes.length === 0 || layers.length === 0) {
+  if (model.nodes.length === 0 || model.strands.length === 0) {
     return (
       <div className="rounded-xl border border-border bg-muted/20 p-8 text-center text-sm text-muted-foreground">
-        The 3D architecture explorer needs{" "}
+        The DNA-helix explorer needs the{" "}
         <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
-          architecture_frontend_axes
+          documentation-architecture-nodes
         </code>{" "}
         and{" "}
         <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
-          architecture_frontend_layers
+          documentation-architecture-strands
         </code>{" "}
-        to be populated. See issue #46.
+        collections to be populated in{" "}
+        <code className="font-mono text-xs">component_documents</code>.
       </div>
     )
   }
 
-  return <ArchitectureCanvas axes={axes} layers={layers} />
+  return <ArchitectureCanvas model={model} />
 }
