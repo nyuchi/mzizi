@@ -68,12 +68,12 @@ export async function GET() {
           architectureFrontendAxes: {
             href: "/api/v1/architecture/frontend/axes",
             description:
-              "Five axes of the 3D frontend architecture (X, Y, Z, Outside, Documentation).",
+              "Legacy axis-era route (per-axis summary). The model is the Mzizi DNA double helix — see /api/v1/architecture.",
           },
           architectureFrontendLayers: {
             href: "/api/v1/architecture/frontend/layers",
             description:
-              "Ten layers of the 3D frontend architecture (L1 tokens .. L10 documentation).",
+              "Legacy axis-era route (per-node detail). The model is the Mzizi DNA double helix — see /api/v1/architecture.",
           },
           ubuntuPillars: {
             href: "/api/v1/ubuntu/pillars",

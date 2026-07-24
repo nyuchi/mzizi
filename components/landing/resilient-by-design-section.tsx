@@ -6,18 +6,18 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Section, SectionHeader } from "@/components/landing/section"
 
 /**
- * "Resilient by design" — explains the two outliers of the 3D frontend
- * architecture (Outside / fundi and Documentation) and why they exist.
+ * "Resilient by design" — explains two of the Mzizi DNA helix's cross-cutting
+ * rungs (N9 fundi and N10 documentation) and why they exist.
  *
  * Most design systems ship as a snapshot — frozen at release time, drift
- * sets in, security findings pile up, docs go stale. The Mzizi system
- * has two layers whose entire job is to prevent that:
+ * sets in, security findings pile up, docs go stale. The Mzizi helix has two
+ * rungs — cross-cutting base pairs that bridge both backbones — whose entire
+ * job is to prevent that:
  *
- *   - L9 fundi (Outside axis): the self-healing node. Actors outside the
- *     build path consume L8 assurance signals and remediate the root cause.
- *   - L10 documentation (Documentation axis): the system documents
- *     itself — every component and every version is in Supabase,
- *     served live, never copy-pasted into a static file.
+ *   - N9 fundi: the self-healing rung. It consumes N8 assurance signals and
+ *     remediates the root cause.
+ *   - N10 documentation: the system documents itself — every component and
+ *     every version is in Supabase, served live, never copy-pasted.
  *
  * Together they're why the system stays current and secure without
  * manual maintenance pressure.
@@ -29,11 +29,11 @@ export async function ResilientBySection() {
     <Section bordered>
       <SectionHeader
         eyebrow="Resilient by design"
-        title="Two outlier layers keep the system updated and secure"
-        sub="The 3D frontend architecture is ten layers across five axes. Eight of those layers build the product. Two sit outside the build path on purpose — they exist so the system never goes stale or insecure."
+        title="Two rungs keep the system current and secure"
+        sub="The Mzizi DNA helix has two backbones that build the product; two cross-cutting rungs — fundi and documentation — exist so the system never goes stale or insecure."
       />
 
-      {/* Interactive 3D explorer — five axes + ten layer nodes, click to inspect */}
+      {/* Interactive model explorer */}
       <div className="mt-12 mb-10 overflow-hidden">
         <Suspense
           fallback={
@@ -47,7 +47,7 @@ export async function ResilientBySection() {
       <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
         <article className="flex flex-col gap-4 rounded-2xl border border-border bg-background p-6 sm:p-8">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs text-muted-foreground">L9 · OUTSIDE AXIS</span>
+            <span className="font-mono text-xs text-muted-foreground">N9 · RUNG</span>
             <span className="rounded-full bg-[var(--color-cobalt)]/10 px-2.5 py-0.5 font-mono text-[10px] font-medium text-[var(--color-cobalt)]">
               fundi
             </span>
@@ -56,19 +56,19 @@ export async function ResilientBySection() {
             Self-healing — failure becomes a learning event
           </h3>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Fundi (Shona for &quot;artisan&quot;) is the architecture node that lives outside the
-            build path. It defines where self-healing belongs in the 3D model: actors outside the
-            build consume the L8 assurance layer&apos;s runtime signals and remediate the root
-            cause, so a failure becomes a learning event rather than a user-facing incident.
+            Fundi (Shona for &quot;artisan&quot;) is a <strong>rung</strong> — a cross-cutting base
+            pair that bridges both backbones of the helix rather than sitting on a single strand. It
+            consumes the N8 assurance node&apos;s runtime signals and remediates the root cause, so
+            a failure becomes a learning event rather than a user-facing incident.
           </p>
           <ul className="space-y-1.5 text-sm leading-relaxed text-muted-foreground">
             <li className="flex gap-2">
               <span aria-hidden="true">→</span>
-              <span>Outside-the-build axis — distinct from the eight product layers</span>
+              <span>A cross-cutting rung — bridges both backbones, sits on neither strand</span>
             </li>
             <li className="flex gap-2">
               <span aria-hidden="true">→</span>
-              <span>Consumes L8 assurance signals; never sits inside a component</span>
+              <span>Consumes N8 assurance signals; never sits inside a component</span>
             </li>
             <li className="flex gap-2">
               <span aria-hidden="true">→</span>
@@ -83,15 +83,13 @@ export async function ResilientBySection() {
             href="/architecture"
             className="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
           >
-            The 3D architecture model <ArrowRight className="size-4" />
+            The DNA helix model <ArrowRight className="size-4" />
           </Link>
         </article>
 
         <article className="flex flex-col gap-4 rounded-2xl border border-border bg-background p-6 sm:p-8">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs text-muted-foreground">
-              L10 · DOCUMENTATION AXIS
-            </span>
+            <span className="font-mono text-xs text-muted-foreground">N10 · RUNG</span>
             <span className="rounded-full bg-[var(--color-tanzanite)]/10 px-2.5 py-0.5 font-mono text-[10px] font-medium text-[var(--color-tanzanite)]">
               documentation
             </span>
@@ -134,7 +132,7 @@ export async function ResilientBySection() {
             href="/architecture"
             className="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
           >
-            The 3D architecture model <ArrowRight className="size-4" />
+            The DNA helix model <ArrowRight className="size-4" />
           </Link>
         </article>
       </div>
@@ -148,7 +146,7 @@ export async function ResilientBySection() {
           <Link href="/architecture" className="underline hover:no-underline">
             the architecture page
           </Link>{" "}
-          for the full ten-layer model and{" "}
+          for the full helix model and{" "}
           <a
             href="https://github.com/nyuchi/mzizi/blob/main/SECURITY.md"
             target="_blank"
