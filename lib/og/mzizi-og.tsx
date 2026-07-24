@@ -5,20 +5,25 @@ import { paletteColor } from "@/lib/tokens"
 
 /*
  * Shared Mzizi OpenGraph / social-preview template — the Seven-Minerals "hive"
- * card. One template, every route: the root and each content route render it
- * with their OWN title + description so social/messaging previews are dynamic
- * (they pick up the page's title + SEO description + the site icon), never a
- * single static image.
+ * card. One template, every route, EVERY BRAND: the root and each content
+ * route render it with their OWN title + description + site icon, so previews
+ * are dynamic and brand-agnostic.
  *
- * Rendered by `next/og` (Satori). The hero mark is the SITE ICON — the nyuchi
- * bee (`public/icons/nyuchi-icon-dark.png`), the same asset `app/icon.tsx`
- * serves as the favicon. Background is the honeycomb: a faint flat-top hex
- * lattice + mineral accent cells (hexes from the design DB via paletteColor).
+ * Brand-agnostic by design: the hero mark is whatever `iconPath` points at
+ * (defaults to this site's icon). Nyuchi → the bee, mukoko → the swarm, bundu
+ * / shamwari → their own mark — the same template, just a different icon file.
+ * The icon sits ABOVE the title (centred) to build brand recognition.
  *
- * Routes that use this MUST set `export const runtime = "nodejs"` (the icon is
- * read off disk) and re-export OG_SIZE / OG_CONTENT_TYPE. This is the ONLY OG
- * source — never set an explicit `openGraph.images` in metadata, or it will
- * override the file-convention route and previews break.
+ * Rendered by `next/og` (Satori). Background is the honeycomb: a faint
+ * flat-top hex lattice + mineral accent cells (hexes from the design DB via
+ * paletteColor). Text colours are APCA-checked against the #1B1A17 ground
+ * (title Lc 92, secondary #E5E3DE Lc 81, gold Lc 76 — all clear the Lc 75
+ * large-text floor).
+ *
+ * Routes MUST set `export const runtime = "nodejs"` (the icon is read off
+ * disk) and re-export OG_SIZE / OG_CONTENT_TYPE. This is the ONLY OG source —
+ * never set an explicit `openGraph.images` in metadata or it overrides the
+ * file-convention route and previews break.
  */
 
 export const OG_SIZE = { width: 1200, height: 630 }
@@ -26,6 +31,12 @@ export const OG_CONTENT_TYPE = "image/png"
 
 const W = OG_SIZE.width
 const H = OG_SIZE.height
+
+// APCA-verified against #1B1A17 (reverse polarity):
+//   title #F5F5F4 → Lc 92 · secondary #E5E3DE → Lc 81 · gold → Lc 76.
+const BG = "#1B1A17"
+const INK = "#F5F5F4"
+const INK_SOFT = "#E5E3DE"
 
 // Flat-top hexagon: vertices at 0°,60°,…,300°. Returns an SVG `points` string.
 function hex(cx: number, cy: number, r: number): string {
@@ -53,37 +64,45 @@ function latticeCells(): { key: string; points: string }[] {
   return cells
 }
 
-// Solid accent cells framing the hero, using the mineral palette. Clear of the
-// text column on the left.
+// Solid accent cells in the four corners, using the mineral palette — framing
+// a centred composition while keeping the middle band clear for the content.
 const ACCENTS: { cx: number; cy: number; r: number; c: string; o: number }[] = [
-  { cx: 1140, cy: 70, r: 40, c: paletteColor("gold"), o: 0.9 },
-  { cx: 1070, cy: 150, r: 40, c: paletteColor("cobalt"), o: 0.55 },
-  { cx: 1150, cy: 545, r: 40, c: paletteColor("cobalt"), o: 0.9 },
-  { cx: 1075, cy: 470, r: 34, c: paletteColor("gold"), o: 0.5 },
-  { cx: 690, cy: 545, r: 34, c: paletteColor("malachite"), o: 0.7 },
-  { cx: 640, cy: 75, r: 34, c: paletteColor("tanzanite"), o: 0.7 },
-  { cx: 1015, cy: 300, r: 30, c: paletteColor("copper"), o: 0.55 },
-  { cx: 735, cy: 300, r: 30, c: paletteColor("gold"), o: 0.5 },
+  { cx: 78, cy: 70, r: 40, c: paletteColor("gold"), o: 0.85 },
+  { cx: 150, cy: 150, r: 30, c: paletteColor("cobalt"), o: 0.5 },
+  { cx: 1122, cy: 70, r: 40, c: paletteColor("cobalt"), o: 0.85 },
+  { cx: 1050, cy: 150, r: 30, c: paletteColor("gold"), o: 0.5 },
+  { cx: 78, cy: 560, r: 40, c: paletteColor("tanzanite"), o: 0.8 },
+  { cx: 152, cy: 482, r: 30, c: paletteColor("malachite"), o: 0.5 },
+  { cx: 1122, cy: 560, r: 40, c: paletteColor("gold"), o: 0.85 },
+  { cx: 1048, cy: 482, r: 30, c: paletteColor("copper"), o: 0.55 },
 ]
 
 // Title size scales down as the title grows, so a long page title and the
 // short "mzizi" wordmark both sit well in the frame.
 function titleFontSize(title: string): number {
   const n = title.length
-  if (n <= 6) return 150
-  if (n <= 12) return 104
-  if (n <= 20) return 78
-  if (n <= 32) return 60
-  return 48
+  if (n <= 6) return 132
+  if (n <= 12) return 100
+  if (n <= 20) return 76
+  if (n <= 32) return 58
+  return 46
 }
 
 export interface MziziOgProps {
-  /** The headline — page title or the "mzizi" wordmark on the root. */
+  /** The headline — page title or the brand wordmark on the root. */
   title: string
-  /** Tracked, uppercase kicker above the title. */
+  /** Tracked, uppercase kicker between the icon and the title. */
   eyebrow?: string
   /** SEO description line under the title. */
   description?: string
+  /**
+   * Public-relative path to the site icon (raster PNG — Satori composites it).
+   * Defaults to this site's icon; other brands pass their own mark so the one
+   * template serves nyuchi / mukoko / bundu / shamwari.
+   */
+  iconPath?: string
+  /** Domain shown in the footer (defaults to mzizi.dev). */
+  domain?: string
 }
 
 /**
@@ -94,10 +113,12 @@ export async function renderMziziOg({
   title,
   eyebrow = "open architecture · bundu foundation",
   description = "Seven African Minerals · shadcn-compatible registry · MCP server.",
+  iconPath = "public/icons/nyuchi-icon-dark.png",
+  domain = "mzizi.dev",
 }: MziziOgProps): Promise<ImageResponse> {
   const lattice = latticeCells()
-  const bee = await readFile(join(process.cwd(), "public/icons/nyuchi-icon-dark.png"))
-  const beeSrc = `data:image/png;base64,${bee.toString("base64")}`
+  const icon = await readFile(join(process.cwd(), iconPath))
+  const iconSrc = `data:image/png;base64,${icon.toString("base64")}`
 
   return new ImageResponse(
     <div
@@ -105,9 +126,13 @@ export async function renderMziziOg({
         height: "100%",
         width: "100%",
         display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
         position: "relative",
-        backgroundColor: "#1B1A17",
+        backgroundColor: BG,
         fontFamily: "Helvetica, Arial, sans-serif",
+        padding: "56px 90px",
       }}
     >
       {/* Honeycomb graphics */}
@@ -132,84 +157,63 @@ export async function renderMziziOg({
         ))}
       </svg>
 
-      {/* Hero: the site icon (nyuchi bee) on the honeycomb, right of centre */}
+      {/* Hero: the SITE ICON, above the title (brand recognition first) */}
+      <img src={iconSrc} width={168} height={168} alt="" />
+
+      {eyebrow ? (
+        <div
+          style={{
+            marginTop: 30,
+            fontSize: 22,
+            letterSpacing: 5,
+            textTransform: "uppercase",
+            color: INK_SOFT,
+          }}
+        >
+          {eyebrow}
+        </div>
+      ) : null}
+
       <div
         style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          width: 560,
-          height: H,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          marginTop: 14,
+          fontSize: titleFontSize(title),
+          lineHeight: 1.02,
+          fontWeight: 700,
+          letterSpacing: -2,
+          color: INK,
+          textAlign: "center",
+          maxWidth: 1000,
         }}
       >
-        <img src={beeSrc} width={300} height={300} alt="" />
+        {title}
       </div>
 
-      {/* Text column (left) */}
+      {description ? (
+        <div
+          style={{
+            marginTop: 22,
+            fontSize: 28,
+            lineHeight: 1.35,
+            color: INK_SOFT,
+            textAlign: "center",
+            maxWidth: 900,
+            display: "flex",
+          }}
+        >
+          {description}
+        </div>
+      ) : null}
+
       <div
         style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: 700,
-          height: H,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: "0 84px",
+          marginTop: 28,
+          fontSize: 24,
+          fontWeight: 700,
+          color: paletteColor("gold"),
         }}
       >
-        {eyebrow ? (
-          <div
-            style={{
-              fontSize: 22,
-              letterSpacing: 5,
-              textTransform: "uppercase",
-              color: "#B2AFA8",
-            }}
-          >
-            {eyebrow}
-          </div>
-        ) : null}
-        <div
-          style={{
-            marginTop: 18,
-            fontSize: titleFontSize(title),
-            lineHeight: 1,
-            fontWeight: 700,
-            letterSpacing: -2,
-            color: "#F5F5F4",
-          }}
-        >
-          {title}
-        </div>
-        {description ? (
-          <div
-            style={{
-              marginTop: 28,
-              fontSize: 30,
-              lineHeight: 1.35,
-              color: "#B2AFA8",
-              maxWidth: 500,
-              display: "flex",
-            }}
-          >
-            {description}
-          </div>
-        ) : null}
-        <div
-          style={{
-            marginTop: 40,
-            fontSize: 26,
-            fontWeight: 700,
-            color: paletteColor("gold"),
-          }}
-        >
-          mzizi.dev
-        </div>
+        {domain}
       </div>
     </div>,
     { ...OG_SIZE }
