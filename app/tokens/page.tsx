@@ -91,6 +91,17 @@ const SURFACES: { token: string; label: string; role: string }[] = [
   { token: "--scrim", label: "scrim", role: "Modal backdrop" },
 ]
 
+// Status tokens (DB brand_semantic_colors). error maps to --destructive.
+const STATUS: { token: string; label: string; role: string }[] = [
+  { token: "--success", label: "success", role: "Positive · done" },
+  { token: "--warning", label: "warning", role: "Caution" },
+  { token: "--info", label: "info", role: "Informational" },
+  { token: "--destructive", label: "error", role: "Error · destructive" },
+  { token: "--neutral", label: "neutral", role: "Inactive · secondary" },
+  { token: "--offline", label: "offline", role: "Disconnected" },
+  { token: "--syncing", label: "syncing", role: "In-progress" },
+]
+
 function SurfaceCard({ token, label, role }: { token: string; label: string; role: string }) {
   return (
     <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-background transition-colors hover:border-foreground/30">
@@ -178,6 +189,21 @@ export default function TokensPage() {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
           {heritageColors.map((h) => (
             <HeritageCard key={h.name} h={h} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-16 flex flex-col gap-4 border-t border-border pt-12">
+        <div className="flex flex-col gap-1">
+          <h2 className="font-serif text-2xl font-semibold">Status</h2>
+          <p className="text-sm text-muted-foreground">
+            Semantic state colours for feedback, health and data series — separate from the brand
+            accent. Every swatch reads its live CSS variable.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
+          {STATUS.map((s) => (
+            <SurfaceCard key={s.token} {...s} />
           ))}
         </div>
       </section>
