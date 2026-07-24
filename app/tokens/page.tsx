@@ -102,6 +102,19 @@ const STATUS: { token: string; label: string; role: string }[] = [
   { token: "--syncing", label: "syncing", role: "In-progress" },
 ]
 
+// The Experimental Seven — a computed palette (heptagon hues offset 17°, prime
+// saturations, foregrounds solved to a P7 contrast floor). See the bundu
+// newsroom, "Colours Computed, Not Chosen". For data series + candidate accents.
+const EXPERIMENTAL: { token: string; label: string; role: string }[] = [
+  { token: "--exp-ember", label: "ember", role: "hue 17° · warm anchor" },
+  { token: "--exp-acacia", label: "acacia", role: "hue 68° · yellow-green" },
+  { token: "--exp-fern", label: "fern", role: "hue 120° · pure green" },
+  { token: "--exp-lagoon", label: "lagoon", role: "hue 171° · teal" },
+  { token: "--exp-storm", label: "storm", role: "hue 223° · rain-sky blue" },
+  { token: "--exp-dusk", label: "dusk", role: "hue 274° · violet" },
+  { token: "--exp-protea", label: "protea", role: "hue 326° · magenta" },
+]
+
 function SurfaceCard({ token, label, role }: { token: string; label: string; role: string }) {
   return (
     <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-background transition-colors hover:border-foreground/30">
@@ -203,6 +216,23 @@ export default function TokensPage() {
         </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
           {STATUS.map((s) => (
+            <SurfaceCard key={s.token} {...s} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-16 flex flex-col gap-4 border-t border-border pt-12">
+        <div className="flex flex-col gap-1">
+          <h2 className="font-serif text-2xl font-semibold">The Experimental Seven</h2>
+          <p className="max-w-2xl text-sm text-muted-foreground">
+            Computed, not chosen — seven maximally-separated hues on a heptagon offset by the
+            founding prime (17°), prime saturations, and every foreground solved to a ≥7:1 contrast
+            floor. The proving ground for data series and candidate accents; only the names are
+            picked.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
+          {EXPERIMENTAL.map((s) => (
             <SurfaceCard key={s.token} {...s} />
           ))}
         </div>

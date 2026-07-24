@@ -130,6 +130,15 @@
   --color-neutral: var(--neutral);
   --color-offline: var(--offline);
   --color-syncing: var(--syncing);
+  /* Experimental Seven — computed palette (bundu newsroom, 2026-07-05):
+     heptagon hues offset 17°, prime saturations, foregrounds solved to P7. */
+  --color-ember: var(--exp-ember);
+  --color-acacia: var(--exp-acacia);
+  --color-fern: var(--exp-fern);
+  --color-lagoon: var(--exp-lagoon);
+  --color-storm: var(--exp-storm);
+  --color-dusk: var(--exp-dusk);
+  --color-protea: var(--exp-protea);
 
   /* Surface-elevation ladder (DB prime-step surfaces P2–P17). background/card/
      muted/overlay stay as the mapped Tailwind surfaces; these expose the extra
@@ -225,6 +234,14 @@
   --neutral: #55514b;
   --offline: #674c32;
   --syncing: #1c5962;
+  /* Experimental Seven — computed, light-base values (≥7:1) */
+  --exp-ember: #843d20;
+  --exp-acacia: #4d5615;
+  --exp-fern: #175e17;
+  --exp-lagoon: #165b51;
+  --exp-storm: #284ca6;
+  --exp-dusk: #742aad;
+  --exp-protea: #932464;
   /* Surface-elevation rungs (DB, light) */
   --surface: #eeeeec;
   --container: #e5e4e1;
@@ -318,6 +335,14 @@
   --neutral: #a09c93;
   --offline: #ba9570;
   --syncing: #36abba;
+  /* Experimental Seven — computed, dark-base values (≥7:1) */
+  --exp-ember: #da8766;
+  --exp-acacia: #93a528;
+  --exp-fern: #2cb42b;
+  --exp-lagoon: #2aae9b;
+  --exp-storm: #7e9be0;
+  --exp-dusk: #ba87e2;
+  --exp-protea: #df7bb4;
   /* Surface-elevation rungs (DB, dark) */
   --surface: #131211;
   --container: #1e1d1a;
