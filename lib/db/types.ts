@@ -859,6 +859,63 @@ export interface ArchitectureSnapshotAxis {
   sort_order: number
   layers: ArchitectureSnapshotLayer[]
 }
+
+// ── Architecture (Mzizi DNA double helix) — nodes on strands + rungs ──
+//
+// The live model lives in `component_documents` under the collections
+// `documentation-architecture-nodes` (11 docs: 8 nodes + 3 rungs) and
+// `documentation-architecture-strands` (6 docs). This is the single
+// source of truth the MCP already serves — no axes, no outliers. The
+// legacy `architecture_frontend_*` tables + their `/api/v1/architecture`
+// routes are retained (marked legacy) for unmigrated consumers.
+
+export type HelixStrandKey =
+  | "core-guarantee"
+  | "shipped"
+  | "swappable"
+  | "spine"
+  | "genetic-code"
+  | "transcription"
+
+export type HelixBackbone = "engineering" | "meaning"
+
+/** A backbone grouping (`documentation-architecture-strands`). */
+export interface HelixStrand {
+  name: HelixStrandKey | string
+  title: string
+  backbone: HelixBackbone | string
+  covenant: string
+  description: string
+  sort_order: number
+}
+
+/**
+ * A helix element from `documentation-architecture-nodes`. Both nodes
+ * (`type: "node"`, bound to one engineering strand) and rungs
+ * (`type: "rung"`, cross-cutting — `strand`/`backbone` null) share this
+ * shape; `getHelixModel()` splits them by `type`.
+ */
+export interface HelixNode {
+  node_number: number
+  sub_label: string
+  title: string
+  type: "node" | "rung"
+  strand: HelixStrandKey | string | null
+  backbone: HelixBackbone | string | null
+  role: string
+  covenant: string
+  description: string
+  stakeholder: string
+  implementation_rules: string[]
+  sort_order: number
+  component_count: number
+}
+
+export interface HelixModel {
+  nodes: HelixNode[]
+  rungs: HelixNode[]
+  strands: HelixStrand[]
+}
 //
 // Five Ubuntu Pillars (the spheres in which Ubuntu is lived) and Five
 // Ubuntu Principles (the operating rules that translate Ubuntu to software).
