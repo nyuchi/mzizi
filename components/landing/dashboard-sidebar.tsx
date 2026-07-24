@@ -38,13 +38,13 @@ export function DashboardSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="flex h-14 items-start justify-center px-4">
+      <SidebarHeader className="flex h-16 items-center justify-start px-3">
         <Link
           href="/"
-          className="flex shrink-0 items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-          aria-label="Mzizi home"
+          className="flex shrink-0 items-center rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          aria-label="mzizi home"
         >
-          <NyuchiLogo size={24} showWordmark suffix="mzizi" />
+          <NyuchiLogo size={32} showWordmark suffix="mzizi" className="text-xl" />
         </Link>
       </SidebarHeader>
 

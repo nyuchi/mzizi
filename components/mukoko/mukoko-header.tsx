@@ -50,6 +50,12 @@ interface NyuchiHeaderProps {
   actions?: React.ReactNode
   /** Pill action buttons (mobile app identity pattern) */
   pillActions?: PillAction[]
+  /**
+   * Render the brand lockup (bee + wordmark) in the header. Set `false` on
+   * routes that already show the brand elsewhere (e.g. the dashboard sidebar)
+   * so it does not appear twice.
+   */
+  showLogo?: boolean
   /** Whether header has scrolled (enables blur background) */
   scrolled?: boolean
   /** Custom page title shown when scrolled */
@@ -76,6 +82,7 @@ export function NyuchiHeader({
   scrollTitle,
   showBack = false,
   onBack,
+  showLogo = true,
   className,
 }: NyuchiHeaderProps) {
   useNyuchiHarness("header") // harness pre-wires observability + motion + a11y
@@ -108,10 +115,17 @@ export function NyuchiHeader({
           <SidebarTrigger />
         )}
 
-        {/* App icon — rounded-lg square with border (brand marker) */}
-        <a href="/" className="flex items-center gap-3">
-          <NyuchiLogo size={28} showWordmark suffix={appName} className="text-lg" />
-        </a>
+        {/* Brand lockup — bee + wordmark. Hidden when another surface (the
+            dashboard sidebar) already carries the brand, to avoid a double mark. */}
+        {showLogo && (
+          <a
+            href="/"
+            className="flex items-center gap-3 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            aria-label="mzizi home"
+          >
+            <NyuchiLogo size={34} showWordmark suffix={appName} className="text-xl" />
+          </a>
+        )}
 
         {/* Scroll title override */}
         {scrolled && scrollTitle && (

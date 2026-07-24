@@ -38,7 +38,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       {!isMarketing && <DashboardSidebar />}
 
       <SidebarInset className="pl-1">
-        <Header />
+        {/* On app routes the sidebar carries the brand, so the header hides its
+            own lockup to avoid a duplicate bee + wordmark. Marketing has no
+            sidebar, so it keeps the header brand. */}
+        <Header showLogo={isMarketing} />
 
         {isMarketing ? (
           children

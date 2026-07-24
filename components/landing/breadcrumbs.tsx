@@ -24,6 +24,8 @@ function labelFor(segment: string): string {
     .join(" ")
 }
 
+const SITE_ORIGIN = "https://mzizi.dev"
+
 export function Breadcrumbs({ className }: { className?: string }) {
   const pathname = usePathname()
   const segments = pathname.split("/").filter(Boolean)
@@ -36,14 +38,34 @@ export function Breadcrumbs({ className }: { className?: string }) {
     label: labelFor(segment),
   }))
 
+  // schema.org BreadcrumbList — helps search engines render the trail in
+  // results. Home + every crumb, in order, with absolute item URLs.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_ORIGIN}/` },
+      ...crumbs.map((crumb, i) => ({
+        "@type": "ListItem",
+        position: i + 2,
+        name: crumb.label,
+        item: `${SITE_ORIGIN}${crumb.href}`,
+      })),
+    ],
+  }
+
   return (
     <nav
       aria-label="Breadcrumb"
       className={cn(
-        "flex min-h-[48px] flex-wrap items-center gap-2 text-xs text-muted-foreground",
+        "flex min-h-[48px] flex-wrap items-center gap-2 text-sm text-muted-foreground",
         className
       )}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Link
         href="/"
         className="inline-flex min-h-[48px] items-center rounded-sm px-1 py-2 transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"

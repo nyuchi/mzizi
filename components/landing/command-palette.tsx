@@ -2,29 +2,20 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import { ArrowUpRight, Box, Clock, CornerDownLeft, Loader2 } from "@/lib/icons"
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command"
+import { Box } from "@/lib/icons"
+import { NyuchiCommandPalette, type CommandItem } from "@/components/ui/nyuchi-command-palette"
 import { SIDEBAR_NAV } from "@/lib/nav"
 
 /**
- * Global ⌘K command palette. Opens on ⌘K / Ctrl+K or when any UI dispatches
- * the {@link COMMAND_OPEN_EVENT} (see the header search). It offers:
+ * Portal wiring for the registry command palette (`nyuchi-command-palette`,
+ * node 7 / shell). This file is portal composition only — it owns open state
+ * and data; the visual + keyboard behaviour lives in the registry component.
  *
- *   - "Go to" — the curated portal nav (SIDEBAR_NAV), client-filtered by query.
- *   - "Components" — live results from `/api/v1/search?q=` (debounced, abortable).
- *   - "Recent" — the last components opened, persisted in localStorage.
- *
- * The palette owns navigation itself (`router.push`), so it never ships a text
- * input that discards what the user typed — every keystroke either filters nav
- * or hits the registry search.
+ * Opens on ⌘K / Ctrl+K (handled inside the registry component) or when the
+ * header search dispatches {@link COMMAND_OPEN_EVENT}. Data:
+ *   - "Go to" — the curated SIDEBAR_NAV, client-filtered by query.
+ *   - "Components" — live `/api/v1/search?q=` results (debounced, abortable).
+ *   - "Recent" — last opened components, persisted in localStorage.
  */
 
 const COMMAND_OPEN_EVENT = "mzizi:command-open"
@@ -40,7 +31,6 @@ interface ComponentResult {
   name: string
   description: string | null
   layer: string | null
-  category: string | null
 }
 
 const QUICK_LINKS = SIDEBAR_NAV.flatMap((group) => group.items)
@@ -53,21 +43,11 @@ export function CommandPalette() {
   const [loading, setLoading] = React.useState(false)
   const [recents, setRecents] = React.useState<string[]>([])
 
-  // ⌘K / Ctrl+K + external open event.
+  // Header search (and any other UI) can open the palette via this event.
   React.useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((prev) => !prev)
-      }
-    }
     const onOpen = () => setOpen(true)
-    document.addEventListener("keydown", onKey)
     window.addEventListener(COMMAND_OPEN_EVENT, onOpen)
-    return () => {
-      document.removeEventListener("keydown", onKey)
-      window.removeEventListener(COMMAND_OPEN_EVENT, onOpen)
-    }
+    return () => window.removeEventListener(COMMAND_OPEN_EVENT, onOpen)
   }, [])
 
   // Hydrate recents once on mount.
@@ -80,7 +60,7 @@ export function CommandPalette() {
     }
   }, [])
 
-  // Debounced, abortable registry search.
+  // Debounced, abortable registry search whenever the query changes.
   React.useEffect(() => {
     const q = query.trim()
     if (!q) {
@@ -110,136 +90,69 @@ export function CommandPalette() {
     }
   }, [query])
 
-  const go = React.useCallback(
-    (href: string, recentName?: string) => {
-      setOpen(false)
-      setQuery("")
-      if (recentName) {
-        setRecents((prev) => {
-          const next = [recentName, ...prev.filter((n) => n !== recentName)].slice(0, MAX_RECENTS)
-          try {
-            localStorage.setItem(RECENTS_KEY, JSON.stringify(next))
-          } catch {
-            /* ignore quota errors */
-          }
-          return next
-        })
+  const recordRecent = React.useCallback((name: string) => {
+    setRecents((prev) => {
+      const next = [name, ...prev.filter((n) => n !== name)].slice(0, MAX_RECENTS)
+      try {
+        localStorage.setItem(RECENTS_KEY, JSON.stringify(next))
+      } catch {
+        /* ignore quota errors */
       }
-      router.push(href)
-    },
-    [router]
-  )
+      return next
+    })
+  }, [])
 
   const q = query.trim().toLowerCase()
-  const filteredLinks = q
-    ? QUICK_LINKS.filter((l) => l.label.toLowerCase().includes(q))
-    : QUICK_LINKS
+
+  // "Go to" — curated nav, filtered client-side by the query.
+  const navItems: CommandItem[] = (
+    q ? QUICK_LINKS.filter((l) => l.label.toLowerCase().includes(q)) : QUICK_LINKS
+  ).map((link) => {
+    const Icon = link.icon
+    return {
+      id: `link:${link.href}`,
+      label: link.label,
+      category: "Go to",
+      icon: Icon ? <Icon className="size-4 text-muted-foreground" /> : undefined,
+      onSelect: () => router.push(link.href),
+    }
+  })
+
+  // "Components" — live registry search results (only when a query is present).
+  const componentItems: CommandItem[] = q
+    ? results.map((c) => ({
+        id: `component:${c.name}`,
+        label: c.name,
+        description: c.description ?? undefined,
+        category: "Components",
+        icon: <Box className="size-4 text-muted-foreground" />,
+        shortcut: c.layer ? `N${c.layer}` : undefined,
+        onSelect: () => {
+          recordRecent(c.name)
+          router.push(`/components/${c.name}`)
+        },
+      }))
+    : []
+
+  // "Recent" — last opened components (shown only with an empty query).
+  const recentItems: CommandItem[] = recents.map((name) => ({
+    id: `recent:${name}`,
+    label: name,
+    onSelect: () => {
+      recordRecent(name)
+      router.push(`/components/${name}`)
+    },
+  }))
 
   return (
-    <CommandDialog
+    <NyuchiCommandPalette
       open={open}
       onOpenChange={setOpen}
-      commandProps={{ shouldFilter: false, loop: true }}
-    >
-      <CommandInput
-        placeholder="Search components and pages…"
-        value={query}
-        onValueChange={setQuery}
-      />
-      <CommandList>
-        {loading && (
-          <div className="flex items-center justify-center gap-2 py-8 text-sm text-muted-foreground">
-            <Loader2 className="size-4 animate-spin" />
-            Searching…
-          </div>
-        )}
-
-        {!loading && <CommandEmpty>No results found.</CommandEmpty>}
-
-        {!q && recents.length > 0 && (
-          <>
-            <CommandGroup heading="Recent">
-              {recents.map((name) => (
-                <CommandItem
-                  key={name}
-                  value={`recent:${name}`}
-                  onSelect={() => go(`/components/${name}`, name)}
-                >
-                  <Clock />
-                  <span className="truncate">{name}</span>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-            <CommandSeparator />
-          </>
-        )}
-
-        {filteredLinks.length > 0 && (
-          <CommandGroup heading="Go to">
-            {filteredLinks.map((link) => {
-              const Icon = link.icon
-              return (
-                <CommandItem
-                  key={link.href}
-                  value={`link:${link.label}`}
-                  onSelect={() => go(link.href, undefined)}
-                >
-                  {Icon ? <Icon /> : <Box />}
-                  <span className="truncate">{link.label}</span>
-                  {link.external && <ArrowUpRight className="ml-auto" />}
-                </CommandItem>
-              )
-            })}
-          </CommandGroup>
-        )}
-
-        {q && results.length > 0 && (
-          <>
-            <CommandSeparator />
-            <CommandGroup heading="Components">
-              {results.map((c) => (
-                <CommandItem
-                  key={c.name}
-                  value={`component:${c.name}`}
-                  onSelect={() => go(`/components/${c.name}`, c.name)}
-                >
-                  <Box />
-                  <span className="min-w-0 flex-1 truncate">
-                    {c.name}
-                    {c.description ? (
-                      <span className="ml-2 text-muted-foreground">{c.description}</span>
-                    ) : null}
-                  </span>
-                  {c.layer && (
-                    <span className="ml-2 shrink-0 font-mono text-[10px] text-muted-foreground">
-                      N{c.layer}
-                    </span>
-                  )}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </>
-        )}
-      </CommandList>
-
-      {/* Keyboard hint bar */}
-      <div className="flex items-center gap-4 border-t border-border px-4 py-2 text-[11px] text-muted-foreground">
-        <span className="flex items-center gap-1">
-          <kbd className="rounded border border-border bg-muted px-1 font-mono">↑</kbd>
-          <kbd className="rounded border border-border bg-muted px-1 font-mono">↓</kbd>
-          navigate
-        </span>
-        <span className="flex items-center gap-1">
-          <kbd className="rounded border border-border bg-muted px-1 font-mono">
-            <CornerDownLeft className="size-3" />
-          </kbd>
-          select
-        </span>
-        <span className="ml-auto flex items-center gap-1">
-          <kbd className="rounded border border-border bg-muted px-1 font-mono">esc</kbd>
-          close
-        </span>
-      </div>
-    </CommandDialog>
+      items={[...navItems, ...componentItems]}
+      recentItems={recentItems}
+      onSearch={setQuery}
+      loading={loading}
+      placeholder="Search components and pages…"
+    />
   )
 }

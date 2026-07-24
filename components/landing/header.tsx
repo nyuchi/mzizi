@@ -23,6 +23,14 @@ const NAV_ITEMS: NavItem[] = HEADER_NAV.map(({ label, href, external }) => ({
   external,
 }))
 
-export function Header() {
-  return <NyuchiHeader appName="design" navItems={NAV_ITEMS} actions={<HeaderSearch />} scrolled />
+export function Header({ showLogo = true }: { showLogo?: boolean }) {
+  return (
+    <NyuchiHeader
+      appName="mzizi"
+      navItems={NAV_ITEMS}
+      actions={<HeaderSearch />}
+      showLogo={showLogo}
+      scrolled
+    />
+  )
 }
