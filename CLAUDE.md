@@ -10,7 +10,7 @@
 
 **Mzizi** is an **independent open-architecture project of the Bundu Foundation** — governed by the Bundu Foundation, operated and developed by Nyuchi. It is **not** a Nyuchi product. Mzizi owns the open 3D frontend architecture, the component registry (`mzizi.dev/r/`), the Mzizi API (`mzizi.dev/api`), the components, the infrastructure harness, and the architecture nodes it serves.
 
-It serves the full stable registry across a 3D frontend architecture — **ten nodes across five axes**: X-axis (horizontal composition — N2 primitives → N3 brand → N6 pages → N7 shell), Y-axis (vertical infrastructure — N1 tokens, N4 safety, N5 resilience), Z-axis (depth observation — N8 assurance), Outside (N9 — self-healing actors, now owned by `mzizi-tools`), and Documentation (N10). Built on the **Five African Minerals** design system, installable via the shadcn CLI:
+It serves the full stable registry across a 3D frontend architecture — **ten nodes across five axes**: X-axis (horizontal composition — N2 primitives → N3 brand → N6 pages → N7 shell), Y-axis (vertical infrastructure — N1 tokens, N4 safety, N5 resilience), Z-axis (depth observation — N8 assurance), Outside (N9 — self-healing actors, now owned by `mzizi-tools`), and Documentation (N10). Built on the **Seven African Minerals** design system (seven minerals + seven heritage tones + status + the Experimental Seven — see §7), installable via the shadcn CLI:
 
 ```
 npx shadcn@latest add https://mzizi.dev/api/v1/ui/<component>
@@ -51,7 +51,7 @@ Mzizi exists within a broader ecosystem. Understanding the relationships prevent
 ```
 design-portal (this repo)
     │
-    ├── Defines: Five African Minerals palette, typography, component API,
+    ├── Defines: Seven African Minerals palette, typography, component API,
     │            3D frontend architecture, Ubuntu doctrine
     ├── Serves: the full stable registry across 10 architecture nodes via the
     │           shadcn CLI / `/api/v1/*` (live count: GET /api/v1/stats)
@@ -417,23 +417,52 @@ Three layers of error isolation:
 
 ---
 
-## 7. Five African Minerals Design System
+## 7. Colour System — Seven Minerals, Seven Heritage, Status & Experimental
 
 This is the canonical design system. All bundu ecosystem apps MUST use these tokens.
 
+The palette layers four families:
+
+1. **Seven minerals** — the brand accents, each carrying a semantic **role**, grouped in two **families** (`deep-earth`, `hand`).
+2. **Seven heritage** — atmospheric anchors for surfaces, moods and mini-app theming (no role/family).
+3. **Status** — semantic state colours (success/warning/info/error/neutral/offline/syncing), separate from the brand accent.
+4. **The Experimental Seven** — a computed proving-ground palette (candidate accents + data series).
+
+Minerals + heritage are **DB-generated**: `pnpm tokens:sync` projects the Supabase collections `styling-minerals` and `styling-heritage-colors` into `lib/tokens/palette.generated.ts` and the `tokens:generated` block of `app/globals.css`; `pnpm tokens:verify` is the CI drift gate. The live, theme-adaptive values render at `/tokens`. **Never hand-edit `palette.generated.ts` or the generated globals.css block** — edit the DB collection and re-sync.
+
 ### 7.1 Color Palette
 
-**Mineral accent colors** (constant across light/dark):
+**Seven minerals** — brand accents, each with a role + family (sourced from `styling-minerals`; hexes shown are the current dark/light snapshot — `/tokens` is the live source):
 
-| Mineral    | Hex       | CSS Variable         | Usage                             |
-| ---------- | --------- | -------------------- | --------------------------------- |
-| Cobalt     | `#0047AB` | `--color-cobalt`     | Primary blue, links, CTAs         |
-| Tanzanite  | `#B388FF` | `--color-tanzanite`  | Purple accent, brand/logo         |
-| Malachite  | `#64FFDA` | `--color-malachite`  | Cyan accent, success states       |
-| Gold       | `#FFD740` | `--color-gold`       | Yellow accent, rewards/highlights |
-| Terracotta | `#D4A574` | `--color-terracotta` | Warm accent, community            |
+| Mineral    | Role         | Family     | Dark      | Light     | CSS Variable         |
+| ---------- | ------------ | ---------- | --------- | --------- | -------------------- |
+| Cobalt     | Knowledge    | deep-earth | `#00B0FF` | `#0047AB` | `--color-cobalt`     |
+| Tanzanite  | Identity     | deep-earth | `#B388FF` | `#4B0082` | `--color-tanzanite`  |
+| Malachite  | Growth       | deep-earth | `#64FFDA` | `#004D40` | `--color-malachite`  |
+| Sodalite   | Intelligence | deep-earth | `#3D5AFE` | `#283593` | `--color-sodalite`   |
+| Gold       | Value        | hand       | `#FFD740` | `#5D4037` | `--color-gold`       |
+| Terracotta | Community    | hand       | `#E1B07E` | `#A0522D` | `--color-terracotta` |
+| Copper     | Stewardship  | hand       | `#FF8A65` | `#BF5A36` | `--color-copper`     |
 
-**Semantic color tokens** (theme-adaptive via CSS custom properties):
+**Per-brand accent.** Colour is a role contract, not decoration. The operating brand picks its accent via `--brand-accent`: **nyuchi** (this portal) = **gold**, **mukoko** = **tanzanite** (Identity), **bundu** = its own. Never hardcode a brand's accent hex — consume `--brand-accent`.
+
+**Seven heritage** — atmospheric tones (sourced from `styling-heritage-colors`; no role/family):
+
+| Heritage | Dark      | Light     | CSS Variable       |
+| -------- | --------- | --------- | ------------------ |
+| Indigo   | `#7986CB` | `#4527A0` | `--color-indigo`   |
+| Savanna  | `#E5C158` | `#8D6E1A` | `--color-savanna`  |
+| Baobab   | `#A1887F` | `#4E342E` | `--color-baobab`   |
+| Sunset   | `#FF7043` | `#D84315` | `--color-sunset`   |
+| River    | `#4DD0E1` | `#006064` | `--color-river`    |
+| Hematite | `#90A4AE` | `#546E7A` | `--color-hematite` |
+| Kalahari | `#E8D9B5` | `#C9B589` | `--color-kalahari` |
+
+**Status** — semantic state tokens (values in `app/globals.css` `:root`/`.dark`; `error` maps to `--destructive`): `--success`, `--warning`, `--info`, `--destructive` (error), `--neutral`, `--offline`, `--syncing`.
+
+**The Experimental Seven** — computed, not chosen. Seven maximally-separated hues on a heptagon offset by the founding prime (17°), prime saturations, and every foreground solved to a ≥7:1 (P7) contrast floor. Names: **ember, acacia, fern, lagoon, storm, dusk, protea**. Each ships four computed tiers — text (`--exp-<name>`), UI accent (`--exp-<name>-ui`), and container / on-container (`--exp-<name>-container` / `--exp-<name>-on`) — with `--color-<name>` mapping to the text tier via `@theme`. Provenance: the bundu newsroom, "Colours Computed, Not Chosen" (`styling-experimental`, doctrine 4.2.0). Currently a **hand-authored** block in `globals.css` (not yet wired into `tokens:sync`); the proving ground for data series + candidate accents.
+
+**Surface / semantic tokens** (theme-adaptive via CSS custom properties):
 
 > **Values synced from the `nyuchi-tokens` registry (N1), April 2026 AAA-optimised swap.**
 > Surfaces were re-arranged: `background` is now the ambient page base, `card` is the content surface, `muted` is the deepest fill. Border/input alpha tightened to 0.06. Two new tokens added: `overlay` (modal/sheet surface) and `scrim` (modal backdrop).
@@ -575,7 +604,7 @@ npx shadcn@latest add https://mzizi.dev/api/v1/ui/button
 npx shadcn@latest add https://mzizi.dev/api/v1/ui/card
 ```
 
-Every new app inherits the canonical typography (Noto Sans / Noto Serif / JetBrains Mono), the Five African Minerals palette, the layered architecture, the pill-button identity, and the touch-target floor. Long-form product docs for any bundu app belong in `nyuchi/bundu-docs`; engineering docs belong in `nyuchi/nyuchi-docs`. Mzizi tooling (MCP, SDK, skills, console mini-app) is consumed from `nyuchi/mzizi-tools` as published npm packages.
+Every new app inherits the canonical typography (Noto Sans / Noto Serif / JetBrains Mono), the Seven African Minerals palette, the layered architecture, the pill-button identity, and the touch-target floor. Long-form product docs for any bundu app belong in `nyuchi/bundu-docs`; engineering docs belong in `nyuchi/nyuchi-docs`. Mzizi tooling (MCP, SDK, skills, console mini-app) is consumed from `nyuchi/mzizi-tools` as published npm packages.
 
 ### 8.6 Distribution surface
 
@@ -898,7 +927,7 @@ When working on this codebase as an AI assistant:
 1. **Supabase is the source of truth.** Component source code, docs, brand data, architecture data, AI instructions, changelog, document-route docs — all live in Supabase. Do not reintroduce hardcoded JSON/TS files for any of these.
 2. **`registry.json` is generated, not authored.** Never hand-edit it. CI runs `pnpm registry:verify` to catch drift.
 3. **Never break the shadcn registry schema** — downstream apps depend on it.
-4. **Use the Five African Minerals palette** — never introduce colors outside the token system.
+4. **Use the Seven African Minerals palette** (plus heritage / status / experimental sets — §7) — never introduce colors outside the token system.
 5. **Follow the CVA + Radix + cn() pattern** — every component uses this stack.
 6. **Keep components self-contained** — each file is independently installable via the registry.
 7. **Preserve accessibility** — APCA 3.0 AAA contrast, 56px default / 48px minimum touch targets, Radix primitives for keyboard/screen reader behaviour.
