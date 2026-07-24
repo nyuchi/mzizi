@@ -65,14 +65,12 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: "Mzizi",
     description: SITE_DESCRIPTION,
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Mzizi — open architecture on the Seven African Minerals design system",
-      },
-    ],
+    // No explicit `images` here on purpose: the `app/opengraph-image.tsx` file
+    // convention supplies the og:image with an absolute, cache-busted URL. An
+    // explicit array would *override* it — and the previous "/og-image.png"
+    // pointed at a file that never existed, so every social/messaging scraper
+    // got a 404 and rendered no preview. Add a route-level opengraph-image.tsx
+    // to override per-page instead of hardcoding here.
   },
   twitter: {
     card: "summary_large_image",
@@ -80,7 +78,8 @@ export const metadata: Metadata = {
     creator: "@nyuchiafrica",
     title: "Mzizi",
     description: SITE_DESCRIPTION,
-    images: ["/og-image.png"],
+    // Likewise no `images`: with no `app/twitter-image.tsx`, the Twitter card
+    // falls back to the generated opengraph-image automatically.
   },
 }
 
