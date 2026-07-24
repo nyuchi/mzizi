@@ -1,11 +1,7 @@
-// `"use client"` is required here, not redundant: PILL_ACTIONS passes
-// component references (Search, Wrench, User from @/lib/icons) as the
-// `icon` prop. Function references don't cross the RSC serialization
-// boundary, so the boundary has to land at this file, before NyuchiHeader.
 "use client"
 
-import { Search } from "@/lib/icons"
-import { NyuchiHeader, type NavItem, type PillAction } from "@/components/mukoko/mukoko-header"
+import { NyuchiHeader, type NavItem } from "@/components/mukoko/mukoko-header"
+import { HeaderSearch } from "@/components/landing/header-search"
 import { HEADER_NAV } from "@/lib/nav"
 
 /**
@@ -27,10 +23,6 @@ const NAV_ITEMS: NavItem[] = HEADER_NAV.map(({ label, href, external }) => ({
   external,
 }))
 
-const PILL_ACTIONS: PillAction[] = [
-  { icon: Search, label: "Search components", href: "/components" },
-]
-
 export function Header() {
-  return <NyuchiHeader appName="design" navItems={NAV_ITEMS} pillActions={PILL_ACTIONS} scrolled />
+  return <NyuchiHeader appName="design" navItems={NAV_ITEMS} actions={<HeaderSearch />} scrolled />
 }

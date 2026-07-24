@@ -105,7 +105,7 @@ export function NyuchiHeader({
             </svg>
           </button>
         ) : (
-          <SidebarTrigger className="md:hidden" />
+          <SidebarTrigger />
         )}
 
         {/* App icon — rounded-lg square with border (brand marker) */}

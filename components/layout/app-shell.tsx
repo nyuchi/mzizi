@@ -27,8 +27,12 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isMarketing = pathname === "/"
 
+  // Load collapsed to the icon rail. The sidebar is `collapsible="icon"`, so
+  // this renders a stable icon-only strip on first paint — no expanded-then-hide
+  // flash on reload, and no cookie/dynamic-rendering cost (reading a cookie in
+  // the root layout would opt the whole site out of static prerendering).
   return (
-    <SidebarProvider defaultOpen>
+    <SidebarProvider defaultOpen={false}>
       {!isMarketing && <DashboardSidebar />}
 
       <SidebarInset className="pl-1">
