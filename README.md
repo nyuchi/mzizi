@@ -15,7 +15,7 @@
 
 ## What is Mzizi?
 
-**Mzizi** (Swahili for _root_) is an independent open-architecture project of the **Bundu Foundation**, operated and developed by **Nyuchi**. It owns the open 3D frontend architecture, the component registry served at `mzizi.dev/r/`, the Mzizi API at `mzizi.dev/api`, the Five African Minerals design system, and the document-route Model Context Protocol (MCP) server at `mzizi.dev/mcp`. It is **not** a Nyuchi product — it is a Bundu-governed standard the whole bundu ecosystem (Mukoko consumer mini-apps, Nyuchi enterprise products, sister brands) installs from. Backed by a DB-first architecture (Supabase) and served as a shadcn-compatible API, every component is installable into any project with one command.
+**Mzizi** (Swahili for _root_) is an independent open-architecture project of the **Bundu Foundation**, operated and developed by **Nyuchi**. It owns the open 3D frontend architecture, the component registry served at `mzizi.dev/r/`, the Mzizi API at `mzizi.dev/api`, the Seven African Minerals design system, and the document-route Model Context Protocol (MCP) server at `mzizi.dev/mcp`. It is **not** a Nyuchi product — it is a Bundu-governed standard the whole bundu ecosystem (Mukoko consumer mini-apps, Nyuchi enterprise products, sister brands) installs from. Backed by a DB-first architecture (Supabase) and served as a shadcn-compatible API, every component is installable into any project with one command.
 
 ---
 
@@ -34,7 +34,7 @@ npx shadcn@latest add \
   https://mzizi.dev/api/v1/ui/data-table
 ```
 
-Every install carries the canonical typography (Noto Sans / Noto Serif / JetBrains Mono), the Five African Minerals palette, the layered architecture, the pill-button identity, and the 56px touch-target floor.
+Every install carries the canonical typography (Noto Sans / Noto Serif / JetBrains Mono), the Seven African Minerals palette, the layered architecture, the pill-button identity, and the 56px touch-target floor.
 
 ---
 
@@ -69,17 +69,21 @@ The standalone Cloudflare Worker variant (for consumers that don't want to go th
 
 ---
 
-## Five African Minerals
+## Seven African Minerals
 
-The design system is built on five colors named after African minerals — constant across light and dark mode:
+The design system is built on seven colors named after African minerals, each carrying a semantic **role** and grouped in two **families**. Values are DB-generated (Supabase `styling-minerals` → `pnpm tokens:sync`); the live, theme-adaptive swatches render at [mzizi.dev/tokens](https://mzizi.dev/tokens).
 
-| Mineral    | Hex       | CSS Variable         | Usage                              |
-| ---------- | --------- | -------------------- | ---------------------------------- |
-| Cobalt     | `#0047AB` | `--color-cobalt`     | Primary blue, links, CTAs          |
-| Tanzanite  | `#B388FF` | `--color-tanzanite`  | Purple accent, brand/logo          |
-| Malachite  | `#64FFDA` | `--color-malachite`  | Cyan accent, success states        |
-| Gold       | `#FFD740` | `--color-gold`       | Yellow accent, rewards, highlights |
-| Terracotta | `#D4A574` | `--color-terracotta` | Warm accent, community             |
+| Mineral    | Role         | Family     | CSS Variable         |
+| ---------- | ------------ | ---------- | -------------------- |
+| Cobalt     | Knowledge    | deep-earth | `--color-cobalt`     |
+| Tanzanite  | Identity     | deep-earth | `--color-tanzanite`  |
+| Malachite  | Growth       | deep-earth | `--color-malachite`  |
+| Sodalite   | Intelligence | deep-earth | `--color-sodalite`   |
+| Gold       | Value        | hand       | `--color-gold`       |
+| Terracotta | Community    | hand       | `--color-terracotta` |
+| Copper     | Stewardship  | hand       | `--color-copper`     |
+
+Alongside the minerals the palette carries **seven heritage tones** (indigo, savanna, baobab, sunset, river, hematite, kalahari), the **status** set (success/warning/info/error/neutral/offline/syncing), and the computed **Experimental Seven** (ember, acacia, fern, lagoon, storm, dusk, protea). See [mzizi.dev/tokens](https://mzizi.dev/tokens) for the full, live palette.
 
 **Buttons are always pill-shaped (`rounded-full`).** This is a brand identity decision — not a radius scale value.
 

@@ -80,7 +80,7 @@ git checkout -b feature/your-feature
 ### Before You Code
 
 1. **Read [CLAUDE.md](CLAUDE.md)** -- it is the definitive reference for this codebase, covering architecture, conventions, and the full design system specification
-1. **Understand the [Five African Minerals design system](https://mzizi.dev/brand/colors)** -- all colors come from five mineral-named tokens
+1. **Understand the [Seven African Minerals design system](https://mzizi.dev/tokens)** -- all colors come from the mineral-named tokens (seven minerals + seven heritage tones + status + the Experimental Seven)
 1. **Browse existing components** in `components/ui/` to understand the CVA + Radix + cn() pattern
 1. **Check `registry.json`** before modifying components to understand the dependency graph
 1. **Understand the DB-first architecture** -- API routes read from Supabase, not hardcoded objects
@@ -89,7 +89,7 @@ git checkout -b feature/your-feature
 
 - The registry is the **single source of truth** for the entire bundu ecosystem. Changes here propagate to every app that consumes the registry.
 - Every component must be **independently installable** via the shadcn CLI.
-- The **Five African Minerals palette** is the only approved color system. Never introduce colors outside the token system.
+- The **Seven African Minerals palette** (minerals + heritage + status + experimental) is the only approved color system. Never introduce colors outside the token system.
 - **Accessibility is mandatory** -- APCA 3.0 AAA contrast, 56px default / 48px minimum touch targets, keyboard navigation, screen reader support.
 
 ---

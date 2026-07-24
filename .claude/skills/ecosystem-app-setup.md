@@ -20,7 +20,7 @@ npx @nyuchi/design-cli init
 
 This scaffolds a Next.js 16 project (Turbopack, pnpm, Node 24) with:
 
-- globals.css pre-populated with the five African minerals tokens
+- globals.css pre-populated with the seven African minerals tokens
 - components.json pointing at https://mzizi.dev/api/v1/ui
 - lib/utils.ts with the cn() helper
 - app/layout.tsx wired with the nyuchi-theme-provider
@@ -47,19 +47,21 @@ pnpm add -D @tailwindcss/typography
 
 ### 3. Scaffold globals.css
 
-Add the five African minerals tokens at the top of `app/globals.css`:
+Add the seven African minerals tokens at the top of `app/globals.css`:
 
 ```css
 @layer base {
   :root {
-    /* Minerals — query brand_minerals for canonical values */
-    --color-cobalt: 0 176 255; /* DRC */
-    --color-tanzanite: 179 136 255; /* Tanzania */
-    --color-malachite: 100 255 218; /* Congo */
-    --color-gold: 255 215 64; /* Ghana/SA */
-    --color-terracotta: 212 165 116; /* Pan-African Sahel */
+    /* Minerals — use the styling-minerals collection / /api/v1/brand for canonical values */
+    --color-cobalt: 0 176 255; /* Knowledge · deep-earth */
+    --color-tanzanite: 179 136 255; /* Identity · deep-earth */
+    --color-malachite: 100 255 218; /* Growth · deep-earth */
+    --color-sodalite: 61 90 254; /* Intelligence · deep-earth */
+    --color-gold: 255 215 64; /* Value · hand */
+    --color-terracotta: 225 176 126; /* Community · hand */
+    --color-copper: 255 138 101; /* Stewardship · hand */
 
-    /* Semantic — query brand_semantic_colors */
+    /* Semantic — use the styling-semantic collection / /api/v1/brand */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --primary: var(--color-cobalt);

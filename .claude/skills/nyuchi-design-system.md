@@ -38,17 +38,19 @@ Production source for every stable component is stored in the components.source_
 
 When you add or modify a component: write the source directly to components.source_code via SQL, and flip its status from alpha to stable.
 
-## The five African minerals
+## The seven African minerals
 
-Our colour palette draws from the continent's mineral wealth. For canonical hex values and container colours, query brand_minerals — the database is the source of truth.
+Our colour palette draws from the continent's mineral wealth. Colour is a **role contract**, not decoration. For canonical hex values (dark + light) and container colours, use the `styling-minerals` collection / `GET /api/v1/brand` / `/tokens` — the database is the source of truth. The seven minerals split into two families: `deep-earth` (cobalt, tanzanite, malachite, sodalite) and `hand` (gold, terracotta, copper).
 
-- Cobalt — primary actions, links, active states (DRC)
-- Tanzanite — brand identity, premium features, purple accents (Tanzania)
-- Malachite — success states, positive indicators, growth (Congo)
-- Gold — achievements, warmth, premium badges (Ghana, South Africa)
-- Terracotta — community features, grounding, heritage (Pan-African)
+- Cobalt — Knowledge; primary actions, links, active states (Katanga/Copperbelt) · deep-earth
+- Tanzanite — Identity; brand identity, premium features (Merelani Hills, Tanzania) · deep-earth
+- Malachite — Growth; success states, positive indicators (Congo Copper Belt) · deep-earth
+- Sodalite — Intelligence; depth, focus, analytical surfaces (pan-African) · deep-earth
+- Gold — Value; achievements, warmth, premium badges (Ghana, South Africa, Mali) · hand
+- Terracotta — Community; grounding, heritage (Kunene River) · hand
+- Copper — Stewardship; craft, care, custodianship (Central African Copperbelt) · hand
 
-Never hardcode hex values for these colours. Reference them via CSS variables or query brand_minerals.
+Alongside the minerals: **seven heritage tones** (indigo, savanna, baobab, sunset, river, hematite, kalahari), the **status** set, and the computed **Experimental Seven** (ember, acacia, fern, lagoon, storm, dusk, protea). Never hardcode hex values — reference the CSS variables (`--color-<mineral>`) or the design database.
 
 ## Implementation rules
 
