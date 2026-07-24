@@ -127,12 +127,12 @@ export async function renderMziziOg({
         width: "100%",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
         position: "relative",
         backgroundColor: BG,
         fontFamily: "Helvetica, Arial, sans-serif",
-        padding: "56px 90px",
+        padding: "72px 96px",
       }}
     >
       {/* Honeycomb graphics */}
@@ -182,7 +182,6 @@ export async function renderMziziOg({
           fontWeight: 700,
           letterSpacing: -2,
           color: INK,
-          textAlign: "center",
           maxWidth: 1000,
         }}
       >
@@ -196,8 +195,7 @@ export async function renderMziziOg({
             fontSize: 28,
             lineHeight: 1.35,
             color: INK_SOFT,
-            textAlign: "center",
-            maxWidth: 900,
+            maxWidth: 820,
             display: "flex",
           }}
         >
