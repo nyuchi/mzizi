@@ -19,7 +19,27 @@ interface CommandItem {
   icon?: React.ReactNode
   category?: string
   shortcut?: string
+  /** Architecture node (1–10) — renders as a mineral-coloured N-chip. */
+  node?: number
   onSelect: () => void
+}
+
+/**
+ * Node → mineral colour. Full static class strings (never constructed) so
+ * Tailwind keeps them, per the design-system styling rule. Colours resolve
+ * from the globals.css `--color-<mineral>` tokens.
+ */
+const NODE_MINERAL: Record<number, string> = {
+  1: "text-terracotta",
+  2: "text-cobalt",
+  3: "text-tanzanite",
+  4: "text-gold",
+  5: "text-malachite",
+  6: "text-cobalt",
+  7: "text-gold",
+  8: "text-sodalite",
+  9: "text-copper",
+  10: "text-sodalite",
 }
 
 interface NyuchiCommandPaletteProps {
@@ -92,7 +112,7 @@ export function NyuchiCommandPalette({
         aria-label="Command palette"
         aria-modal="true"
         className={cn(
-          "fixed inset-x-4 top-[15%] z-50 mx-auto max-w-lg overflow-hidden rounded-[var(--radius-xl,17px)] border border-border bg-card shadow-2xl",
+          "fixed inset-x-4 top-[15%] z-50 mx-auto max-w-lg overflow-hidden rounded-xl border border-border bg-card shadow-2xl",
           className
         )}
       >
@@ -137,7 +157,7 @@ export function NyuchiCommandPalette({
                     onOpenChange(false)
                   }}
                   role="option"
-                  className="flex min-h-[44px] w-full items-center gap-3 rounded-[var(--radius-sm,7px)] px-3 py-2 text-left text-sm transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none"
+                  className="flex min-h-[44px] w-full items-center gap-3 rounded-sm px-3 py-2 text-left text-sm transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none"
                 >
                   {item.icon}
                   <span>{item.label}</span>
@@ -156,7 +176,7 @@ export function NyuchiCommandPalette({
                     onOpenChange(false)
                   }}
                   role="option"
-                  className="flex min-h-[44px] w-full items-center justify-between gap-3 rounded-[var(--radius-sm,7px)] px-3 py-2 text-left text-sm transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none"
+                  className="flex min-h-[44px] w-full items-center justify-between gap-3 rounded-sm px-3 py-2 text-left text-sm transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none"
                 >
                   <div className="flex min-w-0 items-center gap-3">
                     {item.icon}
@@ -167,10 +187,21 @@ export function NyuchiCommandPalette({
                       )}
                     </div>
                   </div>
-                  {item.shortcut && (
-                    <kbd className="shrink-0 rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
-                      {item.shortcut}
-                    </kbd>
+                  {item.node ? (
+                    <span
+                      className={cn(
+                        "shrink-0 rounded-full border border-current px-1.5 py-0.5 font-mono text-[10px] font-semibold",
+                        NODE_MINERAL[item.node] ?? "text-muted-foreground"
+                      )}
+                    >
+                      N{item.node}
+                    </span>
+                  ) : (
+                    item.shortcut && (
+                      <kbd className="shrink-0 rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
+                        {item.shortcut}
+                      </kbd>
+                    )
                   )}
                 </button>
               ))}
@@ -179,6 +210,23 @@ export function NyuchiCommandPalette({
           {query.length > 0 && items.length === 0 && !loading && (
             <p className="py-8 text-center text-sm text-muted-foreground">No results found</p>
           )}
+        </div>
+
+        {/* Keyboard hint bar */}
+        <div className="flex items-center gap-4 border-t border-border px-4 py-2 text-[11px] text-muted-foreground">
+          <span className="flex items-center gap-1.5">
+            <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px]">↑</kbd>
+            <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px]">↓</kbd>
+            navigate
+          </span>
+          <span className="flex items-center gap-1.5">
+            <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px]">↵</kbd>
+            select
+          </span>
+          <span className="ml-auto flex items-center gap-1.5">
+            <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px]">esc</kbd>
+            close
+          </span>
         </div>
       </div>
     </>
