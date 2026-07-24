@@ -92,7 +92,7 @@ export function NyuchiCommandPalette({
         aria-label="Command palette"
         aria-modal="true"
         className={cn(
-          "fixed inset-x-4 top-[15%] z-50 mx-auto max-w-lg overflow-hidden rounded-[var(--radius-xl,17px)] border border-border bg-card shadow-2xl",
+          "fixed inset-x-4 top-[15%] z-50 mx-auto max-w-lg overflow-hidden rounded-xl border border-border bg-card shadow-2xl",
           className
         )}
       >
@@ -137,7 +137,7 @@ export function NyuchiCommandPalette({
                     onOpenChange(false)
                   }}
                   role="option"
-                  className="flex min-h-[44px] w-full items-center gap-3 rounded-[var(--radius-sm,7px)] px-3 py-2 text-left text-sm transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none"
+                  className="flex min-h-[44px] w-full items-center gap-3 rounded-sm px-3 py-2 text-left text-sm transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none"
                 >
                   {item.icon}
                   <span>{item.label}</span>
@@ -156,7 +156,7 @@ export function NyuchiCommandPalette({
                     onOpenChange(false)
                   }}
                   role="option"
-                  className="flex min-h-[44px] w-full items-center justify-between gap-3 rounded-[var(--radius-sm,7px)] px-3 py-2 text-left text-sm transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none"
+                  className="flex min-h-[44px] w-full items-center justify-between gap-3 rounded-sm px-3 py-2 text-left text-sm transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none"
                 >
                   <div className="flex min-w-0 items-center gap-3">
                     {item.icon}
