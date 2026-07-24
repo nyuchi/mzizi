@@ -1,6 +1,6 @@
 # Mzizi
 
-> An open-architecture project of the Bundu Foundation — the canonical component registry, brand system, 3D frontend architecture, and AI-native developer portal for the bundu ecosystem. Operated and developed by Nyuchi.
+> An open-architecture project of the Bundu Foundation — the canonical component registry, brand system, DNA-helix frontend architecture, and AI-native developer portal for the bundu ecosystem. Operated and developed by Nyuchi.
 
 [![CI](https://github.com/nyuchi/design-portal/actions/workflows/ci.yml/badge.svg)](https://github.com/nyuchi/design-portal/actions/workflows/ci.yml)
 [![Release](https://github.com/nyuchi/design-portal/actions/workflows/release.yml/badge.svg)](https://github.com/nyuchi/design-portal/actions/workflows/release.yml)
@@ -15,7 +15,7 @@
 
 ## What is Mzizi?
 
-**Mzizi** (Swahili for _root_) is an independent open-architecture project of the **Bundu Foundation**, operated and developed by **Nyuchi**. It owns the open 3D frontend architecture, the component registry served at `mzizi.dev/r/`, the Mzizi API at `mzizi.dev/api`, the Seven African Minerals design system, and the document-route Model Context Protocol (MCP) server at `mzizi.dev/mcp`. It is **not** a Nyuchi product — it is a Bundu-governed standard the whole bundu ecosystem (Mukoko consumer mini-apps, Nyuchi enterprise products, sister brands) installs from. Backed by a DB-first architecture (Supabase) and served as a shadcn-compatible API, every component is installable into any project with one command.
+**Mzizi** (Swahili for _root_) is an independent open-architecture project of the **Bundu Foundation**, operated and developed by **Nyuchi**. It owns the open DNA-helix frontend architecture, the component registry served at `mzizi.dev/r/`, the Mzizi API at `mzizi.dev/api`, the Seven African Minerals design system, and the document-route Model Context Protocol (MCP) server at `mzizi.dev/mcp`. It is **not** a Nyuchi product — it is a Bundu-governed standard the whole bundu ecosystem (Mukoko consumer mini-apps, Nyuchi enterprise products, sister brands) installs from. Backed by a DB-first architecture (Supabase) and served as a shadcn-compatible API, every component is installable into any project with one command.
 
 ---
 
@@ -60,9 +60,9 @@ Resources:
 
 Tools:
 
-- `list_components` — filter by node (1–10) or owner
+- `list_components` — filter by node (1–11) or owner
 - `get_component` — full document for one component
-- `list_collections` — counts + ownership across all 10 nodes
+- `list_collections` — counts + ownership across all 11 nodes/rungs
 - `get_database_status` — connection health
 
 The standalone Cloudflare Worker variant (for consumers that don't want to go through `mzizi.dev`), the Fundi self-healing agent, the TypeScript SDK, the published `mzizi-skills` bundle, and the `mzizi-console-app` (Svelte mini-app that surfaces Mzizi inside the Nyuchi Console at `platform.nyuchi.com`) all live in **[`nyuchi/mzizi-tools`](https://github.com/nyuchi/mzizi-tools)** — not in this repo.
@@ -101,35 +101,35 @@ Browse categories at [mzizi.dev/components](https://mzizi.dev/components) — th
 
 All endpoints under `/api/v1/`. Full spec in [`openapi.yaml`](openapi.yaml) (also served at `GET /api/openapi`).
 
-| Endpoint                                       | Method   | Description                                                |
-| ---------------------------------------------- | -------- | ---------------------------------------------------------- |
-| `/api/v1`                                      | GET      | Discovery document                                         |
-| `/api/v1/ui`                                   | GET      | Component registry index                                   |
-| `/api/v1/ui/{name}`                            | GET      | Component source + metadata (shadcn format)                |
-| `/api/v1/ui/{name}/docs`                       | GET      | Structured docs (use cases, variants, a11y)                |
-| `/api/v1/ui/{name}/versions`                   | GET      | Component version history                                  |
-| `/api/v1/brand`                                | GET      | Brand system (minerals, typography, spacing)               |
-| `/api/v1/architecture`                         | GET      | Full 3D architecture snapshot                              |
-| `/api/v1/architecture/axes`                    | GET      | Per-axis summary with live counts                          |
-| `/api/v1/architecture/layers/{n}`              | GET      | Per-layer detail (covenant, rules, breakdown)              |
-| `/api/v1/architecture/frontend/{axes\|layers}` | GET      | 3D frontend axes / layers                                  |
-| `/api/v1/ubuntu/pillars`                       | GET      | Five Ubuntu Pillars                                        |
-| `/api/v1/ubuntu/principles`                    | GET      | Five Ubuntu Principles                                     |
-| `/api/v1/docs`                                 | GET      | **HTTP 410 Gone** — long-form docs moved to docs.bundu.org |
-| `/api/v1/docs/{slug}`                          | GET      | **HTTP 410 Gone** — see `/api/v1/docs` for slug map        |
-| `/api/v1/changelog`                            | GET      | Release history                                            |
-| `/api/v1/changelog/{version}`                  | GET      | Single release                                             |
-| `/api/v1/ai/instructions{,/{name}}`            | GET      | AI instruction sets (mcp-server / claude / copilot)        |
-| `/api/v1/skills{,/{name},/summary}`            | GET      | Published agent skills                                     |
-| `/api/v1/search?q=`                            | GET      | Cross-resource search (components + docs + changelog)      |
-| `/api/v1/ecosystem`                            | GET      | Architecture principles + framework decision               |
-| `/api/v1/data-layer`                           | GET      | Local-first + cloud layer specification                    |
-| `/api/v1/pipeline`                             | GET      | Open data pipeline (Redpanda, Flink, Doris)                |
-| `/api/v1/sovereignty`                          | GET      | Technology sovereignty assessments                         |
-| `/api/v1/stats?days=`                          | GET      | Open-data usage metrics (CC BY 4.0, `?days=7\|30\|90`)     |
-| `/api/v1/health`                               | GET      | Service health check                                       |
-| `/api/openapi`                                 | GET      | OpenAPI 3.1 specification (YAML)                           |
-| `/mcp`                                         | POST/GET | MCP server (Streamable HTTP)                               |
+| Endpoint                                       | Method   | Description                                                      |
+| ---------------------------------------------- | -------- | ---------------------------------------------------------------- |
+| `/api/v1`                                      | GET      | Discovery document                                               |
+| `/api/v1/ui`                                   | GET      | Component registry index                                         |
+| `/api/v1/ui/{name}`                            | GET      | Component source + metadata (shadcn format)                      |
+| `/api/v1/ui/{name}/docs`                       | GET      | Structured docs (use cases, variants, a11y)                      |
+| `/api/v1/ui/{name}/versions`                   | GET      | Component version history                                        |
+| `/api/v1/brand`                                | GET      | Brand system (minerals, typography, spacing)                     |
+| `/api/v1/architecture`                         | GET      | Full architecture snapshot                                       |
+| `/api/v1/architecture/axes`                    | GET      | Per-axis summary with live counts                                |
+| `/api/v1/architecture/layers/{n}`              | GET      | Per-layer detail (covenant, rules, breakdown)                    |
+| `/api/v1/architecture/frontend/{axes\|layers}` | GET      | Frontend axes / layers (legacy axis-era; model is the DNA helix) |
+| `/api/v1/ubuntu/pillars`                       | GET      | Five Ubuntu Pillars                                              |
+| `/api/v1/ubuntu/principles`                    | GET      | Five Ubuntu Principles                                           |
+| `/api/v1/docs`                                 | GET      | **HTTP 410 Gone** — long-form docs moved to docs.bundu.org       |
+| `/api/v1/docs/{slug}`                          | GET      | **HTTP 410 Gone** — see `/api/v1/docs` for slug map              |
+| `/api/v1/changelog`                            | GET      | Release history                                                  |
+| `/api/v1/changelog/{version}`                  | GET      | Single release                                                   |
+| `/api/v1/ai/instructions{,/{name}}`            | GET      | AI instruction sets (mcp-server / claude / copilot)              |
+| `/api/v1/skills{,/{name},/summary}`            | GET      | Published agent skills                                           |
+| `/api/v1/search?q=`                            | GET      | Cross-resource search (components + docs + changelog)            |
+| `/api/v1/ecosystem`                            | GET      | Architecture principles + framework decision                     |
+| `/api/v1/data-layer`                           | GET      | Local-first + cloud layer specification                          |
+| `/api/v1/pipeline`                             | GET      | Open data pipeline (Redpanda, Flink, Doris)                      |
+| `/api/v1/sovereignty`                          | GET      | Technology sovereignty assessments                               |
+| `/api/v1/stats?days=`                          | GET      | Open-data usage metrics (CC BY 4.0, `?days=7\|30\|90`)           |
+| `/api/v1/health`                               | GET      | Service health check                                             |
+| `/api/openapi`                                 | GET      | OpenAPI 3.1 specification (YAML)                                 |
+| `/mcp`                                         | POST/GET | MCP server (Streamable HTTP)                                     |
 
 ---
 
@@ -227,7 +227,7 @@ pnpm dev
 
 | Repository                                                               | URL                                                | Role                                                                                                        |
 | ------------------------------------------------------------------------ | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **[design-portal](https://github.com/nyuchi/design-portal)** (this repo) | [mzizi.dev](https://mzizi.dev)                     | Mzizi portal — registry, brand, 3D architecture, document-route MCP                                         |
+| **[design-portal](https://github.com/nyuchi/design-portal)** (this repo) | [mzizi.dev](https://mzizi.dev)                     | Mzizi portal — registry, brand, DNA-helix architecture, document-route MCP                                  |
 | **[nyuchi/mzizi-tools](https://github.com/nyuchi/mzizi-tools)**          | npm packages                                       | Mzizi tooling — `mzizi-mcp` worker, `mzizi-sdk` (with the Fundi agent), `mzizi-skills`, `mzizi-console-app` |
 | **[nyuchi/mukoko-platform](https://github.com/nyuchi/mukoko-platform)**  | [platform.nyuchi.com](https://platform.nyuchi.com) | Nyuchi Console — B2B platform (will be renamed `nyuchi-console`)                                            |
 | **[nyuchi/bundu-docs](https://github.com/nyuchi/bundu-docs)**            | [docs.bundu.org](https://docs.bundu.org)           | Outward-facing product documentation (Astro Starlight)                                                      |
