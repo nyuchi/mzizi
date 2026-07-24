@@ -126,7 +126,7 @@ export function CommandPalette() {
         description: c.description ?? undefined,
         category: "Components",
         icon: <Box className="size-4 text-muted-foreground" />,
-        shortcut: c.layer ? `N${c.layer}` : undefined,
+        node: c.layer ? Number(c.layer) : undefined,
         onSelect: () => {
           recordRecent(c.name)
           router.push(`/components/${c.name}`)
