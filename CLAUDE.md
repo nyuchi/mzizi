@@ -8,9 +8,9 @@
 
 ## 1. Project Identity
 
-**Mzizi** is an **independent open-architecture project of the Bundu Foundation** — governed by the Bundu Foundation, operated and developed by Nyuchi. It is **not** a Nyuchi product. Mzizi owns the open 3D frontend architecture, the component registry (`mzizi.dev/r/`), the Mzizi API (`mzizi.dev/api`), the components, the infrastructure harness, and the architecture nodes it serves.
+**Mzizi** is an **independent open-architecture project of the Bundu Foundation** — governed by the Bundu Foundation, operated and developed by Nyuchi. It is **not** a Nyuchi product. Mzizi owns the open DNA-helix frontend architecture, the component registry (`mzizi.dev/r/`), the Mzizi API (`mzizi.dev/api`), the components, the infrastructure harness, and the architecture nodes it serves.
 
-It serves the full stable registry across a 3D frontend architecture — **ten nodes across five axes**: X-axis (horizontal composition — N2 primitives → N3 brand → N6 pages → N7 shell), Y-axis (vertical infrastructure — N1 tokens, N4 safety, N5 resilience), Z-axis (depth observation — N8 assurance), Outside (N9 — self-healing actors, now owned by `mzizi-tools`), and Documentation (N10). Built on the **Seven African Minerals** design system (seven minerals + seven heritage tones + status + the Experimental Seven — see §7), installable via the shadcn CLI:
+It serves the full stable registry across the **Mzizi DNA double helix** — two entwined backbones (an **engineering** strand and a **meaning** strand) held by cross-cutting **rungs**, with no axes and no outliers. Nodes N1–N8 sit on strands (N2 primitives → N3 brand → N6 pages → N7 shell = the `shipped`/`core-guarantee` build; N1 tokens = `swappable`; N4 safety, N5 resilience, N8 assurance = `core-guarantee`); the rungs are N9 fundi (self-healing, owned by `mzizi-tools`), N10 documentation, and N11 discovery (SEO/AIO). The N-numbers are labels, not a sequence — see §6.2. Built on the **Seven African Minerals** design system (seven minerals + seven heritage tones + status + the Experimental Seven — see §7), installable via the shadcn CLI:
 
 ```
 npx shadcn@latest add https://mzizi.dev/api/v1/ui/<component>
@@ -24,7 +24,7 @@ npx shadcn@latest add https://mzizi.dev/api/v1/ui/<component>
 
 **Governance:** Bundu Foundation. **Operated by:** Nyuchi — `github.com/nyuchi`
 
-**Ecosystem context:** Mzizi is consumed across the bundu ecosystem — the Mukoko consumer family (mini-apps), Nyuchi enterprise products (delivered through the Console), and sister brands. It is the single source of truth for the design system, the component registry, the brand documentation, and the open 3D frontend architecture. Long-form product documentation lives at **docs.bundu.org** (bundu-docs); engineering / how-things-are-done content lives at **docs.nyuchi.com** (nyuchi-docs).
+**Ecosystem context:** Mzizi is consumed across the bundu ecosystem — the Mukoko consumer family (mini-apps), Nyuchi enterprise products (delivered through the Console), and sister brands. It is the single source of truth for the design system, the component registry, the brand documentation, and the open DNA-helix frontend architecture. Long-form product documentation lives at **docs.bundu.org** (bundu-docs); engineering / how-things-are-done content lives at **docs.nyuchi.com** (nyuchi-docs).
 
 ---
 
@@ -34,7 +34,7 @@ Mzizi exists within a broader ecosystem. Understanding the relationships prevent
 
 | Repository                    | Purpose                                                                                                                                    | Stack                                                   | Status                               |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------- | ------------------------------------ |
-| **design-portal** (this repo) | Mzizi portal — component registry, brand, 3D architecture, document-route MCP                                                              | Next.js 16, Tailwind 4, Radix UI, Supabase              | Canonical, active                    |
+| **design-portal** (this repo) | Mzizi portal — component registry, brand, DNA-helix architecture, document-route MCP                                                       | Next.js 16, Tailwind 4, Radix UI, Supabase              | Canonical, active                    |
 | **nyuchi/mzizi-tools**        | Mzizi tooling — `mzizi-mcp`, `mzizi-sdk` (contains the Fundi agent), `mzizi-skills`, `mzizi-console-app` (Svelte mini-app for the Console) | TypeScript, Cloudflare Workers, Svelte                  | Active (renamed from `nyuchi/fundi`) |
 | **nyuchi/mukoko-platform**    | Nyuchi Console — B2B platform at `platform.nyuchi.com` (will be renamed `nyuchi-console`)                                                  | SvelteKit, Rust workers, WorkOS via identity.nyuchi.com | Active                               |
 | **nyuchi/bundu-docs**         | Outward-facing product documentation — `docs.bundu.org`                                                                                    | Astro Starlight                                         | Active                               |
@@ -52,7 +52,7 @@ Mzizi exists within a broader ecosystem. Understanding the relationships prevent
 design-portal (this repo)
     │
     ├── Defines: Seven African Minerals palette, typography, component API,
-    │            3D frontend architecture, Ubuntu doctrine
+    │            DNA-helix frontend architecture, Ubuntu doctrine
     ├── Serves: the full stable registry across 10 architecture nodes via the
     │           shadcn CLI / `/api/v1/*` (live count: GET /api/v1/stats)
     │           and the document-route MCP at /mcp (mzizi://components, mzizi://nodes)
@@ -101,7 +101,7 @@ The Mzizi agent + MCP + SDK + console mini-app shell are **not** in this repo. T
 | Package             | Purpose                                                                                                 |
 | ------------------- | ------------------------------------------------------------------------------------------------------- |
 | `mzizi-mcp`         | Standalone Cloudflare Worker MCP transport (mirrors `/mcp` for non-portal consumers)                    |
-| `mzizi-sdk`         | TypeScript SDK + the **Fundi self-healing agent** (Outside-axis actor)                                  |
+| `mzizi-sdk`         | TypeScript SDK + the **Fundi self-healing agent** (N9 fundi — a rung)                                   |
 | `mzizi-skills`      | Published skill bundle (`.md` files) for AI assistants — successor to the in-repo `design-agent-skills` |
 | `mzizi-console-app` | Svelte mini-app that surfaces Mzizi inside the Nyuchi Console (platform.nyuchi.com)                     |
 
@@ -183,7 +183,7 @@ design-portal/
 │   │       ├── ubuntu/               # /ubuntu/pillars, /ubuntu/principles
 │   │       └── ui/                   # Registry: list, [name], [name]/docs, [name]/versions
 │   ├── mcp/route.ts                  # MCP server HTTP endpoint (document-route)
-│   ├── architecture/                 # 3D architecture explorer (page.tsx + layers/[n])
+│   ├── architecture/                 # DNA-helix architecture explorer (page.tsx + layers/[n])
 │   ├── components/                   # Component gallery (page.tsx + [name])
 │   ├── source/[name]/                # Per-component source viewer
 │   ├── playground/                   # Interactive component gallery (page.tsx + [name]) — wired #106
@@ -328,32 +328,40 @@ Every route in the portal is public and anon-readable. There is no authenticated
 
 Every component follows a layered pattern. This is mandatory for all bundu ecosystem apps consuming this registry.
 
-The frontend architecture is a **3D model with ten nodes across five axes**. Each component in `components.architecture_layer` (1–10) sits at exactly one position; per-node collections (`n1_tokens … n10_documentation`) are the canonical document-route keying.
+The frontend architecture is the **Mzizi DNA double helix** — two entwined backbones (an **engineering** strand and a **meaning** strand) held together by cross-cutting **rungs**. Every element carries a `type`: a **node** (a functional unit sitting on a strand), a **strand** (a backbone grouping), or a **rung** (a base pair bridging both backbones). **There are no axes and no outliers.** Node identifiers **N1–N11 are labels, not a sequence** — N11 is simply the next id, not "on top of" N10. The live model is in `documentation-architecture-{nodes,strands}/*` and served by the MCP (`get_node_documents`, `get_architecture`); never hardcode counts.
 
-| #   | sub_label       | Axis          | Covenant                                                |
-| --- | --------------- | ------------- | ------------------------------------------------------- |
-| 1   | `tokens`        | Y-axis        | Design decisions are data, not code.                    |
-| 2   | `primitive`     | X-axis        | A primitive does one thing well.                        |
-| 3   | `brand`         | X-axis        | A brand component is a primitive with Ubuntu in it.     |
-| 4   | `safety`        | Y-axis        | Nothing harmful reaches the user.                       |
-| 5   | `resilience`    | Y-axis        | Failure in one part never breaks the whole.             |
-| 6   | `pages`         | X-axis        | A page is a composition, not an implementation.         |
-| 7   | `shell`         | X-axis        | The shell holds the product.                            |
-| 8   | `assurance`     | Z-axis        | What breaks is seen before users feel it.               |
-| 9   | `fundi`         | Outside       | Failure is a learning event — owned by `mzizi-tools`.   |
-| 10  | `documentation` | Documentation | The system documents itself — bundu-docs + nyuchi-docs. |
+**Nodes** (functional units, each on one strand):
 
-**Axis meanings:** X = horizontal composition flow (primitives → brand → pages → shell, what the user sees); Y = vertical infrastructure (tokens, safety, resilience threading through every X-layer); Z = depth observation (assurance watching X and Y without being inside anything); Outside = actors beyond the build (Fundi heals autonomously); Documentation = the system describing itself.
+| #   | sub_label    | Strand · backbone            | Covenant                                            |
+| --- | ------------ | ---------------------------- | --------------------------------------------------- |
+| 1   | `tokens`     | swappable · engineering      | Design decisions are data, not code.                |
+| 2   | `primitive`  | core-guarantee · engineering | A primitive does one thing well.                    |
+| 3   | `brand`      | shipped · engineering        | A brand component is a primitive with Ubuntu in it. |
+| 4   | `safety`     | core-guarantee · engineering | Nothing harmful reaches the user.                   |
+| 5   | `resilience` | core-guarantee · engineering | Failure in one part never breaks the whole.         |
+| 6   | `pages`      | shipped · engineering        | A page is a composition, not an implementation.     |
+| 7   | `shell`      | shipped · engineering        | The shell holds the product.                        |
+| 8   | `assurance`  | core-guarantee · engineering | What breaks is seen before users feel it.           |
+
+**Rungs** (cross-cutting base pairs — bridge both backbones, bound to no single strand):
+
+| #   | sub_label       | Covenant                                                |
+| --- | --------------- | ------------------------------------------------------- |
+| 9   | `fundi`         | Failure is a learning event — owned by `mzizi-tools`.   |
+| 10  | `documentation` | The system documents itself — bundu-docs + nyuchi-docs. |
+| 11  | `discovery`     | If the machine can't see it, it doesn't exist.          |
+
+**The six strands** (`documentation-architecture-strands/*`): the **engineering** backbone carries `core-guarantee` (accessibility, data, resilience, observability, safety, primitives — the fixed contract), `shipped` (brand, pages, shell), `swappable` (tokens, icons, framework — the fork seams), and `spine` (the harness); the **meaning** backbone carries `genetic-code` (Ubuntu + Bundu conventions) and `transcription` (doctrine as queryable documents).
 
 **Rules:**
 
-- Components import from the layer below on the same axis — never sideways or upward
+- Nodes consume from the strand below them on the same backbone — never sideways or upward; rungs bridge both backbones and are never imported by nodes
 - Each component is a standalone file
 - N6 pages NEVER hardcode buttons/cards/SVGs — pure composition of N2/N3
 - N1 is the only layer allowed to define CSS values — every other layer consumes via `var()`
 - N3 always destructures `{ log, motion, LiveRegion }` from `useNyuchiHarness`; N2 never imports it
 - All colors and styles come from CSS custom properties in `globals.css`
-- This 3D frontend model is **distinct** from the 7-layer data architecture at `/architecture`. Never conflate the two numberings.
+- This application DNA helix is **distinct** from the data architecture at `/architecture`. Never conflate the two.
 
 ### 6.3 Component Patterns
 
@@ -669,37 +677,37 @@ All responses include schema.org JSON-LD metadata (`@context`, `@type`) where ap
 
 **Common headers:** `Cache-Control: public, max-age=3600, s-maxage=86400`, `Access-Control-Allow-Origin: *` (except `/stats` which is `max-age=60, s-maxage=120` and `/health` which is `no-cache, no-store`).
 
-| Endpoint                                   | Description                                                  | Landed in |
-| ------------------------------------------ | ------------------------------------------------------------ | --------- |
-| `GET /api/v1`                              | Discovery document — lists all resources                     | —         |
-| `GET /api/v1/brand`                        | Brand system (minerals, typography, spacing, ecosystem)      | —         |
-| `GET /api/v1/ui`                           | Component registry index                                     | —         |
-| `GET /api/v1/ui/{name}`                    | Individual component (shadcn format, with source code)       | —         |
-| `GET /api/v1/ui/{name}/docs`               | Component docs (use cases, variants, a11y)                   | —         |
-| `GET /api/v1/ui/{name}/versions`           | Component version history                                    | —         |
-| `GET /api/v1/ecosystem`                    | Architecture principles & framework decision                 | —         |
-| `GET /api/v1/data-layer`                   | Local-first + cloud layer specification                      | —         |
-| `GET /api/v1/pipeline`                     | Open data pipeline (Redpanda → Flink → Doris)                | —         |
-| `GET /api/v1/sovereignty`                  | Technology sovereignty assessments                           | —         |
-| `GET /api/v1/architecture`                 | Full 3D architecture snapshot                                | —         |
-| `GET /api/v1/architecture/axes`            | Per-axis summary with live component counts                  | —         |
-| `GET /api/v1/architecture/layers/{n}`      | Per-layer detail (covenant, rules, breakdown)                | —         |
-| `GET /api/v1/architecture/frontend/axes`   | 5 axes of the 3D frontend architecture                       | —         |
-| `GET /api/v1/architecture/frontend/layers` | 10 layers of the 3D frontend architecture                    | —         |
-| `GET /api/v1/ubuntu/pillars`               | 5 Ubuntu Pillars                                             | —         |
-| `GET /api/v1/ubuntu/principles`            | 5 Ubuntu Principles                                          | —         |
-| `GET /api/v1/docs`                         | **HTTP 410 Gone** — content moved to bundu-docs              | —         |
-| `GET /api/v1/docs/{slug}`                  | **HTTP 410 Gone** — see `/api/v1/docs` for the slug map      | —         |
-| `GET /api/v1/changelog`                    | All releases (from `changelog` table)                        | #107      |
-| `GET /api/v1/changelog/{version}`          | Single release                                               | #107      |
-| `GET /api/v1/ai/instructions`              | List AI instruction sets                                     | —         |
-| `GET /api/v1/ai/instructions/{name}`       | Instruction set by target (mcp-server, claude, copilot)      | —         |
-| `GET /api/v1/skills`                       | List published agent skills (lightweight, no body_mdx)       | —         |
-| `GET /api/v1/skills/summary`               | Same shape as `/skills`; reserved for CLI update path        | —         |
-| `GET /api/v1/skills/{name}`                | Single skill with full `body_mdx`                            | —         |
-| `GET /api/v1/search?q=`                    | Cross-resource search (components + docs + changelog)        | —         |
-| `GET /api/v1/stats?days=`                  | Open-data usage metrics (CC BY 4.0) — backs `/observability` | #105      |
-| `GET /api/v1/health`                       | Service health check (`no-cache, no-store`)                  | —         |
+| Endpoint                                   | Description                                                                         | Landed in |
+| ------------------------------------------ | ----------------------------------------------------------------------------------- | --------- |
+| `GET /api/v1`                              | Discovery document — lists all resources                                            | —         |
+| `GET /api/v1/brand`                        | Brand system (minerals, typography, spacing, ecosystem)                             | —         |
+| `GET /api/v1/ui`                           | Component registry index                                                            | —         |
+| `GET /api/v1/ui/{name}`                    | Individual component (shadcn format, with source code)                              | —         |
+| `GET /api/v1/ui/{name}/docs`               | Component docs (use cases, variants, a11y)                                          | —         |
+| `GET /api/v1/ui/{name}/versions`           | Component version history                                                           | —         |
+| `GET /api/v1/ecosystem`                    | Architecture principles & framework decision                                        | —         |
+| `GET /api/v1/data-layer`                   | Local-first + cloud layer specification                                             | —         |
+| `GET /api/v1/pipeline`                     | Open data pipeline (Redpanda → Flink → Doris)                                       | —         |
+| `GET /api/v1/sovereignty`                  | Technology sovereignty assessments                                                  | —         |
+| `GET /api/v1/architecture`                 | Full architecture snapshot                                                          | —         |
+| `GET /api/v1/architecture/axes`            | Per-axis summary with live component counts                                         | —         |
+| `GET /api/v1/architecture/layers/{n}`      | Per-layer detail (covenant, rules, breakdown)                                       | —         |
+| `GET /api/v1/architecture/frontend/axes`   | **Legacy axis-era route** — per-axis summary; the model is now the DNA helix (§6.2) | —         |
+| `GET /api/v1/architecture/frontend/layers` | **Legacy axis-era route** — per-node detail; the model is now the DNA helix (§6.2)  | —         |
+| `GET /api/v1/ubuntu/pillars`               | 5 Ubuntu Pillars                                                                    | —         |
+| `GET /api/v1/ubuntu/principles`            | 5 Ubuntu Principles                                                                 | —         |
+| `GET /api/v1/docs`                         | **HTTP 410 Gone** — content moved to bundu-docs                                     | —         |
+| `GET /api/v1/docs/{slug}`                  | **HTTP 410 Gone** — see `/api/v1/docs` for the slug map                             | —         |
+| `GET /api/v1/changelog`                    | All releases (from `changelog` table)                                               | #107      |
+| `GET /api/v1/changelog/{version}`          | Single release                                                                      | #107      |
+| `GET /api/v1/ai/instructions`              | List AI instruction sets                                                            | —         |
+| `GET /api/v1/ai/instructions/{name}`       | Instruction set by target (mcp-server, claude, copilot)                             | —         |
+| `GET /api/v1/skills`                       | List published agent skills (lightweight, no body_mdx)                              | —         |
+| `GET /api/v1/skills/summary`               | Same shape as `/skills`; reserved for CLI update path                               | —         |
+| `GET /api/v1/skills/{name}`                | Single skill with full `body_mdx`                                                   | —         |
+| `GET /api/v1/search?q=`                    | Cross-resource search (components + docs + changelog)                               | —         |
+| `GET /api/v1/stats?days=`                  | Open-data usage metrics (CC BY 4.0) — backs `/observability`                        | #105      |
+| `GET /api/v1/health`                       | Service health check (`no-cache, no-store`)                                         | —         |
 
 Routes outside `/api/v1/` (intentionally not part of the public v1 contract): `GET /api/openapi` (serves `openapi.yaml`), `GET /api/chaos/{name}` (N5/Y-axis chaos-injection), `GET /api/health/{name}` (per-resource health probe).
 
@@ -747,16 +755,16 @@ const server = await createMziziMcpServer(ctx.supabase)
 
 ### Resources (read-only data)
 
-| URI                  | Description                                                                    |
-| -------------------- | ------------------------------------------------------------------------------ |
-| `mzizi://components` | Mzizi component registry index — name / node / collection / owner per row      |
-| `mzizi://nodes`      | Per-node collection summary — counts + ownership breakdown across all 10 nodes |
+| URI                  | Description                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------ |
+| `mzizi://components` | Mzizi component registry index — name / node / collection / owner per row            |
+| `mzizi://nodes`      | Per-node collection summary — counts + ownership breakdown across all 11 nodes/rungs |
 
 ### Tools (callable actions)
 
 | Tool                  | Description                                                                                                                                                                    |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `list_components`     | List components, optionally filtered by node (1–10) or owner (`bundu` / `nyuchi` / `mzizi` / `framework`). Returns the lean index — use `get_component` for the full document. |
+| `list_components`     | List components, optionally filtered by node (1–11) or owner (`bundu` / `nyuchi` / `mzizi` / `framework`). Returns the lean index — use `get_component` for the full document. |
 | `get_component`       | Fetch one component as its full JSON document — one read, everything (metadata, owner, sources/descriptors, legacy source code, files, docs)                                   |
 | `list_collections`    | List the per-node collections (`n1_tokens … n10_documentation`) with total counts and ownership breakdown                                                                      |
 | `get_database_status` | Supabase connection health + document-store row count                                                                                                                          |
@@ -932,7 +940,7 @@ When working on this codebase as an AI assistant:
 6. **Keep components self-contained** — each file is independently installable via the registry.
 7. **Preserve accessibility** — APCA 3.0 AAA contrast, 56px default / 48px minimum touch targets, Radix primitives for keyboard/screen reader behaviour.
 8. **Test API output** — after modifying a component, verify it serves correctly via `/api/v1/ui/[name]`.
-9. **Respect the layered architecture** — primitives don't import page-level code. The 3D frontend model has five axes (X horizontal, Y vertical, Z depth, Outside, Documentation). This is distinct from the 7-layer data architecture served at `/architecture` — never conflate the two numberings.
+9. **Respect the helix** — primitives don't import page-level code. The frontend model is the Mzizi DNA double helix: nodes on two backbones (engineering + meaning) plus cross-cutting rungs (fundi, documentation, discovery) — no axes, no outliers (§6.2). This is distinct from the data architecture served at `/architecture` — never conflate the two.
 10. **All brand wordmarks lowercase** — `mzizi`, `mukoko`, `nyuchi`, `shamwari`, `bundu`, `nhimbe`.
 11. **This is the canonical design system** — changes here propagate to all bundu ecosystem apps.
 12. **Run tests before committing** — `pnpm test` must pass; add tests for new behaviour, especially around API routes.
@@ -957,7 +965,7 @@ When working on this codebase as an AI assistant:
 23. **Skills are MDX bodies authored once in Supabase.** The `skills` table is the SINGLE source of truth; content flows to `/api/v1/skills*` (HTTP), MCP (when bridged), and the published `mzizi-skills` bundle in `nyuchi/mzizi-tools`. Never duplicate skill content — edit the Supabase row, never the published bundle.
 
 24. **Mzizi vs Mukoko vs Nyuchi vs Bundu — keep the split clean.**
-    - **Bundu Foundation** owns Mzizi (governance); Mzizi serves the open 3D architecture, the component registry, and the brand system.
+    - **Bundu Foundation** owns Mzizi (governance); Mzizi serves the open DNA-helix architecture, the component registry, and the brand system.
     - **Mukoko** is the consumer family (super app + mini-apps); apps consume Mzizi but live in their own repos.
     - **Nyuchi** is the enterprise operator; the Nyuchi Console (`nyuchi/mukoko-platform`, future `nyuchi-console`) surfaces Mzizi via the `mzizi-console-app` package.
     - **Mzizi tooling** (Fundi agent, MCP transport, SDK, skills bundle, console mini-app) lives in `nyuchi/mzizi-tools` — not in this repo. The portal owns the **canonical** `/mcp` HTTP endpoint and the `/api/v1/*` surface; everything else is downstream.
