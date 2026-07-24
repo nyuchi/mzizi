@@ -1,7 +1,11 @@
 import { ImageResponse } from "next/og"
+import { readFile } from "node:fs/promises"
+import { join } from "node:path"
 import { paletteColor } from "@/lib/tokens"
 
-export const runtime = "edge"
+// Node runtime so the site-icon PNG can be read off disk and embedded (same as
+// app/icon.tsx). Satori (next/og) then composites it over the honeycomb.
+export const runtime = "nodejs"
 export const alt = "mzizi — open architecture on the Seven African Minerals design system"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
@@ -9,18 +13,17 @@ export const contentType = "image/png"
 /**
  * Dynamic OpenGraph / social-preview image for the root route.
  *
- * Rendered by `next/og` (Satori). Satori has no CSS custom properties, so the
- * mineral hexes below use concrete hexes pulled from the design database via
- * `paletteColor(...)` (the same source `tokens:sync` reads) — never hand-typed.
- *
- * Design: the "hive" honeycomb — a faint flat-top hex lattice across a
- * deep-night ground, a few solid cobalt/gold accent cells, and the hero
- * seven-mineral hex flower (1 centre + 6 petals = the seven minerals). Text
- * sits on the left; the flower anchors the right.
+ * Rendered by `next/og` (Satori). The hero mark is the SITE ICON — the nyuchi
+ * bee (`public/icons/nyuchi-icon-dark.png`), the same asset `app/icon.tsx`
+ * serves as the favicon — NOT the mukoko swarm/hex-flower. The background is
+ * the "hive" honeycomb: a faint flat-top hex lattice plus cobalt/gold accent
+ * cells (mineral hexes from the design DB via `paletteColor()`).
  *
  * NOTE: this is the ONLY OG source. `app/layout.tsx` must NOT set an explicit
  * `openGraph.images` / `twitter.images` — Next's file convention wires this
  * route (and the twitter card falls back to it) with an absolute, hashed URL.
+ * Per-page OG should live in a shared template (see the SEO/AIO toolkit) so
+ * every route can emit a card carrying its own title + description + icon.
  */
 
 const W = 1200
@@ -52,50 +55,23 @@ function latticeCells(): { key: string; points: string }[] {
   return cells
 }
 
-// Seven-mineral hero flower: centre + 6 petals. 7 minerals, exactly.
-function flower() {
-  const cx = 872
-  const cy = 300
-  const r = 78 // circumradius of the drawn cell
-  const gap = 1.03 // slight breathing room between petals
-  const d = Math.sqrt(3) * r * gap // centre-to-neighbour distance
-  const petalAngles = [30, 90, 150, 210, 270, 330]
-  // Alternating cool / warm around the ring so neighbours contrast.
-  const petals = [
-    paletteColor("cobalt"),
-    paletteColor("gold"),
-    paletteColor("malachite"),
-    paletteColor("copper"),
-    paletteColor("sodalite"),
-    paletteColor("terracotta"),
-  ]
-  const cells: { fill: string; points: string }[] = [
-    { fill: paletteColor("tanzanite"), points: hex(cx, cy, r * 0.94) }, // centre = Identity
-  ]
-  petalAngles.forEach((deg, i) => {
-    const a = (Math.PI / 180) * deg
-    cells.push({
-      fill: petals[i],
-      points: hex(cx + d * Math.cos(a), cy + d * Math.sin(a), r * 0.94),
-    })
-  })
-  return cells
-}
-
-// A handful of solid accent cells framing the corners — cobalt + gold, the
-// two "hive" colours. Kept clear of the left text column.
+// Solid accent cells framing the hero, using the mineral palette (cobalt +
+// gold lead; a few extra minerals for warmth). Kept clear of the text column.
 const ACCENTS: { cx: number; cy: number; r: number; c: string; o: number }[] = [
   { cx: 1140, cy: 70, r: 40, c: paletteColor("gold"), o: 0.9 },
   { cx: 1070, cy: 150, r: 40, c: paletteColor("cobalt"), o: 0.55 },
-  { cx: 1150, cy: 540, r: 40, c: paletteColor("cobalt"), o: 0.9 },
+  { cx: 1150, cy: 545, r: 40, c: paletteColor("cobalt"), o: 0.9 },
   { cx: 1075, cy: 470, r: 34, c: paletteColor("gold"), o: 0.5 },
-  { cx: 700, cy: 560, r: 34, c: paletteColor("gold"), o: 0.75 },
-  { cx: 640, cy: 70, r: 34, c: paletteColor("cobalt"), o: 0.7 },
+  { cx: 690, cy: 545, r: 34, c: paletteColor("malachite"), o: 0.7 },
+  { cx: 640, cy: 75, r: 34, c: paletteColor("tanzanite"), o: 0.7 },
+  { cx: 1015, cy: 300, r: 30, c: paletteColor("copper"), o: 0.55 },
+  { cx: 735, cy: 300, r: 30, c: paletteColor("gold"), o: 0.5 },
 ]
 
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
   const lattice = latticeCells()
-  const petals = flower()
+  const bee = await readFile(join(process.cwd(), "public/icons/nyuchi-icon-dark.png"))
+  const beeSrc = `data:image/png;base64,${bee.toString("base64")}`
 
   return new ImageResponse(
     <div
@@ -115,7 +91,6 @@ export default function OpengraphImage() {
         viewBox={`0 0 ${W} ${H}`}
         style={{ position: "absolute", top: 0, left: 0 }}
       >
-        {/* faint lattice */}
         {lattice.map((c) => (
           <polygon
             key={c.key}
@@ -126,15 +101,26 @@ export default function OpengraphImage() {
             strokeWidth={1.5}
           />
         ))}
-        {/* solid accent cells */}
         {ACCENTS.map((a, i) => (
           <polygon key={`a${i}`} points={hex(a.cx, a.cy, a.r)} fill={a.c} fillOpacity={a.o} />
         ))}
-        {/* hero seven-mineral flower */}
-        {petals.map((p, i) => (
-          <polygon key={`p${i}`} points={p.points} fill={p.fill} />
-        ))}
       </svg>
+
+      {/* Hero: the site icon (nyuchi bee) on the honeycomb, right of centre */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          width: 560,
+          height: H,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <img src={beeSrc} width={300} height={300} alt="" />
+      </div>
 
       {/* Text column (left) */}
       <div
@@ -142,7 +128,7 @@ export default function OpengraphImage() {
           position: "absolute",
           top: 0,
           left: 0,
-          width: 660,
+          width: 680,
           height: H,
           display: "flex",
           flexDirection: "column",
@@ -178,7 +164,7 @@ export default function OpengraphImage() {
             fontSize: 30,
             lineHeight: 1.35,
             color: "#B2AFA8",
-            maxWidth: 470,
+            maxWidth: 480,
           }}
         >
           Seven African Minerals · shadcn-compatible registry · MCP server.
