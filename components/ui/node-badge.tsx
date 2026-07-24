@@ -4,15 +4,15 @@ import { cn } from "@/lib/utils"
 
 // NODE BADGE
 //
-// Renders a single ecosystem node (N1–N10) as a pill, axis-coloured per
-// the `nyuchi-changelog-renderer` (registry) v2.0.0 convention.
+// Renders an ecosystem node/rung (N1–N11) as a pill, coloured by its
+// classification on the Mzizi DNA double helix (CLAUDE.md §6.2):
 //
-//   horizontal (N2, N3, N6, N7)            → Cobalt
-//   vertical   (N1, N4, N5)                → Tanzanite
-//   depth      (N8)                        → Malachite
-//   outlier    (N9, N10)                   → Gold
+//   core-guarantee (N2, N4, N5, N8)  → Cobalt      (nodes on the engineering strand)
+//   shipped        (N3, N6, N7)      → Tanzanite   (nodes on the engineering strand)
+//   swappable      (N1)              → Malachite   (node on the engineering strand)
+//   rung           (N9, N10, N11)    → Gold        (cross-cutting base pairs)
 //
-// The labels / axis mapping mirror CLAUDE.md §6.2.
+// There are no axes and no outliers. N-numbers are labels, not a sequence.
 
 const NODE_LABELS: Record<number, string> = {
   1: "Tokens",
@@ -25,28 +25,30 @@ const NODE_LABELS: Record<number, string> = {
   8: "Assurance",
   9: "Fundi",
   10: "Documentation",
+  11: "Discovery",
 }
 
-type NodeAxis = "horizontal" | "vertical" | "depth" | "outlier"
+type HelixClass = "core-guarantee" | "shipped" | "swappable" | "rung"
 
-const NODE_AXIS: Record<number, NodeAxis> = {
-  1: "vertical",
-  2: "horizontal",
-  3: "horizontal",
-  4: "vertical",
-  5: "vertical",
-  6: "horizontal",
-  7: "horizontal",
-  8: "depth",
-  9: "outlier",
-  10: "outlier",
+const NODE_CLASS: Record<number, HelixClass> = {
+  1: "swappable",
+  2: "core-guarantee",
+  3: "shipped",
+  4: "core-guarantee",
+  5: "core-guarantee",
+  6: "shipped",
+  7: "shipped",
+  8: "core-guarantee",
+  9: "rung",
+  10: "rung",
+  11: "rung",
 }
 
-const AXIS_COLOURS: Record<NodeAxis, string> = {
-  horizontal: "bg-[var(--color-cobalt)]/10 text-[var(--color-cobalt)]",
-  vertical: "bg-[var(--color-tanzanite)]/10 text-[var(--color-tanzanite)]",
-  depth: "bg-[var(--color-malachite)]/10 text-[var(--color-malachite)]",
-  outlier: "bg-[var(--color-gold)]/10 text-[var(--color-gold)]",
+const CLASS_COLOURS: Record<HelixClass, string> = {
+  "core-guarantee": "bg-[var(--color-cobalt)]/10 text-[var(--color-cobalt)]",
+  shipped: "bg-[var(--color-tanzanite)]/10 text-[var(--color-tanzanite)]",
+  swappable: "bg-[var(--color-malachite)]/10 text-[var(--color-malachite)]",
+  rung: "bg-[var(--color-gold)]/10 text-[var(--color-gold)]",
 }
 
 export interface NodeBadgeProps extends React.ComponentProps<"span"> {
@@ -54,17 +56,18 @@ export interface NodeBadgeProps extends React.ComponentProps<"span"> {
 }
 
 export function NodeBadge({ node, className, ...props }: NodeBadgeProps) {
-  const axis = NODE_AXIS[node] ?? "horizontal"
+  const cls = NODE_CLASS[node] ?? "core-guarantee"
   const label = NODE_LABELS[node] ?? "Unknown"
+  const kind = cls === "rung" ? "rung" : `${cls} strand`
   return (
     <span
       data-slot="node-badge"
       data-node={node}
-      data-axis={axis}
-      title={`N${node} — ${label} (${axis} axis)`}
+      data-helix-class={cls}
+      title={`N${node} — ${label} (${kind})`}
       className={cn(
         "inline-flex h-5 items-center rounded-full px-2 py-0.5 text-xs font-medium",
-        AXIS_COLOURS[axis],
+        CLASS_COLOURS[cls],
         className
       )}
       {...props}

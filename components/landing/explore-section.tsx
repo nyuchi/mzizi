@@ -25,8 +25,8 @@ export async function ExploreSection() {
       external: false,
     },
     {
-      title: "3D architecture",
-      description: "The open ten-node frontend architecture across five axes.",
+      title: "Architecture",
+      description: "The open Mzizi DNA double helix — nodes on strands, plus cross-cutting rungs.",
       href: "/architecture",
       icon: Box,
       mineral: "bg-[var(--color-tanzanite)]",
