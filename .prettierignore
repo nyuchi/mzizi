@@ -38,6 +38,12 @@ packages/design-agent-skills/skills/
 .claude/skills/*.md
 !.claude/skills/README.md
 
+# Registry component snapshots — components/ui/*.tsx are generated from the
+# Supabase `components` source_code by `pnpm registry:sync` (see CLAUDE.md 8.4)
+# and overwritten on every sync. Prettier-formatting them drifts them from the
+# generated output and breaks `registry:verify`; leave them as the sync emits.
+components/ui/
+
 # Misc
 *.min.js
 *.min.css

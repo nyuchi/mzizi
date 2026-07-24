@@ -4,6 +4,34 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Radix state/orientation variants.
+ *
+ * Radix primitives expose their state through *valued* data attributes —
+ * `data-state="open|closed|active|checked|unchecked|indeterminate"` and
+ * `data-orientation="horizontal|vertical"` — not bare `data-open` / `data-active`
+ * flags. In Tailwind v4 a bare `data-open:` variant compiles to `&[data-open]`,
+ * which never matches those valued attributes, so the class silently does
+ * nothing. Our primitives (slider, tabs, dialogs, switch, select, …) are written
+ * with the bare form throughout, so without these mappings the affected rules —
+ * slider track/range heights, tabs orientation + active pill, open/close
+ * animations — are dead selectors. (`data-disabled`, `data-inset`, and
+ * `data-placeholder` are emitted/rendered bare, so they are intentionally left
+ * to Tailwind's default `&[data-*]` behaviour.)
+ *
+ * `data-active` is overloaded: Radix Tabs emit `data-state="active"`, while the
+ * sidebar self-sets a bare `data-active={isActive}` — so it maps to either form.
+ */
+@custom-variant data-open (&[data-state="open"]);
+@custom-variant data-closed (&[data-state="closed"]);
+@custom-variant data-active (&[data-state="active"], &[data-active]:not([data-active="false"]));
+@custom-variant data-inactive (&[data-state="inactive"]);
+@custom-variant data-checked (&[data-state="checked"]);
+@custom-variant data-unchecked (&[data-state="unchecked"]);
+@custom-variant data-indeterminate (&[data-state="indeterminate"]);
+@custom-variant data-horizontal (&[data-orientation="horizontal"]);
+@custom-variant data-vertical (&[data-orientation="vertical"]);
+
 @theme inline {
   --font-sans: "Noto Sans", "Noto Sans Fallback", system-ui, sans-serif;
   --font-serif: "Noto Serif", "Noto Serif Fallback", Georgia, serif;
