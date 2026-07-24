@@ -242,6 +242,28 @@
   --exp-storm: #284ca6;
   --exp-dusk: #742aad;
   --exp-protea: #932464;
+  /* Experimental Seven — container / on-container / UI tiers (light) */
+  --exp-ember-container: #ebdfdb;
+  --exp-ember-on: #7a3115;
+  --exp-ember-ui: #cd5f33;
+  --exp-acacia-container: #e9ebdb;
+  --exp-acacia-on: #48510e;
+  --exp-acacia-ui: #7e8c22;
+  --exp-fern-container: #dbebdb;
+  --exp-fern-on: #0f570f;
+  --exp-fern-ui: #259725;
+  --exp-lagoon-container: #dbebe9;
+  --exp-lagoon-on: #0e554b;
+  --exp-lagoon-ui: #249383;
+  --exp-storm-container: #dbe0eb;
+  --exp-storm-on: #1a409b;
+  --exp-storm-ui: #577bd6;
+  --exp-dusk-container: #e4dbeb;
+  --exp-dusk-on: #661b9e;
+  --exp-dusk-ui: #a35dd8;
+  --exp-protea-container: #ebdbe4;
+  --exp-protea-on: #841656;
+  --exp-protea-ui: #d34998;
   /* Surface-elevation rungs (DB, light) */
   --surface: #eeeeec;
   --container: #e5e4e1;
@@ -343,6 +365,28 @@
   --exp-storm: #7e9be0;
   --exp-dusk: #ba87e2;
   --exp-protea: #df7bb4;
+  /* Experimental Seven — container / on-container / UI tiers (dark) */
+  --exp-ember-container: #352721;
+  --exp-ember-on: #eba68a;
+  --exp-ember-ui: #bb562d;
+  --exp-acacia-container: #333521;
+  --exp-acacia-on: #b6ce23;
+  --exp-acacia-ui: #768420;
+  --exp-fern-container: #213521;
+  --exp-fern-on: #28db28;
+  --exp-fern-ui: #228d22;
+  --exp-lagoon-container: #213532;
+  --exp-lagoon-on: #24d6bc;
+  --exp-lagoon-ui: #218a7a;
+  --exp-storm-container: #212735;
+  --exp-storm-on: #99b2ee;
+  --exp-storm-ui: #426cd1;
+  --exp-dusk-container: #2d2135;
+  --exp-dusk-on: #cc9fef;
+  --exp-dusk-ui: #9749d3;
+  --exp-protea-container: #35212d;
+  --exp-protea-on: #ed98c9;
+  --exp-protea-ui: #ca3188;
   /* Surface-elevation rungs (DB, dark) */
   --surface: #131211;
   --container: #1e1d1a;

@@ -105,15 +105,49 @@ const STATUS: { token: string; label: string; role: string }[] = [
 // The Experimental Seven — a computed palette (heptagon hues offset 17°, prime
 // saturations, foregrounds solved to a P7 contrast floor). See the bundu
 // newsroom, "Colours Computed, Not Chosen". For data series + candidate accents.
-const EXPERIMENTAL: { token: string; label: string; role: string }[] = [
-  { token: "--exp-ember", label: "ember", role: "hue 17° · warm anchor" },
-  { token: "--exp-acacia", label: "acacia", role: "hue 68° · yellow-green" },
-  { token: "--exp-fern", label: "fern", role: "hue 120° · pure green" },
-  { token: "--exp-lagoon", label: "lagoon", role: "hue 171° · teal" },
-  { token: "--exp-storm", label: "storm", role: "hue 223° · rain-sky blue" },
-  { token: "--exp-dusk", label: "dusk", role: "hue 274° · violet" },
-  { token: "--exp-protea", label: "protea", role: "hue 326° · magenta" },
+const EXPERIMENTAL: { name: string; hue: string }[] = [
+  { name: "ember", hue: "17°" },
+  { name: "acacia", hue: "68°" },
+  { name: "fern", hue: "120°" },
+  { name: "lagoon", hue: "171°" },
+  { name: "storm", hue: "223°" },
+  { name: "dusk", hue: "274°" },
+  { name: "protea", hue: "326°" },
 ]
+
+// Shows all four computed tiers per colour: text (the hue swatch), UI accent,
+// and the container / on-container pairing. Swatches read live --exp-* vars.
+function ExperimentalCard({ name, hue }: { name: string; hue: string }) {
+  return (
+    <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-background transition-colors hover:border-foreground/30">
+      <div className="h-20 w-full" style={{ background: `var(--exp-${name})` }} aria-hidden />
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="text-sm font-semibold capitalize">{name}</h3>
+          <span className="font-mono text-xs text-muted-foreground">{hue}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span
+            className="h-5 flex-1 rounded-md"
+            style={{ background: `var(--exp-${name}-ui)` }}
+            title="UI accent (P3)"
+            aria-hidden
+          />
+          <span className="font-mono text-[10px] text-muted-foreground">ui</span>
+        </div>
+        <div
+          className="rounded-lg px-3 py-2 text-xs font-medium"
+          style={{
+            background: `var(--exp-${name}-container)`,
+            color: `var(--exp-${name}-on)`,
+          }}
+        >
+          container · on-container
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function SurfaceCard({ token, label, role }: { token: string; label: string; role: string }) {
   return (
@@ -231,9 +265,9 @@ export default function TokensPage() {
             picked.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
-          {EXPERIMENTAL.map((s) => (
-            <SurfaceCard key={s.token} {...s} />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {EXPERIMENTAL.map((e) => (
+            <ExperimentalCard key={e.name} {...e} />
           ))}
         </div>
       </section>
