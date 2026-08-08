@@ -1,0 +1,30 @@
+[package]
+name = "mzizi-assurance"
+description = "Mzizi N8 assurance — the shared core: probes, telemetry and the OTLP exporter."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[lints]
+workspace = true
+
+# NO DEPENDENCIES, AND THAT IS THE DESIGN.
+#
+# N8 is a shared core compiled to WASM and loaded by every target, so a dependency
+# here is paid for by every consumer of every app. Two would have been reflexive
+# and both are declined:
+#
+#   * `serde_json` — OTLP/HTTP JSON is a small, fully documented shape, and the
+#     `.ts` sibling hand-builds it for the same reason.
+#   * `reqwest`/`hyper` — this core does not send. It returns a request and the
+#     host performs it, so pulling a TLS stack into a module whose host already
+#     has one would be pure weight.
+#
+# `getrandom` is absent for a sharper reason: a shared core must not pick the
+# host's CSPRNG. Ids are supplied as bytes, so a browser uses
+# `crypto.getRandomValues`, a native shell uses the OS, and no target needs a
+# `getrandom` backend configured — a footgun that surfaces as a link error.
+[dependencies]

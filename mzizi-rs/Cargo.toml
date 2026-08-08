@@ -24,7 +24,7 @@
 
 [workspace]
 resolver = "3"
-members = ["crates/mzizi-tokens", "crates/mzizi-ui"]
+members = ["crates/mzizi-tokens", "crates/mzizi-ui", "crates/mzizi-assurance", "crates/mzizi-fundi"]
 
 [workspace.package]
 version = "0.1.0"

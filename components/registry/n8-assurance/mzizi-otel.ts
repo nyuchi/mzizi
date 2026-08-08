@@ -5,21 +5,31 @@
    ═══════════════════════════════════════════════════════════════ */
 
 /**
- * STOPGAP — N8 IS A RUST NODE AND THIS FILE IS TYPESCRIPT.
+ * THE RUST CORE HAS LANDED. THIS FILE IS THE JAVASCRIPT SHIM OVER IT.
  *
- * N4, N5, N8 and N9 are the core: the nodes holding logic rather than UI, and
- * doctrine puts them in Rust — N4/N5/N8 as a WASM shared core, N9 as a
- * `workers-rs` edge worker. Today none of them are; there are zero `.rs` files
- * under those four directories.
+ * This block used to say N8 was a Rust node with zero `.rs` files under it, and
+ * to call this file a stopgap for a core nobody had started. That is no longer
+ * true: `mzizi-otel.rs` sits beside this file, every N8 and N9 component now has
+ * a Rust core, and the `mzizi-assurance` / `mzizi-fundi` crates compile them
+ * under `cargo check`, `clippy -D warnings` and a contract suite in CI.
  *
- * When the core lands, the split is: payload construction, id generation,
- * endpoint resolution and the never-throw contract are shared-core logic and
- * move to Rust. What stays per-target is only the thin call that sends.
+ * The split the old note promised is the split that shipped. Payload
+ * construction, id handling, endpoint resolution, the nanosecond conversion and
+ * the never-throw contract are shared-core logic and live in the `.rs`. What
+ * belongs here is the thin call that actually sends — `fetch` in a browser,
+ * `fetch` or the Browser Run binding in a Worker.
  *
- * This exists in TypeScript because a consumer app's browser has to be able to
- * emit at all, and because two live defects were found through building it. It
- * is not the pattern to copy for a new N4/N5/N8/N9 component. See
- * `docs/n8-telemetry.md`.
+ * So this file is NOT deprecated and NOT a stopgap: it is the per-target shim,
+ * and a consumer app whose runtime is JavaScript installs it rather than a WASM
+ * module. What it must not do is drift. The `.rs` is where a rule changes; if
+ * you edit a threshold, an attribute key or a payload shape here and not there,
+ * the contract suite in `mzizi-rs/crates/mzizi-assurance/tests/contract.rs`
+ * reads this file on disk and fails. See `docs/n8-telemetry.md`.
+ *
+ * Still outstanding, and stated plainly so nobody reads "the core landed" as
+ * more than it is: the core is pure logic with no I/O, so there is no WASM build
+ * wired into any consumer yet and this file does not call one. The two
+ * implementations agree by contract test, not by sharing a binary.
  *
  * WHY THIS EXISTS.
  *

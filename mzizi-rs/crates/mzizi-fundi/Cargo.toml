@@ -1,0 +1,18 @@
+[package]
+name = "mzizi-fundi"
+description = "Mzizi N9 fundi — the self-healing rung: turning assurance signals into filed defects."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[lints]
+workspace = true
+
+# No dependencies, and no HTTP client in particular. N9's Rust position is
+# `edge-worker` (workers-rs), and a Worker already has `fetch` — so this crate
+# builds the issue and the host files it, exactly as N8 builds the OTLP request
+# and the host sends it.
+[dependencies]

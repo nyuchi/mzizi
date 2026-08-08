@@ -303,12 +303,19 @@ design-portal/
 │   ├── icons/                        # Favicon assets
 │   └── llms.txt                      # LLM-readable registry summary
 ├── mzizi-rs/                         # Cargo workspace — the Rust half of the registry (§8.9)
-│   ├── Cargo.toml                    #   workspace: mzizi-tokens (N1), mzizi-ui (N2/Dioxus)
+│   ├── Cargo.toml                    #   workspace: mzizi-tokens (N1), mzizi-ui (N2/Dioxus),
+│   │                                 #              mzizi-assurance (N8), mzizi-fundi (N9)
 │   └── crates/
 │       ├── mzizi-tokens/src/lib.rs   #   #[path]-includes n1-tokens/nyuchi-tokens-rust.rs
-│       └── mzizi-ui/
-│           ├── src/lib.rs            #   #[path]-includes n2-primitives/<name>.rs
-│           └── tests/contract.rs     #   asserts each .rs agrees with its .tsx sibling
+│       ├── mzizi-ui/
+│       │   ├── src/lib.rs            #   #[path]-includes n2-primitives/<name>.rs
+│       │   └── tests/contract.rs     #   asserts each .rs agrees with its .tsx sibling
+│       ├── mzizi-assurance/          #   N8 — every component, zero dependencies
+│       │   ├── src/lib.rs            #   #[path]-includes n8-assurance/<name>.rs
+│       │   └── tests/contract.rs     #   asserts each .rs agrees with its .ts/.tsx sibling
+│       └── mzizi-fundi/              #   N9 — the reporter, the learning log, the engine
+│           ├── src/lib.rs            #   #[path]-includes n9-fundi/<name>.rs
+│           └── tests/contract.rs     #   same, plus the N8-to-N9 vocabulary check
 ├── supabase/
 │   ├── schema.sql                    # Single-file schema snapshot
 │   ├── config.toml
@@ -959,12 +966,27 @@ generated token module) and `mzizi-ui` (N2, Dioxus primitives). The primitives a
 `#[path]`-includes. `cargo fmt --check`, `cargo check`, `clippy -D warnings` and `cargo test`
 run in CI's `Rust` job, and `Build` needs it.
 
-**What does not:** no WASM shared core. The harness is still `lib/harness/index.tsx`, the
-resilience primitives are still `lib/*.ts`, the N4 safety gates are still TypeScript, and the
-fundi worker is still TypeScript. Every Rust statement about N4, N5, N8 and N9 in
-`documentation-architecture-nodes` remains **target state, explicitly labelled** — `rust.state`
-reads `target`, never `shipping`. A node that describes a Rust implementation in the present
-tense reads as shipped to every agent that queries it.
+**N8 and N9 now ship too, and the distinction between what landed and what did not is the
+whole of this paragraph.** `mzizi-assurance` (N8) and `mzizi-fundi` (N9) compile a Rust core
+for **every** component in those two directories — the probes, the error and alert
+aggregation, the a11y and RTL rule engines, the chaos classifier, the incident lifecycle, the
+OTLP payload builder and the healing decision engine. Each `.rs` sits beside its `.ts`/`.tsx`
+sibling and a contract suite reads that sibling on disk, so the two cannot drift apart
+silently.
+
+**What does not ship: a WASM build.** Every core above is pure logic with no I/O, which is what
+makes it portable — and nothing compiles it to WASM, no consumer loads it, and no `.ts` calls
+into it. The two implementations agree **by contract test, not by sharing a binary**. "N8 is a
+Rust node" therefore means its rules have one authoritative home; it does not yet mean one
+binary serves every target, and reading it as the latter is the drift this paragraph exists to
+prevent.
+
+**Still TypeScript, entirely:** the harness (`lib/harness/index.tsx`), the N5 resilience
+primitives (`lib/*.ts`), the N4 safety gates, and the deployed fundi worker in `mzizi-tools`.
+Rust statements about **N4 and N5** in `documentation-architecture-nodes` remain **target
+state, explicitly labelled** — `rust.state` reads `target`, never `shipping`. A node that
+describes a Rust implementation in the present tense reads as shipped to every agent that
+queries it.
 
 **The gate landed with the first component, not after it.** A `.rs` file in the registry with
 no crate compiling it is exactly what a `source_code` database column was: bytes nothing

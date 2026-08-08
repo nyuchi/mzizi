@@ -472,6 +472,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "mzizi-assurance"
+version = "0.1.0"
+
+[[package]]
+name = "mzizi-fundi"
+version = "0.1.0"
+
+[[package]]
 name = "mzizi-tokens"
 version = "0.1.0"
 
